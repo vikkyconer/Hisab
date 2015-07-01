@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="black" type="color">#000000</item>
+    <item name="primary_color" type="color">#1daeec</item>
+    <item name="secondary_color1" type="color">#1b4c62</item>
+    <item name="secondary_color2" type="color">#274856</item>
+    <item name="blue1" type="color">#1daeec</item>
+    <item name="blue2" type="color">#1687b7</item>
+    <item name="darkBlue1" type="color">#1b4c62</item>
+    <item name="darkBlue2" type="color">#274856</item>
+    <item name="greyTextColor1" type="color">#a7a4a4</item>
+    <item name="white" type="color">#ffffff</item>
+    <item name="gray" type="color">#a3a3a3</item>
+    <item name="gray1" type="color">#edeae9</item>
+    <item name="red1" type="color">#e64e4e</item>
+    <item name="transparent" type="color">#00000000</item>
+
+    <item name="blueTextColor1" type="color">#0c2232</item>
+    <item name="seperator1" type="color">#1c3c54</item>
+    <item name="blackTextColor" type="color">#0c2232</item>
+    <item name="menue_seperator" type="color">#0c85b9</item>
+</resources>
