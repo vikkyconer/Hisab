@@ -73,7 +73,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 //        Log.i("friendsListView", String.valueOf(friendsListView));
 //        Log.i("inputWhoPaidAdapter", String.valueOf(inputWhoPaid));
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, friends);
-        friendsListView.setAdapter(adapter);
+//        friendsListView.setAdapter(adapter);
 
     }
 
@@ -143,7 +143,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         alertDialogBuilder.setView(promptsView);
 
         final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
+                .findViewById(R.id.enter_place);
 
         // set dialog message
         alertDialogBuilder

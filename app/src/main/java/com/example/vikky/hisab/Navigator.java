@@ -1,6 +1,7 @@
 package com.example.vikky.hisab;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 /**
@@ -9,6 +10,6 @@ import android.content.Intent;
 public class Navigator {
     public static void toAddFriends(Activity context) {
         Intent i = new Intent(context, AddFriendsActivity.class);
-        context.startActivityForResult(i, 1);
+        context.startActivity(i);
     }
 }

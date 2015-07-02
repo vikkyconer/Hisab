@@ -78,7 +78,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         if (v.getId() == R.id.add_place) {
             showNoticeDialogue();
         } else if (v.getId() == R.id.rv) {
-            
+
         }
     }
 
@@ -88,13 +88,13 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
+                .findViewById(R.id.enter_place);
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                places.add(new Place(String.valueOf(userInput.getText()), null, null, null));
+                                places.add(new Place(String.valueOf(userInput.getText()), null, null, null, null));
                                 adapter.notifyDataSetChanged();
                                 Log.i("Notes", "before calling onItemOnClick");
                             }

@@ -17,19 +17,27 @@
             android:padding="30dp"
             android:background="@color/blue1">
 
+            <ImageButton
+                android:id="@+id/change_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/paint_card" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/venue_photo"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp" />
+                android:id="@+id/add_friends_icon"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/add_people" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/venue_name"
-                android:layout_toRightOf="@+id/venue_photo"
+
                 android:layout_alignParentTop="true"
                 android:textSize="30sp" />
 
@@ -37,7 +45,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/venue_address"
-                android:layout_toRightOf="@+id/venue_photo"
                 android:layout_below="@+id/venue_name" />
 
         </RelativeLayout>

@@ -1,5 +1,7 @@
 package com.example.vikky.hisab;
 
+import android.widget.ImageView;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,16 +13,26 @@ public class Place {
     private String placeName;
     private LinkedList<Friends> friends;
     private List<Place> placeList;
+    private ImageView placePhoto;
 
     public String getPlaceId() {
         return placeId;
     }
 
-    public Place(String placeName, String placeId, LinkedList<Friends> friends, List<Place> placeList) {
+    public ImageView getPlacePhoto() {
+        return placePhoto;
+    }
+
+    public void setPlacePhoto(ImageView placePhoto) {
+        this.placePhoto = placePhoto;
+    }
+
+    public Place(String placeName, String placeId, ImageView placePhoto, LinkedList<Friends> friends, List<Place> placeList) {
         this.placeId = placeId;
         this.placeName = placeName;
         this.friends = friends;
         this.placeList = placeList;
+        this.placePhoto = placePhoto;
     }
 
     public void setPlaceId(String placeId) {
