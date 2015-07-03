@@ -2,6 +2,7 @@ package com.example.vikky.hisab;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 
 public class MainScreenActivity extends ActionBarActivity {
@@ -10,7 +11,7 @@ public class MainScreenActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-
+        Log.i("Notes", "in MainScreenActivity");
         new MainScreenPresenter(mainScreenView(), mainScreenModel());
     }
 
@@ -19,6 +20,6 @@ public class MainScreenActivity extends ActionBarActivity {
     }
 
     private MainScreenView mainScreenView() {
-        return null;
+        return (MainScreenFragment) getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
     }
 }
