@@ -1,10 +1,8 @@
 package com.example.vikky.hisab;
 
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Map;
+
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by vikky on 6/29/15.
@@ -24,11 +26,13 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     ArrayList<Place> places;
     RVAdapter adapter;
+    String place;
     public LinkedList<Place> placesList;
     View mainScreenRootFragment;
     Button addPlace;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
+    BehaviorSubject<Map<String, String>> placeAdded = BehaviorSubject.create();
 
 
     @Override
@@ -61,10 +65,10 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         places = new ArrayList<>();
-        adapter = new RVAdapter(places);
+        adapter = new RVAdapter(places, getActivity());
     }
 
-    @Override
+    //    @Override
     public void showPlaces(LinkedList<Place> allPlacesResponse) {
         if (allPlacesResponse instanceof LinkedList)
             placesList = (LinkedList) allPlacesResponse;
@@ -74,40 +78,31 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     }
 
     @Override
+    public Observable<Map<String, String>> addPlace() {
+        return placeAdded.asObservable();
+    }
+
+    @Override
+    public void showPlaces(Collection<Place> sports) {
+        Log.i("Notes", "showPlaces");
+        adapter.notifyDataSetChanged();
+    }
+
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.add_place) {
-            showNoticeDialogue();
+            placeAdded.onNext(addPlaceData());
         } else if (v.getId() == R.id.rv) {
 
         }
     }
 
-    private void showNoticeDialogue() {
-        LayoutInflater li = LayoutInflater.from(getActivity());
-        View promptsView = li.inflate(R.layout.dialogue_box, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setView(promptsView);
-        final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.enter_place);
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                places.add(new Place(String.valueOf(userInput.getText()), null, null, null, null));
-                                adapter.notifyDataSetChanged();
-                                Log.i("Notes", "before calling onItemOnClick");
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+    public Map<String, String> addPlaceData() {
+        Log.i("Notes", "addPlaceData");
+        Dialogue placeData = new Dialogue();
+        return placeData.addPlace(getActivity());
     }
+
 
 }

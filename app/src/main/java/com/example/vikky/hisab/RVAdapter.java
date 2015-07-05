@@ -1,5 +1,6 @@
 package com.example.vikky.hisab;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,15 +18,16 @@ import java.util.List;
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> implements View.OnClickListener {
 
     List<Place> placeList;
-    View v;
+    Context context;
 
-    public RVAdapter(List<Place> placeList) {
+    public RVAdapter(List<Place> placeList, Context context) {
         this.placeList = placeList;
+        this.context = context;
     }
 
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
         PersonViewHolder pvh = new PersonViewHolder(v);
         return pvh;
     }
@@ -51,7 +53,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.add_friends_icon) {
-//            Navigator.toAddFriends(this.v.getContext());
+            Navigator.toAddFriends(context);
         } else if (v.getId() == R.id.change_background) {
             Log.i("Motes", "changeBackground");
         }
