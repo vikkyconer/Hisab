@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,11 +29,12 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
     View view;
     EditText inputPlace;
     String place;
-    String date;
+    String venueDate;
     Map<String, String> placeData;
     Context context;
     BehaviorSubject<Map<String, String>> placeName = BehaviorSubject.create();
     Button buttonYes, buttonNo;
+    TextView inputDate;
 
     static Dialogue newInstance() {
         Log.i("Notes", "newInstance called");
@@ -48,6 +53,7 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
         buttonYes = (Button) view.findViewById(R.id.yes);
         buttonNo = (Button) view.findViewById(R.id.no);
         placeData = new HashMap<>();
+        inputDate = (TextView) view.findViewById(R.id.date);
         inputPlace = (EditText) view.findViewById(R.id.enter_place);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         Log.i("Notes", "onCreateView");
@@ -60,6 +66,7 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
         Log.i("Notes", "onActivityCreated called");
         buttonYes.setOnClickListener(this);
         buttonNo.setOnClickListener(this);
+        inputDate.setOnClickListener(this);
     }
 
     public void onPlaceNameSet() {
@@ -77,6 +84,26 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
         } else if (v.getId() == R.id.no) {
             Log.i("Notes", "in else");
             dismiss();
+        } else if (v.getId() == R.id.date) {
+            DateFragment newFragment = new DateFragment();
+            newFragment.show(getFragmentManager(), "timePicker");
+
+            newFragment.selectedDate().subscribe(date -> {
+                venueDate = date;
+                Log.i("Date", date);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
+                placeData.put("placeDate", venueDate);
+                try {
+                    Date date1 = simpleDateFormat.parse(date);
+
+                    Log.i("date1", date1 + "");
+                    this.inputDate.setText(simpleDateFormat2.format(date1));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            });
         }
     }
 }

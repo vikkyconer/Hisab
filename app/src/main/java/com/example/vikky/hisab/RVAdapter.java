@@ -35,7 +35,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     @Override
     public void onBindViewHolder(PersonViewHolder holder, int i) {
         holder.venueName.setText(placeList.get(i).getPlaceName());
-        holder.venueAddress.setText("In Pune");
+        holder.venueDate.setText(placeList.get(i).getPlaceDate());
         holder.addFriendsIcon.setOnClickListener(this);
         holder.changeBackground.setOnClickListener(this);
     }
@@ -62,7 +62,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView venueName;
-        TextView venueAddress;
+        TextView venueDate;
         ImageView addFriendsIcon;
         ImageView changeBackground;
 
@@ -70,7 +70,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cv);
             venueName = (TextView) itemView.findViewById(R.id.venue_name);
-            venueAddress = (TextView) itemView.findViewById(R.id.venue_address);
+            venueDate = (TextView) itemView.findViewById(R.id.venue_date);
             addFriendsIcon = (ImageView) itemView.findViewById(R.id.add_friends_icon);
             changeBackground = (ImageView) itemView.findViewById(R.id.change_background);
         }

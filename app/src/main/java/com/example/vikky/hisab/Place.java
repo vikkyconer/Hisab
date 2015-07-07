@@ -14,6 +14,7 @@ public class Place {
     private LinkedList<Friends> friends;
     private List<Place> placeList;
     private ImageView placePhoto;
+    private String placeDate;
 
     public String getPlaceId() {
         return placeId;
@@ -27,8 +28,18 @@ public class Place {
         this.placePhoto = placePhoto;
     }
 
-    public Place(String placeName, String placeId, ImageView placePhoto, LinkedList<Friends> friends, List<Place> placeList) {
+    public String getPlaceDate() {
+        return placeDate;
+    }
+
+    public void setPlaceDate(String placeDate) {
+        this.placeDate = placeDate;
+    }
+
+    public Place(String placeName, String placeId, String placeDate, ImageView placePhoto, LinkedList<Friends> friends, List<Place> placeList) {
         this.placeId = placeId;
+        this.placeDate = placeDate;
+
         this.placeName = placeName;
         this.friends = friends;
         this.placeList = placeList;

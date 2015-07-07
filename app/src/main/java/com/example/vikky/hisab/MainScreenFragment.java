@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +34,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     LayoutInflater layoutInflater;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
+    TextView venueDate;
     View view;
     BehaviorSubject placeAdded = BehaviorSubject.create();
 
@@ -65,6 +67,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     private void initializeViews(View view) {
         addPlace = (Button) view.findViewById(R.id.add_place);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+        venueDate = (TextView) view.findViewById(R.id.venue_date);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         places = new ArrayList<>();
         adapter = new RVAdapter(places, getActivity());
@@ -113,7 +116,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public void placeSelected(Map<String, String> place) {
         Log.i("Notes", String.valueOf(place));
 //        placeAdded.onNext(place);
-        Place p = new Place(place.get("placeName"), null, null, null, null);
+        Place p = new Place(place.get("placeName"), null, place.get("placeDate"), null, null, null);
         places.add(p);
         adapter.notifyDataSetChanged();
     }
