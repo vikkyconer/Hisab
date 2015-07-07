@@ -30,9 +30,11 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public LinkedList<Place> placesList;
     View mainScreenRootFragment;
     Button addPlace;
+    LayoutInflater layoutInflater;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-    BehaviorSubject<Map<String, String>> placeAdded = BehaviorSubject.create();
+    View view;
+    BehaviorSubject placeAdded = BehaviorSubject.create();
 
 
     @Override
@@ -79,6 +81,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     @Override
     public Observable<Map<String, String>> addPlace() {
+        Log.i("Notes", "Observable of addPlace");
         return placeAdded.asObservable();
     }
 
@@ -92,17 +95,22 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.add_place) {
-            placeAdded.onNext(addPlaceData());
+            Log.i("Notes", "onNext of addPlace");
+            addPlaceData();
         } else if (v.getId() == R.id.rv) {
 
         }
     }
 
-    public Map<String, String> addPlaceData() {
+    public void addPlaceData() {
         Log.i("Notes", "addPlaceData");
-        Dialogue placeData = new Dialogue();
-        return placeData.addPlace(getActivity());
+        Dialogue placeData = Dialogue.newInstance();
+        Log.i("Notes", "below declaration");
+        placeData.inputPlaceName().subscribe(gender -> placeSelected(gender));
+        placeData.show(getFragmentManager(), "Select gender");
     }
 
-
+    public void placeSelected(Map<String, String> place) {
+        Log.i("Notes", String.valueOf(place));
+    }
 }

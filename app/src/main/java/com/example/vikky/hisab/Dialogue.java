@@ -1,58 +1,61 @@
 package com.example.vikky.hisab;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by vikky on 6/30/15.
  */
-public class Dialogue {
+public class Dialogue extends DialogFragment {
     LayoutInflater layoutInflater;
     View view;
     EditText inputPlace;
     String place;
     String date;
     Map<String, String> placeData;
+    Context context;
+    BehaviorSubject<Map<String, String>> placeName = BehaviorSubject.create();
 
-    public Map<String, String> addPlace(Context context) {
-        layoutInflater = LayoutInflater.from(context);
-        view = layoutInflater.inflate(R.layout.dialogue_box, null);
-        placeData = new HashMap<>();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setView(view);
-        inputPlace = (EditText) view.findViewById(R.id.enter_place);
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                place = String.valueOf(inputPlace.getText());
-                                date = null;
-                                placeData.put("placeName", place);
-                                placeData.put("placeDate", date);
-//                                places.add(new Place(String.valueOf(userInput.getText()), null, null, null, null));
-//                                adapter.notifyDataSetChanged();
-                                Log.i("Notes", "before calling onItemOnClick");
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+    static Dialogue newInstance() {
+        Log.i("Notes", "newInstance called");
+        Dialogue dialogue = new Dialogue();
+        return dialogue;
+    }
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-        return placeData;
+    public Observable<Map<String, String>> inputPlaceName() {
+        Log.i("Notes", "Observable called");
+        return placeName.asObservable();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.dialogue_box, container, false);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Log.i("Notes", "onCreateView");
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i("Notes", "onActivityCreated called");
+    }
+
+    public void onPlaceNameSet() {
+        Log.i("Notes", "onNext called");
+        placeName.onNext(placeData);
     }
 }
 
