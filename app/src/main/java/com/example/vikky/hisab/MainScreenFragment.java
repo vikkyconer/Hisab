@@ -106,11 +106,15 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.i("Notes", "addPlaceData");
         Dialogue placeData = Dialogue.newInstance();
         Log.i("Notes", "below declaration");
-        placeData.inputPlaceName().subscribe(gender -> placeSelected(gender));
+        placeData.inputPlaceName().subscribe(place -> placeSelected(place));
         placeData.show(getFragmentManager(), "Select gender");
     }
 
     public void placeSelected(Map<String, String> place) {
         Log.i("Notes", String.valueOf(place));
+//        placeAdded.onNext(place);
+        Place p = new Place(place.get("placeName"), null, null, null, null);
+        places.add(p);
+        adapter.notifyDataSetChanged();
     }
 }

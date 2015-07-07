@@ -23,6 +23,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/place_or_title"
@@ -36,7 +37,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/place_or_title"
+        android:layout_below="@id/date"
         android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
