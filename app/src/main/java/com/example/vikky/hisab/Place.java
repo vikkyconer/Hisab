@@ -36,16 +36,6 @@ public class Place {
         this.placeDate = placeDate;
     }
 
-    public Place(String placeName, String placeId, String placeDate, ImageView placePhoto, LinkedList<Friends> friends, List<Place> placeList) {
-        this.placeId = placeId;
-        this.placeDate = placeDate;
-
-        this.placeName = placeName;
-        this.friends = friends;
-        this.placeList = placeList;
-        this.placePhoto = placePhoto;
-    }
-
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }

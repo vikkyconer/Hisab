@@ -1,6 +1,5 @@
 package com.example.vikky.hisab;
 
-import java.util.Collection;
 import java.util.Map;
 
 import rx.Observable;
@@ -12,5 +11,5 @@ public interface MainScreenView {
 
     Observable<Map<String, String>> addPlace();
 
-    void showPlaces(Collection<Place> sports);
+    void showPlaces(Map<String, String> sports);
 }
