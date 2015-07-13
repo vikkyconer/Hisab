@@ -1,5 +1,6 @@
 package com.example.vikky.hisab;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -9,6 +10,12 @@ import android.content.Intent;
 public class Navigator {
     public static void toAddFriends(Context context) {
         Intent i = new Intent(context, AddFriendsActivity.class);
+        context.startActivity(i);
+    }
+
+    public static void toCompute(Activity context, TransactionDetails details) {
+        Intent i = new Intent(context, ComputeActivity.class);
+        i.putExtra("transactionDetails", details);
         context.startActivity(i);
     }
 }

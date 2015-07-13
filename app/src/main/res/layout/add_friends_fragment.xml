@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/blue1">
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
+        android:id="@+id/list_friends"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rv" />
+        android:layout_height="match_parent"></ListView>
 
     <Button
         android:id="@+id/add_friends"
@@ -18,10 +18,19 @@
 
     <Button
         android:id="@+id/enter_expenses"
-        android:layout_below="@id/add_friends"
-        android:layout_alignParentRight="true"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="expenses" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/add_friends"
+        android:text="expenses"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/compute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/enter_expenses"
+        android:text="compute"
+        android:visibility="gone" />
 </RelativeLayout>

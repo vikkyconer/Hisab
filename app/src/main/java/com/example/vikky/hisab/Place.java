@@ -11,7 +11,7 @@ import java.util.List;
 public class Place {
     private String placeId;
     private String placeName;
-    private LinkedList<Friends> friends;
+    private LinkedList<Friend> friends;
     private List<Place> placeList;
     private ImageView placePhoto;
     private String placeDate;
@@ -48,11 +48,11 @@ public class Place {
         this.placeName = placeName;
     }
 
-    public LinkedList<Friends> getFriends() {
+    public LinkedList<Friend> getFriends() {
         return friends;
     }
 
-    public void setFriends(LinkedList<Friends> friends) {
+    public void setFriends(LinkedList<Friend> friends) {
         this.friends = friends;
     }
 }

@@ -7,5 +7,6 @@
     <string name="title_activity_main_screen">MainScreen</string>
     <string name="title_activity_login_screen">LoginScreenActivity</string>
     <string name="title_activity_add_friends">AddFriendsActivity</string>
+    <string name="title_activity_compute">Compute</string>
 
 </resources>

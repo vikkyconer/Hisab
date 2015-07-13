@@ -1,43 +1,42 @@
 package com.example.vikky.hisab;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by vikky on 7/1/15.
  */
 public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener {
     private View addFriendsRootFragment;
-    //    private View dialogView;
-    Button addFriends, enterExpenses;
-    ListView friendsListView;
+    Button addFriends, enterExpenses, compute;
+    Friend friend;
     ArrayList<String> friends;
+    TransactionDetails details;
     ArrayAdapter<String> adapter;
+    ListView friendsListView;
     DialogueBoxForExpenses inputWhoPaid;
-    ArrayAdapter<String> dataAdapter;
+    BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i("AddFriendsFragment", "onCreateView");
         addFriendsRootFragment = inflater.inflate(R.layout.add_friends_fragment, container);
-//        dialogView = inflater.inflate(R.layout.dialogue_box_for_expenses, container);
         setRetainInstance(true);
         return addFriendsRootFragment;
     }
@@ -53,7 +52,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private void setEventsForViews() {
         addFriends.setOnClickListener(this);
         enterExpenses.setOnClickListener(this);
-
+        compute.setOnClickListener(this);
     }
 
     private void defaultConfiguration() {
@@ -62,9 +61,11 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     private void initializeViews(View view) {
         addFriends = (Button) view.findViewById(R.id.add_friends);
-//        friendsListView = (ListView) view.findViewById(R.id.list_friends);
+        friendsListView = (ListView) view.findViewById(R.id.list_friends);
         enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
-        inputWhoPaid = new DialogueBoxForExpenses(getActivity(), friends);
+        compute = (Button) view.findViewById(R.id.compute);
+//        inputWhoPaid = new DialogueBoxForExpenses(getActivity(), friends);
+        friend = new Friend();
         friends = new ArrayList<>();
 //        friends.add("Vikas");
 //        dataAdapter = new ArrayAdapter<String>(dialogView.getContext(), android.R.layout.simple_spinner_item, friends);
@@ -72,8 +73,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 //        inputWhoPaid.setAdapter(dataAdapter);
 //        Log.i("friendsListView", String.valueOf(friendsListView));
 //        Log.i("inputWhoPaidAdapter", String.valueOf(inputWhoPaid));
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, friends);
-//        friendsListView.setAdapter(adapter);
+        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
+        friendsListView.setAdapter(adapter);
 
     }
 
@@ -82,107 +83,55 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         if (v.getId() == R.id.add_friends) {
             showNoticeDialogue();
         } else if (v.getId() == R.id.enter_expenses) {
-//            addRadioButtons(friends.size());
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.dialogue_box_for_expenses);
-            dialog.setTitle("Enter Expenses");
-            LayoutInflater li = LayoutInflater.from(getActivity());
-            View promptsView = li.inflate(R.layout.dialogue_box_for_expenses, null);
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-            alertDialogBuilder.setView(promptsView);
-            // set dialog message
-            alertDialogBuilder
-                    .setCancelable(false)
-                    .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
+            showCustomDialogurForWhoPaid();
 
-                                }
-                            })
-                    .setNegativeButton("Cancel",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-            // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
-
-            // show it
-            alertDialog.show();
+        } else if (v.getId() == R.id.compute) {
+            Navigator.toCompute(getActivity(), details);
         }
 
     }
 
-    public void addRadioButtons(int number) {
-
-        for (int row = 0; row < 1; row++) {
-            LinearLayout ll = new LinearLayout(getActivity());
-            ll.setOrientation(LinearLayout.HORIZONTAL);
-
-            for (int i = 1; i <= number; i++) {
-                RadioButton rdbtn = new RadioButton(getActivity());
-                rdbtn.setId((row * 2) + i);
-                rdbtn.setText("Radio " + rdbtn.getId());
-                ll.addView(rdbtn);
-            }
-//            ((ViewGroup) findViewById(R.id.radiogroup)).addView(ll);
-        }
+    private void showCustomDialogurForWhoPaid() {
+        DialogueBoxForExpenses dialogueBoxForExpenses = DialogueBoxForExpenses.newInstance();
+        dialogueBoxForExpenses.inputPlaceName(friends).subscribe(transactionDetails -> mapTransactionDetails(transactionDetails));
+        dialogueBoxForExpenses.show(getFragmentManager(), "who paid");
 
     }
+
+    private void mapTransactionDetails(Map<String, String> transactionDetails) {
+//        details = new TransactionDetails();
+        
+        details.setWhoPaid(transactionDetails.get("whoPaid"));
+        details.setForWhom(transactionDetails.get("paidForWhom"));
+        details.setAmount(transactionDetails.get("amount"));
+        details.setDescription(transactionDetails.get("description"));
+    }
+
 
     private void showNoticeDialogue() {
-        // get prompts.xml view
-        LayoutInflater li = LayoutInflater.from(getActivity());
-        View promptsView = li.inflate(R.layout.dialogue_box, null);
+        DialogueForAddingFriends addingFriends = DialogueForAddingFriends.newInstance();
+        addingFriends.inputPlaceName().subscribe(friend -> friendEntered(friend));
+        addingFriends.show(getFragmentManager(), "add_friend");
+    }
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+    private void friendEntered(Map<String, String> friend) {
+        this.friend.setName(friend.get("friendName"));
+        friendAdded.onNext(friend);
 
-        // set prompts.xml to alertdialog builder
-        alertDialogBuilder.setView(promptsView);
+    }
 
-        final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.enter_place);
+    @Override
+    public Observable<Map<String, String>> enterFriend() {
+        return friendAdded.asObservable();
+    }
 
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // get user input and set it to result
-                                // edit text
-                                String place = String.valueOf(userInput.getText());
-                                friends.add(place);
-                                if (friends.size() == 2) {
-                                    enterExpenses.setVisibility(View.VISIBLE);
-                                }
-                                Log.i("Notes", String.valueOf(friends));
-                                Log.i("Notes", String.valueOf(friends.size()));
-                                adapter.notifyDataSetChanged();
-                                dataAdapter.notifyDataSetChanged();
-                                Log.i("Notes", "before calling onItemOnClick");
-                                friendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        Log.i("Notes", "in onItemClickLister");
-
-                                    }
-                                });
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
+    @Override
+    public void showFriend(Map<String, String> friend) {
+        friends.add(this.friend.getName());
+        if (friends.size() > 1) {
+            enterExpenses.setVisibility(View.VISIBLE);
+            compute.setVisibility(View.VISIBLE);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

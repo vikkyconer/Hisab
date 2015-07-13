@@ -11,9 +11,9 @@ public class AddFriendsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
-        Log.i("Notes", "in AddFriendsActivity");
+        Log.i("AddFriendsActivity", "in onCreate");
 
-//        new AddFriendsPresenter(addFriendsView(), addFriendsModel());
+        new AddFriendsPresenter(addFriendsView(), addFriendsModel());
     }
 
     private AddFriendsModel addFriendsModel() {
@@ -21,6 +21,6 @@ public class AddFriendsActivity extends ActionBarActivity {
     }
 
     private AddFriendsView addFriendsView() {
-        return null;
+        return (AddFriendsFragment) getSupportFragmentManager().findFragmentById(R.id.add_friends_fragment);
     }
 }

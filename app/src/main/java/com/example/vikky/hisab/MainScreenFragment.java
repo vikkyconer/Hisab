@@ -7,11 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     Place place;
     public LinkedList<Place> placesList;
     View mainScreenRootFragment;
-    //    Button addPlace;
+    Button addPlace;
     LayoutInflater layoutInflater;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -64,28 +62,28 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         setEventsForViews();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("MainScreenFragment", "in onResume");
+    /*   @Override
+       public void onResume() {
+           super.onResume();
+           Log.i("MainScreenFragment", "in onResume");
 
-        placeAdded.onNext(((MainScreenActivity) getActivity()).getPlace());
+           placeAdded.onNext(((MainScreenActivity) getActivity()).getPlace());
 
 
-    }
-
-    @Override
+       }
+   */
+ /*   @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.i("MainScreenFragment", "in onActivityCreated");
 
         super.onActivityCreated(savedInstanceState);
 //        placeAdded.onNext(getActivity());
     }
-
+*/
     private void setEventsForViews() {
         Log.i("MainScreenFragment", "in setEventsForViews");
 
-//        addPlace.setOnClickListener(this);
+        addPlace.setOnClickListener(this);
         recyclerView.setOnClickListener(this);
     }
 
@@ -99,7 +97,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     private void initializeViews(View view) {
         Log.i("MainScreenFragment", "in initializeViews");
 
-//        addPlace = (Button) view.findViewById(R.id.add_place);
+        addPlace = (Button) view.findViewById(R.id.add_place);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         venueDate = (TextView) view.findViewById(R.id.venue_date);
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -118,28 +116,28 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 //        adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_add_place, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+    /*   @Override
+       public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+   //        MenuInflater inflater = getMenuInflater();
+           inflater.inflate(R.menu.menu_add_place, menu);
+           super.onCreateOptionsMenu(menu, inflater);
+       }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_new_place:
-//                Navigator.createGameActivity(this);
-//                MainScreenFragment mainScreenFragment = new MainScreenFragment();
-//                mainScreenFragment.addPlaceData();
-                addPlaceData();
-                return true;
-            case R.id.action_left_drawer:
+       @Override
+       public boolean onOptionsItemSelected(MenuItem item) {
+           switch (item.getItemId()) {
+               case R.id.action_new_place:
+   //                Navigator.createGameActivity(this);
+   //                MainScreenFragment mainScreenFragment = new MainScreenFragment();
+   //                mainScreenFragment.addPlaceData();
+                   addPlaceData();
+                   return true;
+               case R.id.action_left_drawer:
 
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+           }
+           return super.onOptionsItemSelected(item);
+       }
+   */
     @Override
     public Observable<Map<String, String>> addPlace() {
         Log.i("MainScreenFragment", "Observable of addPlace");
@@ -158,12 +156,13 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     @Override
     public void onClick(View v) {
- /*       if (v.getId() == R.id.add_place) {
+        if (v.getId() == R.id.add_place) {
+            addPlaceData();
 //            Log.i("MainScreenFragment", "onNext of addPlace");
 //            addPlaceData();
         } else if (v.getId() == R.id.rv) {
 
-        }*/
+        }
     }
 
     public void addPlaceData() {
@@ -177,8 +176,8 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public void placeSelected(Map<String, String> place) {
         Log.i("MainScreenFragment", String.valueOf(place));
 //        placeAdded.onNext(place);
-//        this.place.setPlaceName(place.get("placeName"));
-//        this.place.setPlaceDate(place.get("placeDate"));
+        this.place.setPlaceName(place.get("placeName"));
+        this.place.setPlaceDate(place.get("placeDate"));
         placeAdded.onNext(place);
     }
 }
