@@ -26,6 +26,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     Friend friend;
     ArrayList<String> friends;
     Bundle details;
+    int totalAmount = 0;
     //    TransactionDetails details;
     ArrayAdapter<String> adapter;
     ListView friendsListView;
@@ -104,6 +105,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         details.putString("whoPaid", transactionDetails.get("whoPaid"));
         details.putString("paidForWhom", transactionDetails.get("paidForWhom"));
         details.putString("amount", transactionDetails.get("amount"));
+        totalAmount = totalAmount + Integer.parseInt(transactionDetails.get("amount"));
+//        details.putInt("totalAmount", totalAmount);
         details.putString("description", transactionDetails.get("description"));
 
     }

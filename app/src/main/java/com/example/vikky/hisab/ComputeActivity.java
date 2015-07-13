@@ -9,7 +9,24 @@ import android.util.Log;
 public class ComputeActivity extends ActionBarActivity {
 
     TransactionDetails details = null;
-    String amount;
+    String amount, whoPaid, paidForWhom;
+
+    public String getPaidForWhom() {
+        return paidForWhom;
+    }
+
+    public void setPaidForWhom(String paidForWhom) {
+        this.paidForWhom = paidForWhom;
+    }
+
+    public String getWhoPaid() {
+        return whoPaid;
+    }
+
+    public void setWhoPaid(String whoPaid) {
+        this.whoPaid = whoPaid;
+    }
+
 
     public TransactionDetails getDetails() {
         return details;
@@ -32,9 +49,11 @@ public class ComputeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compute);
         Intent i = getIntent();
-        Bundle b = getIntent().getExtras();
+        Bundle b = i.getExtras();
+        setWhoPaid(b.getString("whoPaid"));
+        setPaidForWhom(b.getString("paidForWhom"));
         setAmount(b.getString("amount"));
-        Log.i("ComputeActivity", getAmount());
+//        Log.i("ComputeActivity", getWhoPaid());
         new ComputePresenter(computeModel(), computeView());
     }
 
