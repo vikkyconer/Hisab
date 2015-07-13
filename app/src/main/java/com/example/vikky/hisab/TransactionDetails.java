@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by vikky on 7/12/15.
  */
-public class TransactionDetails implements Parcelable {
+public class TransactionDetails {
     String whoPaid, forWhom, amount;
     String description;
 
@@ -42,7 +42,7 @@ public class TransactionDetails implements Parcelable {
         this.description = description;
     }
 
-    @Override
+ /*   @Override
     public int describeContents() {
         return 0;
     }
@@ -73,5 +73,5 @@ public class TransactionDetails implements Parcelable {
         forWhom = source.readString();
         amount = source.readString();
         description = source.readString();
-    }
+    }*/
 }

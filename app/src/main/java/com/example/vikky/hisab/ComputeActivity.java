@@ -33,8 +33,16 @@ public class ComputeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_compute);
         Intent i = getIntent();
         Bundle b = getIntent().getExtras();
-        setDetails(b.getParcelable("transactionDetails"));
-        setAmount(i.getStringExtra("amount"));
+        setAmount(b.getString("amount"));
         Log.i("ComputeActivity", getAmount());
+        new ComputePresenter(computeModel(), computeView());
+    }
+
+    private ComputeView computeView() {
+        return (ComputeFragment) getSupportFragmentManager().findFragmentById(R.id.compute_fragment);
+    }
+
+    private ComputeModel computeModel() {
+        return null;
     }
 }

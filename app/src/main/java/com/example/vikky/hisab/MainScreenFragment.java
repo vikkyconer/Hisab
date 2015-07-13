@@ -85,6 +85,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
         addPlace.setOnClickListener(this);
         recyclerView.setOnClickListener(this);
+
     }
 
     private void defaultConfiguration() {
@@ -106,7 +107,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         adapter = new RVAdapter(places, getActivity());
     }
 
-    public void onNextFunction(Map<String, String> place) {
+ /*   public void onNextFunction(Map<String, String> place) {
         Log.i("MainScreenFragment", "onNextFunction");
         Log.i("MainScreenFragment", String.valueOf(place));
 //        Place place1 = new Place();
@@ -115,7 +116,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 //        places.add(this.place);
 //        adapter.notifyDataSetChanged();
     }
-
+*/
     /*   @Override
        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
    //        MenuInflater inflater = getMenuInflater();

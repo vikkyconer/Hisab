@@ -3,6 +3,7 @@ package com.example.vikky.hisab;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 /**
  * Created by vikky on 6/29/15.
@@ -13,9 +14,10 @@ public class Navigator {
         context.startActivity(i);
     }
 
-    public static void toCompute(Activity context, TransactionDetails details) {
+    public static void toCompute(Activity context, Bundle details) {
         Intent i = new Intent(context, ComputeActivity.class);
-        i.putExtra("transactionDetails", details);
+//        i.putExtra("transactionDetails", details);
+        i.putExtras(details);
         context.startActivity(i);
     }
 }

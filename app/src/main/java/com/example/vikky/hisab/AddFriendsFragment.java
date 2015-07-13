@@ -1,7 +1,6 @@
 package com.example.vikky.hisab;
 
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,7 +25,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     Button addFriends, enterExpenses, compute;
     Friend friend;
     ArrayList<String> friends;
-    TransactionDetails details;
+    Bundle details;
+    //    TransactionDetails details;
     ArrayAdapter<String> adapter;
     ListView friendsListView;
     DialogueBoxForExpenses inputWhoPaid;
@@ -100,11 +100,12 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     private void mapTransactionDetails(Map<String, String> transactionDetails) {
 //        details = new TransactionDetails();
-        
-        details.setWhoPaid(transactionDetails.get("whoPaid"));
-        details.setForWhom(transactionDetails.get("paidForWhom"));
-        details.setAmount(transactionDetails.get("amount"));
-        details.setDescription(transactionDetails.get("description"));
+        details = new Bundle();
+        details.putString("whoPaid", transactionDetails.get("whoPaid"));
+        details.putString("paidForWhom", transactionDetails.get("paidForWhom"));
+        details.putString("amount", transactionDetails.get("amount"));
+        details.putString("description", transactionDetails.get("description"));
+
     }
 
 

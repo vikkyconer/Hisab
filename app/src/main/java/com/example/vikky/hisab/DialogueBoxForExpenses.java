@@ -71,8 +71,10 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     private void setEventsForViews() {
         buttonYes.setOnClickListener(this);
         buttonNo.setOnClickListener(this);
-        inputWhopaid.setOnClickListener(this);
-        inputPaidForWhom.setOnClickListener(this);
+//        inputWhopaid.setOnItemClickListener(this);
+//        inputPaidForWhom.setOnItemClickListener(this);
+//        inputWhopaid.setOnClickListener(this);
+//        inputPaidForWhom.setOnClickListener(this);
     }
 
     private void defaultConfiguration() {

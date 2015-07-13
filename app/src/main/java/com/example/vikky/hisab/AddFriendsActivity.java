@@ -7,6 +7,17 @@ import android.util.Log;
 
 public class AddFriendsActivity extends ActionBarActivity {
 
+    TransactionDetails details;
+
+    public TransactionDetails getDetails() {
+        return details;
+    }
+
+    public void setDetails(TransactionDetails details) {
+        this.details = details;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
