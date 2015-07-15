@@ -24,7 +24,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by vikky on 7/1/15.
  */
-public class DialogueBoxForExpenses extends DialogFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class DialogueBoxForExpenses extends DialogFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     View view;
     //    EditText inputName;
     Map<String, String> placeData;
@@ -114,32 +114,24 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
                 break;
             case R.id.input_who_paid:
                 check = true;
-                inputWhopaid.setOnItemClickListener(this);
+                inputWhopaid.setOnItemSelectedListener(this);
                 break;
-            case R.id.paid_for_whom:
+     /*       case R.id.paid_for_whom:
                 check = true;
-                inputPaidForWhom.setOnItemClickListener(this);
-                break;
+                inputPaidForWhom.setOnItemSelectedListener(this);
+                break;*/
         }
     }
 
     private Map<String, String> mapTransactionDetails() {
         Map<String, String> transactionDetails = new HashMap<>();
         transactionDetails.put("whoPaid", friendWhoPaid);
-        transactionDetails.put("paidForWhom", friendPaidForWhom);
+        transactionDetails.put("paidForWhom", friendWhoPaid);
         transactionDetails.put("amount", amount.getText().toString());
         transactionDetails.put("description", description.getText().toString());
         return transactionDetails;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-        if (check == false) {
-            friendWhoPaid = inputWhopaid.getItemAtPosition(i).toString();
-        } else {
-            friendPaidForWhom = inputPaidForWhom.getItemAtPosition(i).toString();
-        }
-    }
 
     private boolean isValid() {
         String msg = "";
@@ -154,5 +146,20 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
         }
         return msg.length() == 0;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//        if (check == false) {
+        friendWhoPaid = inputWhopaid.getSelectedItem().toString();
+        Log.i("DialogueBoxForExpenses", friendWhoPaid);
+//        } else {
+//            friendPaidForWhom = inputPaidForWhom.getSelectedItem().toString();
+//        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

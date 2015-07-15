@@ -3,6 +3,8 @@ package com.example.vikky.hisab;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +28,13 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     Friend friend;
     ArrayList<String> friends;
     Bundle details;
+    ArrayList<TransactionDetails> detailsList;
     int totalAmount = 0;
-    //    TransactionDetails details;
-    ArrayAdapter<String> adapter;
+    TransactionDetails transactionDetails;
+    ArrayAdapter<String> friendsAdapter;
+    TransactionDetailsRVAdapter detailsAdapter;
+    RecyclerView detailsRecyclerView;
+    LinearLayoutManager linearLayoutManager;
     ListView friendsListView;
     DialogueBoxForExpenses inputWhoPaid;
     BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
@@ -57,6 +63,9 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void defaultConfiguration() {
+        friendsListView.setAdapter(friendsAdapter);
+        detailsRecyclerView.setLayoutManager(linearLayoutManager);
+        detailsRecyclerView.setAdapter(detailsAdapter);
 
     }
 
@@ -64,7 +73,10 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         addFriends = (Button) view.findViewById(R.id.add_friends);
         friendsListView = (ListView) view.findViewById(R.id.list_friends);
         enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
+        detailsList = new ArrayList<>();
         compute = (Button) view.findViewById(R.id.compute);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
 //        inputWhoPaid = new DialogueBoxForExpenses(getActivity(), friends);
         friend = new Friend();
         friends = new ArrayList<>();
@@ -74,8 +86,9 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 //        inputWhoPaid.setAdapter(dataAdapter);
 //        Log.i("friendsListView", String.valueOf(friendsListView));
 //        Log.i("inputWhoPaidAdapter", String.valueOf(inputWhoPaid));
-        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
-        friendsListView.setAdapter(adapter);
+        detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity());
+        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
+
 
     }
 
@@ -100,13 +113,19 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void mapTransactionDetails(Map<String, String> transactionDetails) {
-//        details = new TransactionDetails();
+        this.transactionDetails = new TransactionDetails();
+        this.transactionDetails.setAmount(transactionDetails.get("amount"));
+        this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
+        this.transactionDetails.setForWhom(transactionDetails.get("paidForWhom"));
+        this.transactionDetails.setDescription(transactionDetails.get("description"));
+        detailsList.add(this.transactionDetails);
+        detailsAdapter.notifyDataSetChanged();
         details = new Bundle();
         details.putString("whoPaid", transactionDetails.get("whoPaid"));
         details.putString("paidForWhom", transactionDetails.get("paidForWhom"));
         details.putString("amount", transactionDetails.get("amount"));
         totalAmount = totalAmount + Integer.parseInt(transactionDetails.get("amount"));
-//        details.putInt("totalAmount", totalAmount);
+        details.putInt("totalAmount", totalAmount);
         details.putString("description", transactionDetails.get("description"));
 
     }
@@ -136,6 +155,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             enterExpenses.setVisibility(View.VISIBLE);
             compute.setVisibility(View.VISIBLE);
         }
-        adapter.notifyDataSetChanged();
+        friendsAdapter.notifyDataSetChanged();
     }
 }

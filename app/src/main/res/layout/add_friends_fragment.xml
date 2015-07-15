@@ -4,10 +4,25 @@
     android:layout_height="match_parent"
     android:background="@color/blue1">
 
-    <ListView
-        android:id="@+id/list_friends"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <ListView
+            android:id="@+id/list_friends"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="5dp"></ListView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_friends"

@@ -20,7 +20,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     List<Place> placeList;
     Context context;
 
-    public RVAdapter(List<Place> placeList, Context context) {
+    public RVAdapter(List<Place> placeList,  Context context) {
         this.placeList = placeList;
         this.context = context;
     }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:id="@+id/amount_container"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@color/red1">
+
+                <TextView
+                    android:id="@+id/amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="40"
+                    android:textSize="50sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/who_paid_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/amount_container"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PAID : " />
+
+                <TextView
+                    android:id="@+id/who_paid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:capitalize="characters"
+                    android:padding="5dp"
+                    android:text="vikas" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/for_whom_paid_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/who_paid_container"
+                android:layout_toRightOf="@id/amount_container"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FOR : " />
+
+                <TextView
+                    android:id="@+id/for_whom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:capitalize="characters"
+                    android:padding="5dp"
+                    android:text="vikas" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/for_whom_paid_container"
+                android:layout_toRightOf="@id/amount_container"
+                android:capitalize="characters"
+                android:paddingLeft="5dp"
+                android:text="burgers" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
