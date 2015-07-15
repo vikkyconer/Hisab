@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/for_whom_paid_container"
                 android:layout_toRightOf="@id/amount_container"
-                android:capitalize="characters"
+                android:inputType="textCapSentences"
                 android:paddingLeft="5dp"
                 android:text="burgers" />
         </RelativeLayout>

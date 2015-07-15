@@ -38,14 +38,14 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     boolean check = false;
 
     static DialogueBoxForExpenses newInstance() {
-        Log.i("DialogueForAddFriendss", "newInstance called");
+        Log.i("DialogueBoxForExpenses", "newInstance called");
         DialogueBoxForExpenses dialogue = new DialogueBoxForExpenses();
 
         return dialogue;
     }
 
     public Observable<Map<String, String>> inputPlaceName(ArrayList<String> friends) {
-        Log.i("DialogueForAddFriendss", "Observable called");
+        Log.i("DialogueBoxForExpenses", "Observable called");
 //        Log.i("DialogueForAddFriends", String.valueOf(frineds));
         this.friends = friends;
         return whoPaid.asObservable();
@@ -56,7 +56,7 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         view = inflater.inflate(R.layout.dialogue_box_for_expenses, container, false);
 
 
-        Log.i("DialogueForAddFriendss", "onCreateView");
+        Log.i("DialogueBoxForExpenses", "onCreateView");
         return view;
     }
 
@@ -71,6 +71,8 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     private void setEventsForViews() {
         buttonYes.setOnClickListener(this);
         buttonNo.setOnClickListener(this);
+        inputWhopaid.setOnItemSelectedListener(this);
+        inputPaidForWhom.setOnItemSelectedListener(this);
 //        inputWhopaid.setOnItemClickListener(this);
 //        inputPaidForWhom.setOnItemClickListener(this);
 //        inputWhopaid.setOnClickListener(this);
@@ -109,24 +111,16 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.no:
-                Log.i("DialogueForAddFriendss", "in else");
+                Log.i("DialogueBoxForExpenses", "in else");
                 dismiss();
                 break;
-            case R.id.input_who_paid:
-                check = true;
-                inputWhopaid.setOnItemSelectedListener(this);
-                break;
-     /*       case R.id.paid_for_whom:
-                check = true;
-                inputPaidForWhom.setOnItemSelectedListener(this);
-                break;*/
         }
     }
 
     private Map<String, String> mapTransactionDetails() {
         Map<String, String> transactionDetails = new HashMap<>();
         transactionDetails.put("whoPaid", friendWhoPaid);
-        transactionDetails.put("paidForWhom", friendWhoPaid);
+        transactionDetails.put("paidForWhom", friendPaidForWhom);
         transactionDetails.put("amount", amount.getText().toString());
         transactionDetails.put("description", description.getText().toString());
         return transactionDetails;
@@ -150,16 +144,26 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        if (check == false) {
-        friendWhoPaid = inputWhopaid.getSelectedItem().toString();
-        Log.i("DialogueBoxForExpenses", friendWhoPaid);
-//        } else {
-//            friendPaidForWhom = inputPaidForWhom.getSelectedItem().toString();
-//        }
+        if (parent.getId() == R.id.input_who_paid) {
+            check = true;
+            friendWhoPaid = inputWhopaid.getSelectedItem().toString();
+            friendWhoPaid = friendWhoPaid.substring(0, 1).toUpperCase() + friendWhoPaid.substring(1);
+            Log.i("DialogueBoxExpenses", "in if");
+        } else if (parent.getId() == R.id.input_paid_for_whom) {
+            check = false;
+            friendPaidForWhom = inputPaidForWhom.getSelectedItem().toString();
+            friendPaidForWhom = friendPaidForWhom.substring(0, 1).toUpperCase() + friendPaidForWhom.substring(1);
+            Log.i("DialogueBoxExpenses", "in else");
+
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        if (parent.getId() == R.id.input_who_paid) {
+            friendWhoPaid = inputWhopaid.getItemAtPosition(0).toString();
+        } else if (parent.getId() == R.id.input_paid_for_whom) {
+            friendPaidForWhom = inputPaidForWhom.getItemAtPosition(0).toString();
+        }
     }
 }
