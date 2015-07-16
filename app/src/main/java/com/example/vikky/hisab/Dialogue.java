@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -33,7 +33,7 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
     Map<String, String> placeData;
     Context context;
     BehaviorSubject<Map<String, String>> placeName = BehaviorSubject.create();
-    Button buttonYes, buttonNo;
+    RelativeLayout cancel, ok;
     TextView inputDate;
 
     static Dialogue newInstance() {
@@ -49,10 +49,10 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i("Dialogue","onCreateView");
+        Log.i("Dialogue", "onCreateView");
         view = inflater.inflate(R.layout.dialogue_box, container, false);
-        buttonYes = (Button) view.findViewById(R.id.yes);
-        buttonNo = (Button) view.findViewById(R.id.no);
+        cancel = (RelativeLayout) view.findViewById(R.id.cancel);
+        ok = (RelativeLayout) view.findViewById(R.id.ok);
         placeData = new HashMap<>();
         inputDate = (TextView) view.findViewById(R.id.date);
         inputPlace = (EditText) view.findViewById(R.id.enter_place);
@@ -64,8 +64,8 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.i("Dialogue", "onActivityCreated called");
-        buttonYes.setOnClickListener(this);
-        buttonNo.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        ok.setOnClickListener(this);
         inputDate.setOnClickListener(this);
     }
 
@@ -76,12 +76,12 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.yes) {
+        if (v.getId() == R.id.ok) {
             Log.i("Dialogue", String.valueOf(inputPlace.getText()));
             placeData.put("placeName", String.valueOf(inputPlace.getText()));
             placeName.onNext(placeData);
             dismiss();
-        } else if (v.getId() == R.id.no) {
+        } else if (v.getId() == R.id.cancel) {
             Log.i("Dialogue", "in else");
             dismiss();
         } else if (v.getId() == R.id.date) {

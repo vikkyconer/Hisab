@@ -25,7 +25,7 @@ import rx.subjects.BehaviorSubject;
 public class MainScreenFragment extends Fragment implements MainScreenView, View.OnClickListener {
 
     ArrayList<Place> places;
-    RVAdapter adapter;
+    RVAdapter placesAdapter;
     Place place;
     public LinkedList<Place> placesList;
     View mainScreenRootFragment;
@@ -62,24 +62,6 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         setEventsForViews();
     }
 
-    /*   @Override
-       public void onResume() {
-           super.onResume();
-           Log.i("MainScreenFragment", "in onResume");
-
-           placeAdded.onNext(((MainScreenActivity) getActivity()).getPlace());
-
-
-       }
-   */
- /*   @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.i("MainScreenFragment", "in onActivityCreated");
-
-        super.onActivityCreated(savedInstanceState);
-//        placeAdded.onNext(getActivity());
-    }
-*/
     private void setEventsForViews() {
         Log.i("MainScreenFragment", "in setEventsForViews");
 
@@ -92,7 +74,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.i("MainScreenFragment", "in defaultConfiguration");
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(placesAdapter);
     }
 
     private void initializeViews(View view) {
@@ -104,41 +86,9 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         linearLayoutManager = new LinearLayoutManager(getActivity());
         places = new ArrayList<>();
         place = new Place();
-        adapter = new RVAdapter(places, getActivity());
+        placesAdapter = new RVAdapter(places, getActivity());
     }
 
- /*   public void onNextFunction(Map<String, String> place) {
-        Log.i("MainScreenFragment", "onNextFunction");
-        Log.i("MainScreenFragment", String.valueOf(place));
-//        Place place1 = new Place();
-//        this.place.setPlaceName(place.get("placeName"));
-//        this.place.setPlaceDate(place.get("placeDate"));
-//        places.add(this.place);
-//        adapter.notifyDataSetChanged();
-    }
-*/
-    /*   @Override
-       public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-   //        MenuInflater inflater = getMenuInflater();
-           inflater.inflate(R.menu.menu_add_place, menu);
-           super.onCreateOptionsMenu(menu, inflater);
-       }
-
-       @Override
-       public boolean onOptionsItemSelected(MenuItem item) {
-           switch (item.getItemId()) {
-               case R.id.action_new_place:
-   //                Navigator.createGameActivity(this);
-   //                MainScreenFragment mainScreenFragment = new MainScreenFragment();
-   //                mainScreenFragment.addPlaceData();
-                   addPlaceData();
-                   return true;
-               case R.id.action_left_drawer:
-
-           }
-           return super.onOptionsItemSelected(item);
-       }
-   */
     @Override
     public Observable<Map<String, String>> addPlace() {
         Log.i("MainScreenFragment", "Observable of addPlace");
@@ -149,9 +99,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public void showPlaces(Map<String, String> place) {
         Log.i("MainScreenFragment", "showPlaces");
         places.add(this.place);
-//        Place p = new Place(place.get("placeName"), null, place.get("placeDate"), null, null, null);
-//        places.add(p);
-        adapter.notifyDataSetChanged();
+        placesAdapter.notifyDataSetChanged();
     }
 
 
@@ -159,8 +107,6 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public void onClick(View v) {
         if (v.getId() == R.id.add_place) {
             addPlaceData();
-//            Log.i("MainScreenFragment", "onNext of addPlace");
-//            addPlaceData();
         } else if (v.getId() == R.id.rv) {
 
         }
@@ -169,14 +115,12 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public void addPlaceData() {
         Log.i("MainScreenFragment", "addPlaceData");
         Dialogue placeData = Dialogue.newInstance();
-//        Log.i("MainScreenFragment", "below declaration");
         placeData.inputPlaceName().subscribe(place -> placeSelected(place));
         placeData.show(getFragmentManager(), "Select gender");
     }
 
     public void placeSelected(Map<String, String> place) {
         Log.i("MainScreenFragment", String.valueOf(place));
-//        placeAdded.onNext(place);
         this.place.setPlaceName(place.get("placeName"));
         this.place.setPlaceDate(place.get("placeDate"));
         placeAdded.onNext(place);

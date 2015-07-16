@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class DialogueForAddingFriends extends DialogFragment implements View.OnC
     EditText inputName;
     Map<String, String> placeData;
     BehaviorSubject<Map<String, String>> name = BehaviorSubject.create();
-    Button buttonYes, buttonNo;
+    RelativeLayout cancel, ok;
 
     static DialogueForAddingFriends newInstance() {
         Log.i("DialogueForAddFriendss", "newInstance called");
@@ -41,8 +41,8 @@ public class DialogueForAddingFriends extends DialogFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialogue_for_adding_friends, container, false);
-        buttonYes = (Button) view.findViewById(R.id.yes);
-        buttonNo = (Button) view.findViewById(R.id.no);
+        ok = (RelativeLayout) view.findViewById(R.id.ok);
+        cancel = (RelativeLayout) view.findViewById(R.id.cancel);
         placeData = new HashMap<>();
         inputName = (EditText) view.findViewById(R.id.enter_name);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -54,21 +54,21 @@ public class DialogueForAddingFriends extends DialogFragment implements View.OnC
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.i("DialogueForAddFriendss", "onActivityCreated called");
-        buttonYes.setOnClickListener(this);
-        buttonNo.setOnClickListener(this);
+        ok.setOnClickListener(this);
+        cancel.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.yes) {
+        if (v.getId() == R.id.ok) {
             if (!isValid()) {
                 return;
             }
             placeData.put("friendName", String.valueOf(inputName.getText()));
             name.onNext(placeData);
             dismiss();
-        } else if (v.getId() == R.id.no) {
+        } else if (v.getId() == R.id.cancel) {
             Log.i("DialogueForAddFriendss", "in else");
             dismiss();
         }

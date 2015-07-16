@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,18 +24,20 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by vikky on 7/1/15.
  */
-public class DialogueBoxForExpenses extends DialogFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class DialogueBoxForExpenses extends DialogFragment implements View.OnClickListener,
+        AdapterView.OnItemSelectedListener {
     View view;
     //    EditText inputName;
     Map<String, String> placeData;
     BehaviorSubject<Map<String, String>> whoPaid = BehaviorSubject.create();
-    Button buttonYes, buttonNo;
+    RelativeLayout cancel, ok;
     EditText amount, description;
     Spinner inputWhopaid, inputPaidForWhom;
     ArrayList<String> friends = new ArrayList<>();
     ArrayAdapter<String> stringArrayAdapter;
-    String friendWhoPaid, friendPaidForWhom;
-    boolean check = false;
+    String friendWhoPaid;
+    String friendPaidForWhom;
+    boolean[] selection = null;
 
     static DialogueBoxForExpenses newInstance() {
         Log.i("DialogueBoxForExpenses", "newInstance called");
@@ -69,8 +71,8 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     }
 
     private void setEventsForViews() {
-        buttonYes.setOnClickListener(this);
-        buttonNo.setOnClickListener(this);
+        ok.setOnClickListener(this);
+        cancel.setOnClickListener(this);
         inputWhopaid.setOnItemSelectedListener(this);
         inputPaidForWhom.setOnItemSelectedListener(this);
 //        inputWhopaid.setOnItemClickListener(this);
@@ -84,8 +86,8 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     }
 
     private void initializeViews() {
-        buttonYes = (Button) view.findViewById(R.id.yes);
-        buttonNo = (Button) view.findViewById(R.id.no);
+        ok = (RelativeLayout) view.findViewById(R.id.ok);
+        cancel = (RelativeLayout) view.findViewById(R.id.cancel);
         placeData = new HashMap<>();
         amount = (EditText) view.findViewById(R.id.amount_paid);
         description = (EditText) view.findViewById(R.id.input_description);
@@ -103,14 +105,14 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.yes:
+            case R.id.ok:
                 if (!isValid()) {
                     return;
                 }
                 whoPaid.onNext(mapTransactionDetails());
                 dismiss();
                 break;
-            case R.id.no:
+            case R.id.cancel:
                 Log.i("DialogueBoxForExpenses", "in else");
                 dismiss();
                 break;
@@ -122,7 +124,7 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         transactionDetails.put("whoPaid", friendWhoPaid);
         transactionDetails.put("paidForWhom", friendPaidForWhom);
         transactionDetails.put("amount", amount.getText().toString());
-        transactionDetails.put("description", description.getText().toString());
+        transactionDetails.put("description", description.getText().toString().toUpperCase());
         return transactionDetails;
     }
 
@@ -145,12 +147,10 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.input_who_paid) {
-            check = true;
             friendWhoPaid = inputWhopaid.getSelectedItem().toString();
             friendWhoPaid = friendWhoPaid.substring(0, 1).toUpperCase() + friendWhoPaid.substring(1);
             Log.i("DialogueBoxExpenses", "in if");
         } else if (parent.getId() == R.id.input_paid_for_whom) {
-            check = false;
             friendPaidForWhom = inputPaidForWhom.getSelectedItem().toString();
             friendPaidForWhom = friendPaidForWhom.substring(0, 1).toUpperCase() + friendPaidForWhom.substring(1);
             Log.i("DialogueBoxExpenses", "in else");
@@ -166,4 +166,25 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
             friendPaidForWhom = inputPaidForWhom.getItemAtPosition(0).toString();
         }
     }
+
+   /* @Override
+    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
+        if (selection != null && which < selection.length) {
+            selection[which] = isChecked;
+
+            stringArrayAdapter.clear();
+            stringArrayAdapter.add(buildSelectedItemString());
+        } else {
+            throw new IllegalArgumentException(
+                    "Argument 'which' is out of bounds.");
+        }
+    }
+    @Override
+    public boolean performClick() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMultiChoiceItems(friendPaidForWhom, selection, this);
+        builder.show();
+        return true;
+    }*/
 }

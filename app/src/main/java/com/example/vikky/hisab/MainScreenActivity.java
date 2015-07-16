@@ -7,12 +7,6 @@ import android.util.Log;
 
 public class MainScreenActivity extends ActionBarActivity {
 
-/*
-    Fragment slidingDrawerFragment;
-    public static final String DRAWER_FRAGMENT_TAG = "DRAWER_FRAGMENT_TAG";
-    Map<String, String> place = new HashMap<>();
-*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

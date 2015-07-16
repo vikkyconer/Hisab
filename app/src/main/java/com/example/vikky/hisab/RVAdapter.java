@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,8 +21,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     List<Place> placeList;
     Context context;
+    ArrayAdapter<String> friendsAdapter;
+    ListView colorListView;
 
-    public RVAdapter(List<Place> placeList,  Context context) {
+    public RVAdapter(List<Place> placeList, Context context) {
         this.placeList = placeList;
         this.context = context;
     }
@@ -56,6 +60,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             Navigator.toAddFriends(context);
         } else if (v.getId() == R.id.change_background) {
             Log.i("Motes", "changeBackground");
+//            new ListAdapter((MainScreenActivity));
         }
     }
 

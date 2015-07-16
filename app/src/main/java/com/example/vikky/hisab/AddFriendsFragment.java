@@ -77,15 +77,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         compute = (Button) view.findViewById(R.id.compute);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
-//        inputWhoPaid = new DialogueBoxForExpenses(getActivity(), friends);
         friend = new Friend();
         friends = new ArrayList<>();
-//        friends.add("Vikas");
-//        dataAdapter = new ArrayAdapter<String>(dialogView.getContext(), android.R.layout.simple_spinner_item, friends);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        inputWhoPaid.setAdapter(dataAdapter);
-//        Log.i("friendsListView", String.valueOf(friendsListView));
-//        Log.i("inputWhoPaidAdapter", String.valueOf(inputWhoPaid));
         detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity());
         friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
 
