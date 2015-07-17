@@ -12,8 +12,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +34,11 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
     String venueDate;
     Map<String, String> placeData;
     Context context;
+    long delay;
+    long daysAgo;
+    Calendar cal;
+    Date date;
+    DateFormat dateFormat;
     BehaviorSubject<Map<String, String>> placeName = BehaviorSubject.create();
     RelativeLayout cancel, ok;
     TextView inputDate;
@@ -54,6 +61,8 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
         cancel = (RelativeLayout) view.findViewById(R.id.cancel);
         ok = (RelativeLayout) view.findViewById(R.id.ok);
         placeData = new HashMap<>();
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        cal = Calendar.getInstance();
         inputDate = (TextView) view.findViewById(R.id.date);
         inputPlace = (EditText) view.findViewById(R.id.enter_place);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -96,7 +105,10 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
                 placeData.put("placeDate", venueDate);
                 try {
                     Date date1 = simpleDateFormat.parse(date);
-
+                    this.date = new Date();
+                    delay = (this.date.getTime() - date1.getTime());
+                    daysAgo = delay / (24 * 60 * 60 * 1000);
+                    placeData.put("daysAgo", String.valueOf(daysAgo));
                     Log.i("date1", date1 + "");
                     this.inputDate.setText(simpleDateFormat2.format(date1));
                 } catch (ParseException e) {

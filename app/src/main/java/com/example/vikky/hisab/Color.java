@@ -3,7 +3,7 @@ package com.example.vikky.hisab;
 /**
  * Created by vikky on 7/2/15.
  */
-public class ColorList {
+public class Color {
     private String colorName;
     private String colorPosition;
     private Boolean status;
