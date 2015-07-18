@@ -5,6 +5,7 @@ package com.example.vikky.hisab;
  */
 public class ColorList {
     private String colorName;
+
     private String colorPosition;
     private Boolean status;
 
