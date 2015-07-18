@@ -5,10 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import android.view.Window;
 
 
 public class SplashActivity extends ActionBarActivity {
@@ -21,7 +18,7 @@ public class SplashActivity extends ActionBarActivity {
         setContentView(R.layout.activity_splash);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-
+        getSupportActionBar().hide();
 //        mp = MediaPlayer.create(this, R.raw.animation);
 //        mp.start();
         new Handler().postDelayed(new Runnable() {
