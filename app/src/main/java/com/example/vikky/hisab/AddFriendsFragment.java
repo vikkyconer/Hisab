@@ -114,6 +114,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         detailsList.add(this.transactionDetails);
         detailsAdapter.notifyDataSetChanged();
         details = new Bundle();
+//        details.putParcelable("details",detailsList);
+//        details.putStringArrayList("details",detailsList);
         details.putString("whoPaid", transactionDetails.get("whoPaid"));
         details.putString("paidForWhom", transactionDetails.get("paidForWhom"));
         details.putString("amount", transactionDetails.get("amount"));

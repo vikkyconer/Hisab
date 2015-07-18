@@ -38,9 +38,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public void onBindViewHolder(PersonViewHolder holder, int i) {
+        initialize(holder, i);
+        setEventsForViews(holder);
+    }
+
+    private void initialize(PersonViewHolder holder, int i) {
         holder.venueName.setText(placeList.get(i).getPlaceName());
         holder.venueDate.setText(placeList.get(i).getPlaceDate());
         holder.daysAgo.setText(placeList.get(i).getDaysAgo());
+    }
+
+    private void setEventsForViews(PersonViewHolder holder) {
         holder.addFriendsIcon.setOnClickListener(this);
         holder.changeBackground.setOnClickListener(this);
     }
@@ -64,6 +72,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 //            new ListAdapter((MainScreenActivity));
         }
     }
+
+
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cv;

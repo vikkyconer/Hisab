@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by vikky on 7/12/15.
  */
 public class ComputeFragment extends Fragment implements ComputeView {
     View computeRootFragment;
     //    ListView showDetails;
+    ArrayList<TransactionDetails> arrayList = new ArrayList<>();
     String whoHasToPay, howMuch, whomToPay;
     TextView whoPais, amount, toWhom;
 
@@ -42,12 +45,14 @@ public class ComputeFragment extends Fragment implements ComputeView {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        howMuch = ((ComputeActivity) getActivity()).getAmount();
-        Log.i("ComputeFragment", howMuch);
-        whoHasToPay = ((ComputeActivity) getActivity()).getPaidForWhom();
-        whomToPay = ((ComputeActivity) getActivity()).getWhoPaid();
-        whoPais.setText(whoHasToPay);
-        amount.setText(howMuch);
-        toWhom.setText(whomToPay);
+//        howMuch = ((ComputeActivity) getActivity()).getAmount();
+//        Log.i("ComputeFragment", howMuch);
+//        arrayList = ((ComputeActivity) getActivity()).getDetails();
+//        Log.i("ComputeFragment0", arrayList.get(0).whoPaid);
+//        Log.i("ComputeFragment1", arrayList.get(1).whoPaid);
+//        whomToPay = ((ComputeActivity) getActivity()).getWhoPaid();
+//        whoPais.setText(whoHasToPay);
+//        amount.setText(howMuch);
+//        toWhom.setText(whomToPay);
     }
 }

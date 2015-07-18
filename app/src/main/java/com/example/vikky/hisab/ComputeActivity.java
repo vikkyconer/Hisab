@@ -5,43 +5,21 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 
 public class ComputeActivity extends ActionBarActivity {
 
-    TransactionDetails details = null;
+    //    TransactionDetails details = null;
     String amount, whoPaid, paidForWhom;
+    ArrayList<TransactionDetails> details = new ArrayList<>();
 
-    public String getPaidForWhom() {
-        return paidForWhom;
-    }
-
-    public void setPaidForWhom(String paidForWhom) {
-        this.paidForWhom = paidForWhom;
-    }
-
-    public String getWhoPaid() {
-        return whoPaid;
-    }
-
-    public void setWhoPaid(String whoPaid) {
-        this.whoPaid = whoPaid;
-    }
-
-
-    public TransactionDetails getDetails() {
+    public ArrayList<TransactionDetails> getDetails() {
         return details;
-    }
-
-    public void setDetails(TransactionDetails details) {
-        this.details = details;
     }
 
     public String getAmount() {
         return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
     }
 
     @Override
@@ -50,9 +28,12 @@ public class ComputeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_compute);
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        setWhoPaid(b.getString("whoPaid"));
-        setPaidForWhom(b.getString("paidForWhom"));
-        setAmount(b.getString("amount"));
+        TransactionDetails transactionDetails = new TransactionDetails();
+        transactionDetails.setWhoPaid(b.getString("whoPaid"));
+        transactionDetails.setForWhom(b.getString("paidForWhom"));
+        transactionDetails.setAmount(b.getString("amount"));
+        details.add(transactionDetails);
+        Log.i("ComputeActivity", details.get(0).whoPaid);
 //        Log.i("ComputeActivity", getWhoPaid());
         new ComputePresenter(computeModel(), computeView());
     }
