@@ -5,17 +5,17 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cv"
-        card_view:cardCornerRadius="4dp"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="4dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="30dp"
-            android:background="@color/blue1">
+            android:background="@color/blue1"
+            android:padding="10dp">
 
             <ImageButton
                 android:id="@+id/change_background"
@@ -26,26 +26,52 @@
                 android:background="@drawable/paint_card" />
 
             <ImageView
+                android:id="@+id/add_friends_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/add_friends_icon"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/add_people" />
 
             <TextView
+                android:id="@+id/venue_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/venue_name"
-
                 android:layout_alignParentTop="true"
+                android:text="Lonavala"
                 android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/venue_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/venue_name"
+                android:text="17/08/2015" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/venue_date"
-                android:layout_below="@+id/venue_name" />
+                android:layout_below="@id/venue_name"
+                android:layout_toRightOf="@id/venue_date"
+                android:paddingLeft="5sp"
+                android:text="(" />
+
+            <TextView
+                android:id="@+id/days_ago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/venue_name"
+                android:layout_toRightOf="@id/venue_date"
+                android:paddingLeft="10sp"
+                android:text="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/venue_name"
+                android:layout_toRightOf="@id/days_ago"
+                android:paddingLeft="2sp"
+                android:text="days ago )" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

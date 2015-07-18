@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -30,7 +33,6 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public LinkedList<Place> placesList;
     View mainScreenRootFragment;
     Button addPlace;
-    LayoutInflater layoutInflater;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     TextView venueDate;
@@ -79,7 +81,6 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void initializeViews(View view) {
         Log.i("MainScreenFragment", "in initializeViews");
-
         addPlace = (Button) view.findViewById(R.id.add_place);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         venueDate = (TextView) view.findViewById(R.id.venue_date);
@@ -99,6 +100,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public void showPlaces(Map<String, String> place) {
         Log.i("MainScreenFragment", "showPlaces");
         places.add(this.place);
+        Log.i("MainScreenFragmentArray", String.valueOf(places.get(0)));
         placesAdapter.notifyDataSetChanged();
     }
 
@@ -123,6 +125,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.i("MainScreenFragment", String.valueOf(place));
         this.place.setPlaceName(place.get("placeName"));
         this.place.setPlaceDate(place.get("placeDate"));
+        this.place.setDaysAgo(place.get("daysAgo"));
         placeAdded.onNext(place);
     }
 }

@@ -13,6 +13,16 @@ public class Place {
     private String placeName;
     private LinkedList<Friend> friends;
     private List<Place> placeList;
+    private String daysAgo;
+
+    public String getDaysAgo() {
+        return daysAgo;
+    }
+
+    public void setDaysAgo(String daysAgo) {
+        this.daysAgo = daysAgo;
+    }
+
     private ImageView placePhoto;
     private String placeDate;
 

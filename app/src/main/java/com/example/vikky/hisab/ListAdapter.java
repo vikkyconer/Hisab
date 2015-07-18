@@ -19,9 +19,9 @@ public class ListAdapter extends BaseAdapter implements View.OnClickListener {
     private String colorName;
     private String colorPosition;
     private static LayoutInflater inflater;
-    private ArrayList<ColorList> list;
+    private ArrayList<Color> list;
     private Boolean status;
-    ColorList colorList;
+    Color colorList;
 
     public ListAdapter(Context context) {
         this.context = context;
