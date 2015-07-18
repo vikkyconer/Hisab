@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import rx.Observable;
@@ -27,17 +28,24 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     Button addFriends, enterExpenses, compute;
     Friend friend;
     ArrayList<String> friends;
+    ArrayList<String> whoPaidList;
     Bundle details;
     ArrayList<TransactionDetails> detailsList;
-    int totalAmount = 0;
+    private int totalAmount = 0, halfamount = 0;
+    private HashMap hashOfEachExpenditure;
+    private HashMap hashOfAmountToPay;
     TransactionDetails transactionDetails;
     ArrayAdapter<String> friendsAdapter;
     TransactionDetailsRVAdapter detailsAdapter;
     RecyclerView detailsRecyclerView;
     LinearLayoutManager linearLayoutManager;
     ListView friendsListView;
+    int amount;
     DialogueBoxForExpenses inputWhoPaid;
     BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
+    private String toWhomShouldPay;
+    private String whoShouldPay;
+    private int value;
 
     @Nullable
     @Override
@@ -74,6 +82,10 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         friendsListView = (ListView) view.findViewById(R.id.list_friends);
         enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
         detailsList = new ArrayList<>();
+        hashOfEachExpenditure = new HashMap();
+        hashOfAmountToPay = new HashMap();
+        Log.i("AddFriendsFragment", "initilizeViews");
+        whoPaidList = new ArrayList<>();
         compute = (Button) view.findViewById(R.id.compute);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
@@ -93,9 +105,29 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             showCustomDialogurForWhoPaid();
 
         } else if (v.getId() == R.id.compute) {
+            computeData();
             Navigator.toCompute(getActivity(), details);
         }
 
+    }
+
+    private void computeData() {
+        halfamount = totalAmount / 2;
+        details = new Bundle();
+//        details.putString("amount", String.valueOf(totalAmount));
+        Log.i("totalAmount", String.valueOf(halfamount));
+        for (int i = 0; i < hashOfEachExpenditure.size(); i++) {
+            value = (int) hashOfEachExpenditure.get(i);
+            Log.i("value at i", String.valueOf(hashOfEachExpenditure.get(i)));
+            Log.i("value", String.valueOf(value));
+            hashOfAmountToPay.put(i,halfamount - value);
+            if ((int) hashOfAmountToPay.get(i) > 0) {
+                details.putString("amount", String.valueOf(hashOfAmountToPay.get(i)));
+                details.putString("whoShouldPay", friends.get(i));
+            } else {
+                details.putString("payToWhom", friends.get(i));
+            }
+        }
     }
 
     private void showCustomDialogurForWhoPaid() {
@@ -112,16 +144,29 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         this.transactionDetails.setForWhom(transactionDetails.get("paidForWhom"));
         this.transactionDetails.setDescription(transactionDetails.get("description"));
         detailsList.add(this.transactionDetails);
+        amount = Integer.parseInt(transactionDetails.get("amount"));
+        totalAmount = amount + totalAmount;
+        Log.i("totalAmount", String.valueOf(totalAmount));
+        toWhomShouldPay = friends.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")));
+        if (hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex"))) != null) {
+            hashOfEachExpenditure.put(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")), amount + (int) hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex"))));
+        } else {
+            hashOfEachExpenditure.put(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")), amount);
+        }
+        whoShouldPay = friends.get(Integer.parseInt(transactionDetails.get("friendPaidForWhomIndex")));
+        whoPaidList.add(transactionDetails.get("whoPaid"));
+        Log.i("List", whoPaidList.get(0));
         detailsAdapter.notifyDataSetChanged();
-        details = new Bundle();
-//        details.putParcelable("details",detailsList);
+     /*   details.putParcelable("details",detailsList);
 //        details.putStringArrayList("details",detailsList);
-        details.putString("whoPaid", transactionDetails.get("whoPaid"));
+        details.putString("whoShoudPay", whoShouldPay);
+        details.putString("to");
         details.putString("paidForWhom", transactionDetails.get("paidForWhom"));
         details.putString("amount", transactionDetails.get("amount"));
         totalAmount = totalAmount + Integer.parseInt(transactionDetails.get("amount"));
         details.putInt("totalAmount", totalAmount);
-        details.putString("description", transactionDetails.get("description"));
+        details.putString("description", transactionDetails.get("description"))*/
+        ;
 
     }
 

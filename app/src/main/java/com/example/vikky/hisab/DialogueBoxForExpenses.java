@@ -32,6 +32,7 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     BehaviorSubject<Map<String, String>> whoPaid = BehaviorSubject.create();
     RelativeLayout cancel, ok;
     EditText amount, description;
+    int friendWhoPaidIndex, friendsPaidForWhomIndex;
     Spinner inputWhopaid, inputPaidForWhom;
     ArrayList<String> friends = new ArrayList<>();
     ArrayAdapter<String> stringArrayAdapter;
@@ -124,6 +125,8 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         transactionDetails.put("whoPaid", friendWhoPaid);
         transactionDetails.put("paidForWhom", friendPaidForWhom);
         transactionDetails.put("amount", amount.getText().toString());
+        transactionDetails.put("friendWhoPaidIndex", String.valueOf(friendWhoPaidIndex));
+        transactionDetails.put("friendPaidForWhomIndex", String.valueOf(friendsPaidForWhomIndex));
         transactionDetails.put("description", description.getText().toString().toUpperCase());
         return transactionDetails;
     }
@@ -148,10 +151,12 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.input_who_paid) {
             friendWhoPaid = inputWhopaid.getSelectedItem().toString();
+            friendWhoPaidIndex = inputWhopaid.getSelectedItemPosition();
             friendWhoPaid = friendWhoPaid.substring(0, 1).toUpperCase() + friendWhoPaid.substring(1);
             Log.i("DialogueBoxExpenses", "in if");
         } else if (parent.getId() == R.id.input_paid_for_whom) {
             friendPaidForWhom = inputPaidForWhom.getSelectedItem().toString();
+            friendsPaidForWhomIndex = inputPaidForWhom.getSelectedItemPosition();
             friendPaidForWhom = friendPaidForWhom.substring(0, 1).toUpperCase() + friendPaidForWhom.substring(1);
             Log.i("DialogueBoxExpenses", "in else");
 
