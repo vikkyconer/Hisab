@@ -12,6 +12,7 @@
         card_view:cardCornerRadius="4dp">
 
         <RelativeLayout
+            android:id="@+id/background_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blue1"

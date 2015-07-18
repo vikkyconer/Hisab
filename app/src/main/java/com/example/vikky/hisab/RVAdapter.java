@@ -1,6 +1,7 @@
 package com.example.vikky.hisab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,6 +48,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         holder.venueName.setText(placeList.get(i).getPlaceName());
         holder.venueDate.setText(placeList.get(i).getPlaceDate());
         holder.daysAgo.setText(placeList.get(i).getDaysAgo());
+        String color = placeList.get(i).getBackgroundColor();
+        holder.backgroundColor.setBackgroundColor(0xff0c85b9);
     }
 
     private void setEventsForViews(PersonViewHolder holder) {
@@ -69,11 +73,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             Navigator.toAddFriends(context);
         } else if (v.getId() == R.id.change_background) {
             Log.i("Motes", "changeBackground");
-//            new ListAdapter((MainScreenActivity));
+            context.sendBroadcast(new Intent("start.fragment.action"));
         }
     }
-
-
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
@@ -82,6 +84,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         TextView daysAgo;
         ImageView addFriendsIcon;
         ImageView changeBackground;
+        RelativeLayout backgroundColor;
 
         PersonViewHolder(View itemView) {
             super(itemView);
@@ -91,6 +94,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             venueDate = (TextView) itemView.findViewById(R.id.venue_date);
             addFriendsIcon = (ImageView) itemView.findViewById(R.id.add_friends_icon);
             changeBackground = (ImageView) itemView.findViewById(R.id.change_background);
+            backgroundColor = (RelativeLayout) itemView.findViewById(R.id.background_color);
         }
     }
 

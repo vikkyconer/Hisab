@@ -14,6 +14,15 @@ public class Place {
     private LinkedList<Friend> friends;
     private List<Place> placeList;
     private String daysAgo;
+    private String backgroundColor;
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
 
     public String getDaysAgo() {
         return daysAgo;

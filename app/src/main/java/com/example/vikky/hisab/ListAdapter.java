@@ -5,27 +5,28 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vikky on 6/29/15.
  */
-public class ListAdapter extends BaseAdapter implements View.OnClickListener {
+public class ListAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
     private Context context;
-    private String colorName;
+    //    private String colorName;
     private String colorPosition;
     private static LayoutInflater inflater;
-    private ArrayList<Color> list;
+    private List<String> colorName;
     private Boolean status;
-    Color colorList;
+    String colorList;
 
-    public ListAdapter(Context context) {
+    public ListAdapter(Context context, List<String> colorName) {
         this.context = context;
-//        this.colorName = colorName;
+        this.colorName = colorName;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -33,7 +34,7 @@ public class ListAdapter extends BaseAdapter implements View.OnClickListener {
 
     @Override
     public int getCount() {
-        return list.size();
+        return colorName.size();
     }
 
     @Override
@@ -60,23 +61,22 @@ public class ListAdapter extends BaseAdapter implements View.OnClickListener {
             view.setTag(viewHolder);
         }
         viewHolder = (ViewHolder) view.getTag();
-        colorList = list.get(i);
-        viewHolder.colorNameText.setText(colorList.getColorName());
+        colorList = colorName.get(i);
+        viewHolder.colorNameText.setText(colorList);
         viewHolder.colorPosition.setText(i + 1 + "");
-        if (colorList.getStatus() == true) {
+        /*if (colorList.getStatus() == true) {
             viewHolder.colorStatus.setImageResource(R.drawable.check);
         } else {
             viewHolder.colorStatus.setImageResource(R.drawable.uncheck);
-        }
-        view.setOnClickListener(this);
+        }*/
         return view;
     }
 
     @Override
-    public void onClick(View v) {
-        colorList.setStatus(true);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
+
 
     class ViewHolder {
         TextView colorNameText;

@@ -5,9 +5,17 @@ package com.example.vikky.hisab;
  */
 public class Color {
     private String colorName;
-
+    private String colorHexValue;
     private String colorPosition;
     private Boolean status;
+
+    public String getColorHexValue() {
+        return colorHexValue;
+    }
+
+    public void setColorHexValue(String colorHexValue) {
+        this.colorHexValue = colorHexValue;
+    }
 
     public String getColorName() {
         return colorName;

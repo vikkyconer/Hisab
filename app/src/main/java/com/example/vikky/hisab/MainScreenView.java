@@ -12,4 +12,6 @@ public interface MainScreenView {
     Observable<Map<String, String>> addPlace();
 
     void showPlaces(Map<String, String> sports);
+
+
 }

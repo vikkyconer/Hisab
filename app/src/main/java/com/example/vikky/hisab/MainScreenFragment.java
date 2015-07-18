@@ -1,5 +1,9 @@
 package com.example.vikky.hisab;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,10 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -69,6 +70,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
         addPlace.setOnClickListener(this);
         recyclerView.setOnClickListener(this);
+        placesAdapter.onClick(getView());
 
     }
 
@@ -88,6 +90,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         places = new ArrayList<>();
         place = new Place();
         placesAdapter = new RVAdapter(places, getActivity());
+        getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter("start.fragment.action"));
     }
 
     @Override
@@ -102,6 +105,15 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         places.add(this.place);
         Log.i("MainScreenFragmentArray", String.valueOf(places.get(0)));
         placesAdapter.notifyDataSetChanged();
+
+
+    }
+
+
+    private void colorSelected(String color) {
+        Log.i("Notes", color);
+        place.setBackgroundColor(color);
+        placesAdapter.notifyDataSetChanged();
     }
 
 
@@ -111,8 +123,21 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
             addPlaceData();
         } else if (v.getId() == R.id.rv) {
 
+        } else if (v.getId() == R.id.change_background) {
         }
     }
+
+    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //This piece of code will be executed when you click on your item
+            // Call your fragment...
+            ColorListViewFragment colorListViewFragment = ColorListViewFragment.newInstance();
+            colorListViewFragment.inputPlaceName().subscribe(color -> colorSelected(color));
+            colorListViewFragment.show(getFragmentManager(), "timePicker");
+        }
+    };
 
     public void addPlaceData() {
         Log.i("MainScreenFragment", "addPlaceData");
