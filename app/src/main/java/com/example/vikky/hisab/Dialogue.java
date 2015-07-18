@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -107,6 +108,10 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
                     Date date1 = simpleDateFormat.parse(date);
                     this.date = new Date();
                     delay = (this.date.getTime() - date1.getTime());
+                    if (delay < 0) {
+                        Toast.makeText(getActivity(), "incorrect date", Toast.LENGTH_LONG).show();
+                        dismiss();
+                    }
                     daysAgo = delay / (24 * 60 * 60 * 1000);
                     placeData.put("daysAgo", String.valueOf(daysAgo));
                     Log.i("date1", date1 + "");
