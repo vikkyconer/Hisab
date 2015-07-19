@@ -34,6 +34,10 @@
             android:name=".ComputeActivity"
             android:label="@string/title_activity_compute" >
         </activity>
+        <activity
+            android:name=".GuideActivity"
+            android:label="@string/title_activity_guide" >
+        </activity>
     </application>
 
 </manifest>
