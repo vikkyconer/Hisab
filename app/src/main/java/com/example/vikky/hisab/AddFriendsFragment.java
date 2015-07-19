@@ -84,6 +84,9 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         detailsList = new ArrayList<>();
         hashOfEachExpenditure = new HashMap();
         hashOfAmountToPay = new HashMap();
+
+        initializeHashOfEachExpenditure();
+
         Log.i("AddFriendsFragment", "initilizeViews");
         whoPaidList = new ArrayList<>();
         compute = (Button) view.findViewById(R.id.compute);
@@ -116,15 +119,17 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         details = new Bundle();
 //        details.putString("amount", String.valueOf(totalAmount));
         Log.i("totalAmount", String.valueOf(halfamount));
-        for (int i = 0; i < hashOfEachExpenditure.size(); i++) {
+        for (int i = 0; i < friends.size(); i++) {
             value = (int) hashOfEachExpenditure.get(i);
             Log.i("value at i", String.valueOf(hashOfEachExpenditure.get(i)));
             Log.i("value", String.valueOf(value));
-            hashOfAmountToPay.put(i,halfamount - value);
+            hashOfAmountToPay.put(i, halfamount - value);
             if ((int) hashOfAmountToPay.get(i) > 0) {
+                Log.i("Notes", "in if of hashComputation");
                 details.putString("amount", String.valueOf(hashOfAmountToPay.get(i)));
                 details.putString("whoShouldPay", friends.get(i));
             } else {
+                Log.i("Notes", "in else of hashComputation");
                 details.putString("payToWhom", friends.get(i));
             }
         }
@@ -143,18 +148,29 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
         this.transactionDetails.setForWhom(transactionDetails.get("paidForWhom"));
         this.transactionDetails.setDescription(transactionDetails.get("description"));
+
         detailsList.add(this.transactionDetails);
+
         amount = Integer.parseInt(transactionDetails.get("amount"));
         totalAmount = amount + totalAmount;
+
         Log.i("totalAmount", String.valueOf(totalAmount));
+
         toWhomShouldPay = friends.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")));
-        if (hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex"))) != null) {
-            hashOfEachExpenditure.put(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")), amount + (int) hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex"))));
-        } else {
-            hashOfEachExpenditure.put(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")), amount);
+
+        Log.i("hash value before if", String.valueOf(hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")))));
+
+        if ((int) hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex"))) > 0) {
+            amount = amount + (int) hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")));
+            Log.i("amount value", String.valueOf(amount));
         }
+
+        hashOfEachExpenditure.put(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")), amount);
+        printHash();
+
         whoShouldPay = friends.get(Integer.parseInt(transactionDetails.get("friendPaidForWhomIndex")));
         whoPaidList.add(transactionDetails.get("whoPaid"));
+
         Log.i("List", whoPaidList.get(0));
         detailsAdapter.notifyDataSetChanged();
      /*   details.putParcelable("details",detailsList);
@@ -168,6 +184,19 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         details.putString("description", transactionDetails.get("description"))*/
         ;
 
+    }
+
+    private void printHash() {
+        for (int i = 0; i < hashOfEachExpenditure.size(); i++) {
+            Log.i("hashValue at i", String.valueOf(hashOfEachExpenditure.get(i)));
+        }
+    }
+
+    private void initializeHashOfEachExpenditure() {
+        for (int i = 0; i < 10; i++) {
+            hashOfEachExpenditure.put(i, 0);
+            hashOfAmountToPay.put(i, 0);
+        }
     }
 
 
@@ -195,6 +224,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             enterExpenses.setVisibility(View.VISIBLE);
             compute.setVisibility(View.VISIBLE);
         }
+
         friendsAdapter.notifyDataSetChanged();
     }
 }

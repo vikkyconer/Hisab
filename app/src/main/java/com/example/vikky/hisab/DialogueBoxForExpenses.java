@@ -27,7 +27,6 @@ import rx.subjects.BehaviorSubject;
 public class DialogueBoxForExpenses extends DialogFragment implements View.OnClickListener,
         AdapterView.OnItemSelectedListener {
     View view;
-    //    EditText inputName;
     Map<String, String> placeData;
     BehaviorSubject<Map<String, String>> whoPaid = BehaviorSubject.create();
     RelativeLayout cancel, ok;
@@ -38,18 +37,13 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     ArrayAdapter<String> stringArrayAdapter;
     String friendWhoPaid;
     String friendPaidForWhom;
-    boolean[] selection = null;
 
     static DialogueBoxForExpenses newInstance() {
-        Log.i("DialogueBoxForExpenses", "newInstance called");
         DialogueBoxForExpenses dialogue = new DialogueBoxForExpenses();
-
         return dialogue;
     }
 
     public Observable<Map<String, String>> inputPlaceName(ArrayList<String> friends) {
-        Log.i("DialogueBoxForExpenses", "Observable called");
-//        Log.i("DialogueForAddFriends", String.valueOf(frineds));
         this.friends = friends;
         return whoPaid.asObservable();
     }
@@ -57,9 +51,6 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialogue_box_for_expenses, container, false);
-
-
-        Log.i("DialogueBoxForExpenses", "onCreateView");
         return view;
     }
 
@@ -76,10 +67,6 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         cancel.setOnClickListener(this);
         inputWhopaid.setOnItemSelectedListener(this);
         inputPaidForWhom.setOnItemSelectedListener(this);
-//        inputWhopaid.setOnItemClickListener(this);
-//        inputPaidForWhom.setOnItemClickListener(this);
-//        inputWhopaid.setOnClickListener(this);
-//        inputPaidForWhom.setOnClickListener(this);
     }
 
     private void defaultConfiguration() {
@@ -114,7 +101,6 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
                 dismiss();
                 break;
             case R.id.cancel:
-                Log.i("DialogueBoxForExpenses", "in else");
                 dismiss();
                 break;
         }
@@ -135,7 +121,6 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     private boolean isValid() {
         String msg = "";
         if (amount.getText().length() == 0) {
-            Log.i("DialogueForAddFriendss", "in isValid");
             msg = "please specify amount";
         }
         if (description.getText().length() == 0) {
@@ -153,13 +138,10 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
             friendWhoPaid = inputWhopaid.getSelectedItem().toString();
             friendWhoPaidIndex = inputWhopaid.getSelectedItemPosition();
             friendWhoPaid = friendWhoPaid.substring(0, 1).toUpperCase() + friendWhoPaid.substring(1);
-            Log.i("DialogueBoxExpenses", "in if");
         } else if (parent.getId() == R.id.input_paid_for_whom) {
             friendPaidForWhom = inputPaidForWhom.getSelectedItem().toString();
             friendsPaidForWhomIndex = inputPaidForWhom.getSelectedItemPosition();
             friendPaidForWhom = friendPaidForWhom.substring(0, 1).toUpperCase() + friendPaidForWhom.substring(1);
-            Log.i("DialogueBoxExpenses", "in else");
-
         }
     }
 
@@ -171,25 +153,4 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
             friendPaidForWhom = inputPaidForWhom.getItemAtPosition(0).toString();
         }
     }
-
-   /* @Override
-    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-        if (selection != null && which < selection.length) {
-            selection[which] = isChecked;
-
-            stringArrayAdapter.clear();
-            stringArrayAdapter.add(buildSelectedItemString());
-        } else {
-            throw new IllegalArgumentException(
-                    "Argument 'which' is out of bounds.");
-        }
-    }
-    @Override
-    public boolean performClick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMultiChoiceItems(friendPaidForWhom, selection, this);
-        builder.show();
-        return true;
-    }*/
 }
