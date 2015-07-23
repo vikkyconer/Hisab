@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -25,27 +27,22 @@ import rx.subjects.BehaviorSubject;
  */
 public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener {
     private View addFriendsRootFragment;
-    Button addFriends, enterExpenses, compute;
-    Friend friend;
-    ArrayList<String> friends;
-    ArrayList<String> whoPaidList;
-    Bundle details;
-    ArrayList<TransactionDetails> detailsList;
-    private int totalAmount = 0, halfamount = 0;
-    private HashMap hashOfEachExpenditure;
-    private HashMap hashOfAmountToPay;
-    TransactionDetails transactionDetails;
-    ArrayAdapter<String> friendsAdapter;
-    TransactionDetailsRVAdapter detailsAdapter;
-    RecyclerView detailsRecyclerView;
-    LinearLayoutManager linearLayoutManager;
-    ListView friendsListView;
-    int amount;
-    DialogueBoxForExpenses inputWhoPaid;
-    BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
+    private Button addFriends, enterExpenses, compute;
+    private Friend friend;
+    private ArrayList<String> friends, whoPaidList;
+    private Bundle details;
+    private ArrayList<TransactionDetails> detailsList;
+    private int totalAmount = 0, halfamount = 0, amount, value;
+    private HashMap hashOfEachExpenditure, hashOfAmountToPay;
+    private TransactionDetails transactionDetails;
+    private ArrayAdapter<String> friendsAdapter;
+    private TransactionDetailsRVAdapter detailsAdapter;
+    private RecyclerView detailsRecyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private ListView friendsListView;
+    private BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
     private String toWhomShouldPay;
     private String whoShouldPay;
-    private int value;
 
     @Nullable
     @Override
@@ -151,8 +148,19 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
         detailsList.add(this.transactionDetails);
 
+        calculate(transactionDetails);
+    }
+
+    private void calculate(Map<String, String> transactionDetails) {
         amount = Integer.parseInt(transactionDetails.get("amount"));
         totalAmount = amount + totalAmount;
+
+        String[] item = MultiSelectionSpinner._items;
+        Log.i("array of People", Arrays.toString(item));
+
+        List<Integer> selectedIndices = MultiSelectionSpinner.getSelectedIndicies();
+
+        Log.i("list of selectedIndices", String.valueOf(selectedIndices));
 
         Log.i("totalAmount", String.valueOf(totalAmount));
 
@@ -173,17 +181,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
         Log.i("List", whoPaidList.get(0));
         detailsAdapter.notifyDataSetChanged();
-     /*   details.putParcelable("details",detailsList);
-//        details.putStringArrayList("details",detailsList);
-        details.putString("whoShoudPay", whoShouldPay);
-        details.putString("to");
-        details.putString("paidForWhom", transactionDetails.get("paidForWhom"));
-        details.putString("amount", transactionDetails.get("amount"));
-        totalAmount = totalAmount + Integer.parseInt(transactionDetails.get("amount"));
-        details.putInt("totalAmount", totalAmount);
-        details.putString("description", transactionDetails.get("description"))*/
-        ;
-
     }
 
     private void printHash() {

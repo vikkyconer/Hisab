@@ -32,11 +32,14 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     RelativeLayout cancel, ok;
     EditText amount, description;
     int friendWhoPaidIndex, friendsPaidForWhomIndex;
-    Spinner inputWhopaid, inputPaidForWhom;
+    Spinner inputWhopaid;
+    ArrayList<Friend> customSpinnerFriendsList = new ArrayList<Friend>();
     ArrayList<String> friends = new ArrayList<>();
     ArrayAdapter<String> stringArrayAdapter;
     String friendWhoPaid;
     String friendPaidForWhom;
+    CustomAdapter adapter;
+    MultiSelectionSpinner inputPaidForWhom;
 
     static DialogueBoxForExpenses newInstance() {
         DialogueBoxForExpenses dialogue = new DialogueBoxForExpenses();
@@ -45,7 +48,17 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
 
     public Observable<Map<String, String>> inputPlaceName(ArrayList<String> friends) {
         this.friends = friends;
+        setListData(friends);
         return whoPaid.asObservable();
+    }
+
+    private void setListData(ArrayList<String> friends) {
+        for (int i = 0; i < friends.size(); i++) {
+            final Friend friend = new Friend();
+            friend.setName(friends.get(i));
+            friend.setStatus(false);
+            customSpinnerFriendsList.add(friend);
+        }
     }
 
     @Override
@@ -66,8 +79,13 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         ok.setOnClickListener(this);
         cancel.setOnClickListener(this);
         inputWhopaid.setOnItemSelectedListener(this);
-        inputPaidForWhom.setOnItemSelectedListener(this);
+//        String s = inputPaidForWhom.getSelectedItemsAsString();
+//        Log.i("arrayList", s);
+
+
+
     }
+
 
     private void defaultConfiguration() {
 
@@ -80,11 +98,12 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         amount = (EditText) view.findViewById(R.id.amount_paid);
         description = (EditText) view.findViewById(R.id.input_description);
         inputWhopaid = (Spinner) view.findViewById(R.id.input_who_paid);
-        inputPaidForWhom = (Spinner) view.findViewById(R.id.input_paid_for_whom);
+        inputPaidForWhom = (MultiSelectionSpinner) view.findViewById(R.id.mySpinner1);
         stringArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, this.friends);
         stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = new CustomAdapter(getActivity(), R.layout.spinner_rows, customSpinnerFriendsList);
         inputWhopaid.setAdapter(stringArrayAdapter);
-        inputPaidForWhom.setAdapter(stringArrayAdapter);
+        inputPaidForWhom.setItems(friends);
         stringArrayAdapter.notifyDataSetChanged();
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
     }
@@ -103,6 +122,12 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
             case R.id.cancel:
                 dismiss();
                 break;
+            case R.id.mySpinner1:
+                String s = inputPaidForWhom.getSelectedItemsAsString();
+                Log.i("Notes", "inOnClick ofMultiSpinner");
+                Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+                break;
+
         }
     }
 
@@ -138,10 +163,6 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
             friendWhoPaid = inputWhopaid.getSelectedItem().toString();
             friendWhoPaidIndex = inputWhopaid.getSelectedItemPosition();
             friendWhoPaid = friendWhoPaid.substring(0, 1).toUpperCase() + friendWhoPaid.substring(1);
-        } else if (parent.getId() == R.id.input_paid_for_whom) {
-            friendPaidForWhom = inputPaidForWhom.getSelectedItem().toString();
-            friendsPaidForWhomIndex = inputPaidForWhom.getSelectedItemPosition();
-            friendPaidForWhom = friendPaidForWhom.substring(0, 1).toUpperCase() + friendPaidForWhom.substring(1);
         }
     }
 
@@ -149,8 +170,6 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     public void onNothingSelected(AdapterView<?> parent) {
         if (parent.getId() == R.id.input_who_paid) {
             friendWhoPaid = inputWhopaid.getItemAtPosition(0).toString();
-        } else if (parent.getId() == R.id.input_paid_for_whom) {
-            friendPaidForWhom = inputPaidForWhom.getItemAtPosition(0).toString();
         }
     }
 }

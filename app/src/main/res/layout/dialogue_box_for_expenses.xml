@@ -81,11 +81,10 @@
             android:text="For Whom? :"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <Spinner
-            android:id="@+id/input_paid_for_whom"
+        <com.example.vikky.hisab.MultiSelectionSpinner
+            android:id="@+id/mySpinner1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"></Spinner>>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
