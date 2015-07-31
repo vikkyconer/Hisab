@@ -34,7 +34,7 @@ public class TransactionDetailsRVAdapter extends RecyclerView.Adapter<Transactio
     public void onBindViewHolder(TransactionsViewHolder holder, int i) {
         holder.amount.setText(transactionDetailsList.get(i).getAmount());
         holder.whoPaid.setText(transactionDetailsList.get(i).getWhoPaid());
-        holder.forWhom.setText(transactionDetailsList.get(i).getForWhom());
+//        holder.forWhom.setText(transactionDetailsList.get(i).getForWhom());
         holder.description.setText(transactionDetailsList.get(i).getDescription());
     }
 

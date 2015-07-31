@@ -31,13 +31,12 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     BehaviorSubject<Map<String, String>> whoPaid = BehaviorSubject.create();
     RelativeLayout cancel, ok;
     EditText amount, description;
-    int friendWhoPaidIndex, friendsPaidForWhomIndex;
+    int friendWhoPaidIndex;
     Spinner inputWhopaid;
     ArrayList<Friend> customSpinnerFriendsList = new ArrayList<Friend>();
     ArrayList<String> friends = new ArrayList<>();
     ArrayAdapter<String> stringArrayAdapter;
     String friendWhoPaid;
-    String friendPaidForWhom;
     CustomAdapter adapter;
     MultiSelectionSpinner inputPaidForWhom;
 
@@ -81,7 +80,6 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         inputWhopaid.setOnItemSelectedListener(this);
 //        String s = inputPaidForWhom.getSelectedItemsAsString();
 //        Log.i("arrayList", s);
-
 
 
     }
@@ -134,10 +132,8 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     private Map<String, String> mapTransactionDetails() {
         Map<String, String> transactionDetails = new HashMap<>();
         transactionDetails.put("whoPaid", friendWhoPaid);
-        transactionDetails.put("paidForWhom", friendPaidForWhom);
         transactionDetails.put("amount", amount.getText().toString());
         transactionDetails.put("friendWhoPaidIndex", String.valueOf(friendWhoPaidIndex));
-        transactionDetails.put("friendPaidForWhomIndex", String.valueOf(friendsPaidForWhomIndex));
         transactionDetails.put("description", description.getText().toString().toUpperCase());
         return transactionDetails;
     }
@@ -162,7 +158,7 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         if (parent.getId() == R.id.input_who_paid) {
             friendWhoPaid = inputWhopaid.getSelectedItem().toString();
             friendWhoPaidIndex = inputWhopaid.getSelectedItemPosition();
-            friendWhoPaid = friendWhoPaid.substring(0, 1).toUpperCase() + friendWhoPaid.substring(1);
+//            friendWhoPaid = friendWhoPaid.substring(0, 1).toUpperCase() + friendWhoPaid.substring(1);
         }
     }
 

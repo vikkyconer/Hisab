@@ -14,9 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -33,7 +31,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private Bundle details;
     private ArrayList<TransactionDetails> detailsList;
     private int totalAmount = 0, halfamount = 0, amount, value;
-    private HashMap hashOfEachExpenditure, hashOfAmountToPay;
+    private Map<String, Integer> expenditureMap;
+    //    private HashMap hashOfEachExpenditure, hashOfAmountToPay;
     private TransactionDetails transactionDetails;
     private ArrayAdapter<String> friendsAdapter;
     private TransactionDetailsRVAdapter detailsAdapter;
@@ -43,6 +42,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
     private String toWhomShouldPay;
     private String whoShouldPay;
+    String top;
 
     @Nullable
     @Override
@@ -79,11 +79,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         friendsListView = (ListView) view.findViewById(R.id.list_friends);
         enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
         detailsList = new ArrayList<>();
-        hashOfEachExpenditure = new HashMap();
-        hashOfAmountToPay = new HashMap();
-
-        initializeHashOfEachExpenditure();
-
+        expenditureMap = new HashMap<>();
         Log.i("AddFriendsFragment", "initilizeViews");
         whoPaidList = new ArrayList<>();
         compute = (Button) view.findViewById(R.id.compute);
@@ -105,30 +101,68 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             showCustomDialogurForWhoPaid();
 
         } else if (v.getId() == R.id.compute) {
-            computeData();
+//            computeData();
+            computeFunction(expenditureMap);
+            printHash(expenditureMap);
             Navigator.toCompute(getActivity(), details);
         }
 
     }
 
-    private void computeData() {
-        halfamount = totalAmount / 2;
-        details = new Bundle();
-//        details.putString("amount", String.valueOf(totalAmount));
-        Log.i("totalAmount", String.valueOf(halfamount));
-        for (int i = 0; i < friends.size(); i++) {
-            value = (int) hashOfEachExpenditure.get(i);
-            Log.i("value at i", String.valueOf(hashOfEachExpenditure.get(i)));
-            Log.i("value", String.valueOf(value));
-            hashOfAmountToPay.put(i, halfamount - value);
-            if ((int) hashOfAmountToPay.get(i) > 0) {
-                Log.i("Notes", "in if of hashComputation");
-                details.putString("amount", String.valueOf(hashOfAmountToPay.get(i)));
-                details.putString("whoShouldPay", friends.get(i));
-            } else {
-                Log.i("Notes", "in else of hashComputation");
-                details.putString("payToWhom", friends.get(i));
+    private void computeFunction(Map<String, Integer> expenditureMap) {
+        while (listIsEmpty(expenditureMap)) {
+            findTop(expenditureMap);
+            computation(expenditureMap);
+        }
+    }
+
+    private boolean listIsEmpty(Map<String, Integer> map) {
+        for (Map.Entry<String, Integer> i : expenditureMap.entrySet()) {
+            if (i.getValue() != 0) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    private void computation(Map<String, Integer> expenditureMap) {
+        for (Map.Entry<String, Integer> i : expenditureMap.entrySet()) {
+            if (i.getKey() != top && (i.getValue() * -1) > 0) {
+                if (expenditureMap.get(top) >= (i.getValue() * -1)) {
+                    expenditureMap.put(top, expenditureMap.get(top) + i.getValue());
+                    Log.i("Notes", i.getKey() + "will pay -> " + (i.getValue() * -1) + "amount to -> " + top);
+                    expenditureMap.put(i.getKey(), 0);
+                } else {
+                    expenditureMap.put(i.getKey(), expenditureMap.get(top) + i.getValue());
+                    Log.i("Notes", i.getKey() + "will pay -> " + expenditureMap.get(top) + "amount to -> " + top);
+                    expenditureMap.put(top, 0);
+
+                }
+            }
+        }
+    }
+
+    private void findTop(Map<String, Integer> map) {
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            if (e.getValue() > 0) {
+                top = e.getKey();
+                break;
+            }
+        }
+    }
+
+
+    private void divideAmongFriends(int amount, ArrayList<String> friends) {
+
+        amount = amount / friends.size();
+        int previousAmount;
+        for (int i = 0; i < friends.size(); i++) {
+            if (expenditureMap.get(friends.get(i)) == null) {
+                previousAmount = 0;
+            } else {
+                previousAmount = expenditureMap.get(friends.get(i));
+            }
+            expenditureMap.put(friends.get(i), previousAmount - amount);
         }
     }
 
@@ -143,59 +177,42 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         this.transactionDetails = new TransactionDetails();
         this.transactionDetails.setAmount(transactionDetails.get("amount"));
         this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
-        this.transactionDetails.setForWhom(transactionDetails.get("paidForWhom"));
         this.transactionDetails.setDescription(transactionDetails.get("description"));
 
         detailsList.add(this.transactionDetails);
 
         calculate(transactionDetails);
+
     }
 
     private void calculate(Map<String, String> transactionDetails) {
         amount = Integer.parseInt(transactionDetails.get("amount"));
-        totalAmount = amount + totalAmount;
-
-        String[] item = MultiSelectionSpinner._items;
-        Log.i("array of People", Arrays.toString(item));
-
-        List<Integer> selectedIndices = MultiSelectionSpinner.getSelectedIndicies();
-
-        Log.i("list of selectedIndices", String.valueOf(selectedIndices));
-
-        Log.i("totalAmount", String.valueOf(totalAmount));
-
-        toWhomShouldPay = friends.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")));
-
-        Log.i("hash value before if", String.valueOf(hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")))));
-
-        if ((int) hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex"))) > 0) {
-            amount = amount + (int) hashOfEachExpenditure.get(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")));
-            Log.i("amount value", String.valueOf(amount));
+        boolean[] selected = MultiSelectionSpinner.mSelection;
+        ArrayList<String> paidForWhom = new ArrayList<>();
+        for (int i = 0; i < selected.length; i++) {
+            if (selected[i] == true) {
+                paidForWhom.add(friends.get(i));
+            }
         }
+        int previousAmount;
+        if (expenditureMap.get("whoPaid") == null) {
+            previousAmount = 0;
 
-        hashOfEachExpenditure.put(Integer.parseInt(transactionDetails.get("friendWhoPaidIndex")), amount);
-        printHash();
+        } else {
+            previousAmount = expenditureMap.get("whoPaid");
+        }
+        expenditureMap.put(transactionDetails.get("whoPaid"), amount + previousAmount);
 
-        whoShouldPay = friends.get(Integer.parseInt(transactionDetails.get("friendPaidForWhomIndex")));
-        whoPaidList.add(transactionDetails.get("whoPaid"));
-
-        Log.i("List", whoPaidList.get(0));
-        detailsAdapter.notifyDataSetChanged();
+        divideAmongFriends(amount, paidForWhom);
+        printHash(expenditureMap);
     }
 
-    private void printHash() {
-        for (int i = 0; i < hashOfEachExpenditure.size(); i++) {
-            Log.i("hashValue at i", String.valueOf(hashOfEachExpenditure.get(i)));
+    private void printHash(Map<String, Integer> map) {
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            String pos = e.getKey();
+            Log.i("hashvalue at ", pos + String.valueOf(e.getValue()));
         }
     }
-
-    private void initializeHashOfEachExpenditure() {
-        for (int i = 0; i < 10; i++) {
-            hashOfEachExpenditure.put(i, 0);
-            hashOfAmountToPay.put(i, 0);
-        }
-    }
-
 
     private void showNoticeDialogue() {
         DialogueForAddingFriends addingFriends = DialogueForAddingFriends.newInstance();

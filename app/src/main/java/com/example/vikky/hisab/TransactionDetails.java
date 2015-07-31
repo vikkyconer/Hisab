@@ -1,13 +1,10 @@
 package com.example.vikky.hisab;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by vikky on 7/12/15.
  */
 public class TransactionDetails {
-    String whoPaid, forWhom, amount;
+    String whoPaid, amount;
     String description;
 
     public String getWhoPaid() {
@@ -16,14 +13,6 @@ public class TransactionDetails {
 
     public void setWhoPaid(String whoPaid) {
         this.whoPaid = whoPaid;
-    }
-
-    public String getForWhom() {
-        return forWhom;
-    }
-
-    public void setForWhom(String forWhom) {
-        this.forWhom = forWhom;
     }
 
     public String getAmount() {
