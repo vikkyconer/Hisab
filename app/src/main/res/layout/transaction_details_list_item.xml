@@ -38,7 +38,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/how_much"
+                android:id="@+id/amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

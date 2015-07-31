@@ -1,31 +1,35 @@
 package com.example.vikky.hisab;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by vikky on 7/14/15.
  */
 public class AdapterForDetailsList extends BaseAdapter {
     Context context;
-    String whoHasToPay, whomToPay, howMuch;
+    ArrayList<ExpenditureModel> expenditureModels;
     public static LayoutInflater layoutInflater = null;
+//    int count;
 
-    public AdapterForDetailsList(Context context, String whoHasToPay, String howMuch, String whomToPay) {
+    public AdapterForDetailsList(Context context, ArrayList<ExpenditureModel> expenditureModels) {
         this.context = context;
-        this.whoHasToPay = whoHasToPay;
-        this.howMuch = howMuch;
-        this.whomToPay = whomToPay;
+        this.expenditureModels = expenditureModels;
+//        this.count = ComputeFragment.count;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return whoHasToPay.length();
+        Log.i("count", String.valueOf(ComputeFragment.count));
+        return ComputeFragment.count;
     }
 
     @Override
@@ -40,28 +44,28 @@ public class AdapterForDetailsList extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Holder holder = new Holder();
-        View rowView;
-        rowView = layoutInflater.inflate(R.layout.transaction_details_list_item, null);
-        holder.whoHasToPay = (TextView) rowView.findViewById(R.id.who_has_to_pay);
-        holder.howMuch = (TextView) rowView.findViewById(R.id.how_much);
-        holder.whomToPay = (TextView) rowView.findViewById(R.id.whom_to_pay);
-        holder.whoHasToPay.setText(this.whoHasToPay);
-        holder.howMuch.setText(this.howMuch);
-        holder.whomToPay.setText(this.whomToPay);
-        return rowView;
+        Holder holder;
+        View view = convertView;
+
+        if (convertView == null) {
+            view = layoutInflater.inflate(R.layout.transaction_details_list_item, null);
+            holder = new Holder();
+            holder.whoHasToPay = (TextView) view.findViewById(R.id.who_has_to_pay);
+            holder.amount = (TextView) view.findViewById(R.id.amount);
+            holder.whomToPay = (TextView) view.findViewById(R.id.whom_to_pay);
+            view.setTag(holder);
+        } else {
+            holder = (Holder) view.getTag();
+        }
+        holder.whoHasToPay.setText(expenditureModels.get(position).getWhoHasToPay());
+        holder.amount.setText(String.valueOf(expenditureModels.get(position).getAmount()));
+        holder.whomToPay.setText(expenditureModels.get(position).getWhomToPay());
+        return view;
     }
 
     public class Holder {
-        TextView whoHasToPay, whomToPay, howMuch;
-/*
-        Holder(View itemView) {
-            super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.cv);
-            venueName = (TextView) itemView.findViewById(R.id.venue_name);
-            venueDate = (TextView) itemView.findViewById(R.id.venue_date);
-            addFriendsIcon = (ImageView) itemView.findViewById(R.id.add_friends_icon);
-            changeBackground = (ImageView) itemView.findViewById(R.id.change_background);
-        }*/
+        public TextView whoHasToPay, whomToPay, amount;
+
+
     }
 }

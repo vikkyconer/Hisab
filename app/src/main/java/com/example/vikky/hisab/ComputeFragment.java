@@ -3,28 +3,33 @@ package com.example.vikky.hisab;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by vikky on 7/12/15.
  */
 public class ComputeFragment extends Fragment implements ComputeView {
     View computeRootFragment;
-    //    ListView showDetails;
-    ArrayList<TransactionDetails> arrayList = new ArrayList<>();
-    String whoHasToPay, howMuch, whomToPay;
-    TextView whoShouldPay, amount, payToWhom;
-
-    TransactionDetails details;
+    ListView showDetails;
+    String whoHasToPay, whomToPay;
+    int howMuch;
+    Map<String, Integer> expenditureMap = new HashMap<>();
+    ArrayList<ExpenditureModel> expenditureModels;
+    AdapterForDetailsList adapterForDetailsList;
+    String top;
+    static int count;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        computeRootFragment = inflater.inflate(R.layout.transaction_details_list_item, container);
+        computeRootFragment = inflater.inflate(R.layout.compute_fragment, container);
         setRetainInstance(true);
         return computeRootFragment;
     }
@@ -32,23 +37,74 @@ public class ComputeFragment extends Fragment implements ComputeView {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        showDetails = (ListView) view.findViewById(R.id.transaction_details_list);
-        whoShouldPay = (TextView) view.findViewById(R.id.who_has_to_pay);
-        amount = (TextView) view.findViewById(R.id.how_much);
-        payToWhom = (TextView) view.findViewById(R.id.whom_to_pay);
-
-
-//        showDetails.setAdapter(new AdapterForDetailsList(getActivity(), whoHasToPay, howMuch, whomToPay));
+        showDetails = (ListView) view.findViewById(R.id.transaction_details_list);
+        expenditureModels = new ArrayList<>();
+        adapterForDetailsList = new AdapterForDetailsList(getActivity(), expenditureModels);
+        showDetails.setAdapter(adapterForDetailsList);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        howMuch = ((ComputeActivity) getActivity()).getAmount();
-        whoHasToPay = ((ComputeActivity) getActivity()).getWhoShouldPay();
-        whomToPay = ((ComputeActivity) getActivity()).getPayToWhom();
-        whoShouldPay.setText(whoHasToPay);
-        amount.setText(howMuch);
-        payToWhom.setText(whomToPay);
+        expenditureMap = ((ComputeActivity) getActivity()).getExpenditureMap();
+        computeFunction(expenditureMap);
+        Log.i("howMuch", String.valueOf(howMuch));
+    }
+
+    private void computeFunction(Map<String, Integer> expenditureMap) {
+        while (listIsEmpty(expenditureMap)) {
+            findTop(expenditureMap);
+            computation(expenditureMap);
+        }
+    }
+
+    private void findTop(Map<String, Integer> map) {
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            if (e.getValue() > 0) {
+                top = e.getKey();
+                break;
+            }
+        }
+    }
+
+    private boolean listIsEmpty(Map<String, Integer> map) {
+        for (Map.Entry<String, Integer> i : map.entrySet()) {
+            if (i.getValue() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void computation(Map<String, Integer> expenditureMap) {
+        count = 0;
+        for (Map.Entry<String, Integer> i : expenditureMap.entrySet()) {
+            if (i.getKey() != top && (i.getValue() * -1) > 0) {
+                if (expenditureMap.get(top) >= (i.getValue() * -1)) {
+                    expenditureMap.put(top, expenditureMap.get(top) + i.getValue());
+                    howMuch = i.getValue() * -1;
+                    whoHasToPay = i.getKey();
+                    whomToPay = top;
+                    Log.i("Notes", i.getKey() + "will pay -> " + (i.getValue() * -1) + "amount to -> " + top);
+                    expenditureMap.put(i.getKey(), 0);
+                    count = count + 1;
+                } else {
+                    expenditureMap.put(i.getKey(), expenditureMap.get(top) + i.getValue());
+                    howMuch = expenditureMap.get(top);
+                    whoHasToPay = i.getKey();
+                    whomToPay = top;
+                    Log.i("Notes", i.getKey() + "will pay -> " + expenditureMap.get(top) + "amount to -> " + top);
+                    expenditureMap.put(top, 0);
+                    count = count + 1;
+                }
+            }
+            Log.i("actual fucking count", String.valueOf(count));
+            ExpenditureModel expenditureModel = new ExpenditureModel();
+            expenditureModel.setWhoHasToPay(whoHasToPay);
+            expenditureModel.setAmount(howMuch);
+            expenditureModel.setWhomToPay(whomToPay);
+            expenditureModels.add(expenditureModel);
+        }
+        adapterForDetailsList.notifyDataSetChanged();
     }
 }

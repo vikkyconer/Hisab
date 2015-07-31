@@ -3,7 +3,10 @@ package com.example.vikky.hisab;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Created by vikky on 6/29/15.
@@ -14,10 +17,11 @@ public class Navigator {
         context.startActivity(i);
     }
 
-    public static void toCompute(Activity context, Bundle details) {
+    public static void toCompute(Activity context, Map<String, Integer> expenditureMap) {
         Intent i = new Intent(context, ComputeActivity.class);
+//        HashMap m = new HashMap();
 //        i.putExtra("transactionDetails", details);
-        i.putExtras(details);
+        i.putExtra("expenditureMap", (HashMap) expenditureMap);
         context.startActivity(i);
     }
 }
