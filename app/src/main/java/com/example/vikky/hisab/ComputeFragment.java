@@ -48,10 +48,10 @@ public class ComputeFragment extends Fragment implements ComputeView {
         super.onActivityCreated(savedInstanceState);
         expenditureMap = ((ComputeActivity) getActivity()).getExpenditureMap();
         computeFunction(expenditureMap);
-        Log.i("howMuch", String.valueOf(howMuch));
     }
 
     private void computeFunction(Map<String, Integer> expenditureMap) {
+        count = 0;
         while (listIsEmpty(expenditureMap)) {
             findTop(expenditureMap);
             computation(expenditureMap);
@@ -77,7 +77,6 @@ public class ComputeFragment extends Fragment implements ComputeView {
     }
 
     private void computation(Map<String, Integer> expenditureMap) {
-        count = 0;
         for (Map.Entry<String, Integer> i : expenditureMap.entrySet()) {
             if (i.getKey() != top && (i.getValue() * -1) > 0) {
                 if (expenditureMap.get(top) >= (i.getValue() * -1)) {
@@ -97,13 +96,13 @@ public class ComputeFragment extends Fragment implements ComputeView {
                     expenditureMap.put(top, 0);
                     count = count + 1;
                 }
+                ExpenditureModel expenditureModel = new ExpenditureModel();
+                expenditureModel.setWhoHasToPay(whoHasToPay);
+                expenditureModel.setAmount(howMuch);
+                expenditureModel.setWhomToPay(whomToPay);
+                expenditureModels.add(expenditureModel);
+                Log.i("count", String.valueOf(count));
             }
-            Log.i("actual fucking count", String.valueOf(count));
-            ExpenditureModel expenditureModel = new ExpenditureModel();
-            expenditureModel.setWhoHasToPay(whoHasToPay);
-            expenditureModel.setAmount(howMuch);
-            expenditureModel.setWhomToPay(whomToPay);
-            expenditureModels.add(expenditureModel);
         }
         adapterForDetailsList.notifyDataSetChanged();
     }

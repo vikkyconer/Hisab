@@ -17,18 +17,15 @@ public class AdapterForDetailsList extends BaseAdapter {
     Context context;
     ArrayList<ExpenditureModel> expenditureModels;
     public static LayoutInflater layoutInflater = null;
-//    int count;
 
     public AdapterForDetailsList(Context context, ArrayList<ExpenditureModel> expenditureModels) {
         this.context = context;
         this.expenditureModels = expenditureModels;
-//        this.count = ComputeFragment.count;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        Log.i("count", String.valueOf(ComputeFragment.count));
         return ComputeFragment.count;
     }
 
