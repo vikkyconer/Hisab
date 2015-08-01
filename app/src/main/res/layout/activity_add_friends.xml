@@ -2,11 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_screen_background_2"
     tools:context="com.example.vikky.hisab.AddFriendsActivity">
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/add_friends_fragment"
         android:name="com.example.vikky.hisab.AddFriendsFragment"
-        android:id="@+id/add_friends_fragment" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

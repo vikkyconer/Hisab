@@ -1,5 +1,6 @@
 package com.example.vikky.hisab;
 
+import android.app.Service;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,15 +30,18 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private Button addFriends, enterExpenses, compute;
     private Friend friend;
     private ArrayList<String> friends;
+    TextView names, firstLetter;
+    RelativeLayout listFriends;
     private ArrayList<TransactionDetails> detailsList;
-    private int  amount;
+    private int amount;
+    LinearLayout friendsNameContainer;
     private Map<String, Integer> expenditureMap;
     private TransactionDetails transactionDetails;
-    private ArrayAdapter<String> friendsAdapter;
+    //    private ArrayAdapter<String> friendsAdapter;
     private TransactionDetailsRVAdapter detailsAdapter;
     private RecyclerView detailsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private ListView friendsListView;
+    //    private ListView friendsListView;
     private BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
 
     @Nullable
@@ -62,15 +67,18 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void defaultConfiguration() {
-        friendsListView.setAdapter(friendsAdapter);
+//        friendsListView.setAdapter(friendsAdapter);
         detailsRecyclerView.setLayoutManager(linearLayoutManager);
         detailsRecyclerView.setAdapter(detailsAdapter);
     }
 
     private void initializeViews(View view) {
         addFriends = (Button) view.findViewById(R.id.add_friends);
-        friendsListView = (ListView) view.findViewById(R.id.list_friends);
+        names = (TextView) view.findViewById(R.id.first_name);
+        firstLetter = (TextView) view.findViewById(R.id.names_first_letter);
+        listFriends = (RelativeLayout) view.findViewById(R.id.list_friends);
         enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
+        friendsNameContainer = (LinearLayout) view.findViewById(R.id.friends_name_container);
         detailsList = new ArrayList<>();
         expenditureMap = new HashMap<>();
         compute = (Button) view.findViewById(R.id.compute);
@@ -79,7 +87,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         friend = new Friend();
         friends = new ArrayList<>();
         detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity());
-        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
+//        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
     }
 
     @Override
@@ -91,6 +99,17 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         } else if (v.getId() == R.id.compute) {
             printHash(expenditureMap);
             Navigator.toCompute(getActivity(), expenditureMap);
+        }
+    }
+
+    private void showFriendName(ArrayList<String> friends) {
+        friendsNameContainer.removeAllViews();
+        for (int i = 0; i < friends.size(); i++) {
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.show_friends_name, null);
+            ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i));
+            ((TextView) view.findViewById(R.id.names_first_letter)).setText(friends.get(i).substring(0, 1).toUpperCase());
+            friendsNameContainer.addView(view);
         }
     }
 
@@ -177,10 +196,11 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     @Override
     public void showFriend(Map<String, String> friend) {
         friends.add(this.friend.getName());
+        showFriendName(friends);
         if (friends.size() > 1) {
             enterExpenses.setVisibility(View.VISIBLE);
             compute.setVisibility(View.VISIBLE);
         }
-        friendsAdapter.notifyDataSetChanged();
+//        friendsAdapter.notifyDataSetChanged();
     }
 }
