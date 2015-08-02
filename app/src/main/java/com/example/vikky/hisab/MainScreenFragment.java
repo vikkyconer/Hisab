@@ -33,7 +33,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     Place place;
     public LinkedList<Place> placesList;
     View mainScreenRootFragment;
-    Button addPlace;
+    TextView addPlace;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     TextView venueDate;
@@ -83,7 +83,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void initializeViews(View view) {
         Log.i("MainScreenFragment", "in initializeViews");
-        addPlace = (Button) view.findViewById(R.id.add_place);
+        addPlace = (TextView) view.findViewById(R.id.add_place);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         venueDate = (TextView) view.findViewById(R.id.venue_date);
         linearLayoutManager = new LinearLayoutManager(getActivity());

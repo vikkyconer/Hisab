@@ -27,7 +27,9 @@ import rx.subjects.BehaviorSubject;
  */
 public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener {
     private View addFriendsRootFragment;
-    private Button addFriends, enterExpenses, compute;
+    private TextView addFriends;
+    private Button enterExpenses;
+    private Button compute;
     private Friend friend;
     private ArrayList<String> friends;
     TextView names, firstLetter;
@@ -73,7 +75,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void initializeViews(View view) {
-        addFriends = (Button) view.findViewById(R.id.add_friends);
+        addFriends = (TextView) view.findViewById(R.id.add_friends);
         names = (TextView) view.findViewById(R.id.first_name);
         firstLetter = (TextView) view.findViewById(R.id.names_first_letter);
         listFriends = (RelativeLayout) view.findViewById(R.id.list_friends);

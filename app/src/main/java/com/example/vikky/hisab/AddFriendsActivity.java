@@ -23,6 +23,7 @@ public class AddFriendsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
         Log.i("AddFriendsActivity", "in onCreate");
+        getSupportActionBar().hide();
 
         new AddFriendsPresenter(addFriendsView(), addFriendsModel());
     }

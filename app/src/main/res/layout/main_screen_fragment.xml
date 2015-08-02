@@ -9,14 +9,21 @@
         android:layout_height="match_parent" />
 
 
+    <View
+        android:id="@+id/below_this"
+        android:layout_width="1dp"
+        android:layout_height="450dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/black" />
 
-    <Button
+    <TextView
         android:id="@+id/add_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/add_place" />
+        android:layout_below="@id/below_this"
+        android:background="@drawable/textview_design"
+        android:typeface="serif" />
 
 
 </RelativeLayout>

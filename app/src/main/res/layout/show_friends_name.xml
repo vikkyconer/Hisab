@@ -19,7 +19,8 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="V"
             android:textColor="@color/white"
-            android:textSize="35sp" />
+            android:textSize="35sp"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/first_name"
@@ -27,8 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/names_first_letter"
             android:layout_centerInParent="true"
+            android:text="vikas"
             android:textColor="@color/white"
-            android:text="vikas" />
+            android:typeface="serif" />
     </RelativeLayout>
 
 </RelativeLayout>

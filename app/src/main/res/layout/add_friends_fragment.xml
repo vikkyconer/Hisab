@@ -6,49 +6,62 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/friends_name_container"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:padding="4dp">
+            android:layout_height="150dp">
 
-
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/friends_name_container"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:orientation="horizontal"
+                android:padding="4dp"></LinearLayout>
+        </HorizontalScrollView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <Button
+    <View
+        android:id="@+id/below_this"
+        android:layout_width="1dp"
+        android:layout_height="125dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/black" />
+
+    <TextView
         android:id="@+id/add_friends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@drawable/add_people" />
+        android:layout_below="@id/below_this"
+        android:background="@drawable/textview_design" />
 
     <Button
         android:id="@+id/enter_expenses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/add_friends"
-        android:text="expenses"
+        android:background="@drawable/textview_design"
+        android:padding="10dp"
+        android:text="EXPENSES"
+        android:typeface="serif"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/compute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/enter_expenses"
-        android:text="compute"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/enter_expenses"
+        android:background="@drawable/textview_design"
+        android:padding="10dp"
+        android:text="COMPUTE"
+        android:typeface="serif"
         android:visibility="gone" />
 </RelativeLayout>
