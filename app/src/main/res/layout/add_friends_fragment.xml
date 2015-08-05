@@ -29,7 +29,7 @@
     <View
         android:id="@+id/below_this"
         android:layout_width="1dp"
-        android:layout_height="125dp"
+        android:layout_height="120dp"
         android:layout_alignParentRight="true"
         android:background="@color/black" />
 
@@ -39,14 +39,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/below_this"
-        android:background="@drawable/textview_design" />
+        android:background="@drawable/textview_design"
+        android:gravity="center"
+        android:text="+"
+        android:textColor="@color/white"
+        android:textSize="45dp" />
+
+    <View
+        android:id="@+id/expenses_below_this"
+        android:layout_width="1dp"
+        android:layout_height="90dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/black" />
 
     <Button
         android:id="@+id/enter_expenses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_below="@id/expenses_below_this"
+        android:layout_toLeftOf="@id/add_friends"
         android:background="@drawable/textview_design"
         android:padding="10dp"
         android:text="EXPENSES"
@@ -57,7 +68,7 @@
         android:id="@+id/compute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/expenses_below_this"
         android:layout_toLeftOf="@id/enter_expenses"
         android:background="@drawable/textview_design"
         android:padding="10dp"

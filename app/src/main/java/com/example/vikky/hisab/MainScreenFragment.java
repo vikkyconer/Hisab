@@ -104,7 +104,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.i("MainScreenFragment", "showPlaces");
         places.add(this.place);
         Log.i("MainScreenFragmentArray", String.valueOf(places.get(0)));
-        placesAdapter.notifyDataSetChanged();
+//        placesAdapter.notifyDataSetChanged();
 
 
     }
