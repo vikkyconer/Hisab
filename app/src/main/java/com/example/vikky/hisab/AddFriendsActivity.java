@@ -3,6 +3,8 @@ package com.example.vikky.hisab;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 
 public class AddFriendsActivity extends ActionBarActivity {
@@ -33,5 +35,26 @@ public class AddFriendsActivity extends ActionBarActivity {
 
     private AddFriendsView addFriendsView() {
         return (AddFriendsFragment) getSupportFragmentManager().findFragmentById(R.id.add_friends_fragment);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.back:
+                Navigator.toMainScreen(this);
+                return true;
+            case android.R.id.home:
+                Navigator.toMainScreen(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }

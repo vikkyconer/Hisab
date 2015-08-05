@@ -15,6 +15,7 @@
     <item name="red1" type="color">#e64e4e</item>
     <item name="transparent" type="color">#00000000</item>
     <item name="green" type="color">#006400</item>
+    <item name="green1" type="color">#359900</item>
     <item name="blueTextColor1" type="color">#0c2232</item>
     <item name="seperator1" type="color">#1c3c54</item>
     <item name="blackTextColor" type="color">#0c2232</item>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/for_whom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:capitalize="characters"
+        android:padding="5dp"
+        android:text="vikas"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:typeface="serif" />
+
+    <TextView
+        android:id="@+id/comma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=","
+        android:visibility="gone" />
+
+</LinearLayout>

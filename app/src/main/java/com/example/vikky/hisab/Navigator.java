@@ -24,4 +24,10 @@ public class Navigator {
         i.putExtra("expenditureMap", (HashMap) expenditureMap);
         context.startActivity(i);
     }
+
+    public static void toMainScreen(Context context) {
+        Intent i = new Intent(context, MainScreenActivity.class);
+        context.startActivity(i);
+    }
+
 }

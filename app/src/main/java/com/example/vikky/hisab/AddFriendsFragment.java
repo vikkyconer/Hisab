@@ -45,6 +45,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private LinearLayoutManager linearLayoutManager;
     //    private ListView friendsListView;
     private BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
+    private ArrayList<String> paidForWhom;
 
     @Nullable
     @Override
@@ -82,13 +83,14 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
         friendsNameContainer = (LinearLayout) view.findViewById(R.id.friends_name_container);
         detailsList = new ArrayList<>();
+        paidForWhom = new ArrayList<>();
         expenditureMap = new HashMap<>();
         compute = (Button) view.findViewById(R.id.compute);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
         friend = new Friend();
         friends = new ArrayList<>();
-        detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity());
+        detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity(), paidForWhom);
 //        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
     }
 
@@ -151,7 +153,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private void calculate(Map<String, String> transactionDetails) {
         amount = Integer.parseInt(transactionDetails.get("amount"));
         boolean[] selected = MultiSelectionSpinner.mSelection;
-        ArrayList<String> paidForWhom = new ArrayList<>();
+        paidForWhom.clear();
         for (int i = 0; i < selected.length; i++) {
             if (selected[i] == true) {
                 paidForWhom.add(friends.get(i));
