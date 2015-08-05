@@ -1,7 +1,6 @@
 package com.example.vikky.hisab;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,13 +46,17 @@ public class AdapterForDetailsList extends BaseAdapter {
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.transaction_details_list_item, null);
             holder = new Holder();
-            holder.whoHasToPay = (TextView) view.findViewById(R.id.who_has_to_pay);
+            holder.whoHasToPayFirstLetter = (TextView) view.findViewById(R.id.who_should_pay_first_letter);
+            holder.toWhomFirstLetter = (TextView) view.findViewById(R.id.to_whom_names_first_letter);
+            holder.whoHasToPay = (TextView) view.findViewById(R.id.who_should_pay_first_name);
             holder.amount = (TextView) view.findViewById(R.id.amount);
-            holder.whomToPay = (TextView) view.findViewById(R.id.whom_to_pay);
+            holder.whomToPay = (TextView) view.findViewById(R.id.to_whom_first_name);
             view.setTag(holder);
         } else {
             holder = (Holder) view.getTag();
         }
+        holder.whoHasToPayFirstLetter.setText(expenditureModels.get(position).getWhoHasToPay().substring(0,1).toUpperCase());
+        holder.toWhomFirstLetter.setText(expenditureModels.get(position).getWhomToPay().substring(0,1).toUpperCase());
         holder.whoHasToPay.setText(expenditureModels.get(position).getWhoHasToPay());
         holder.amount.setText(String.valueOf(expenditureModels.get(position).getAmount()));
         holder.whomToPay.setText(expenditureModels.get(position).getWhomToPay());
@@ -61,7 +64,7 @@ public class AdapterForDetailsList extends BaseAdapter {
     }
 
     public class Holder {
-        public TextView whoHasToPay, whomToPay, amount;
+        public TextView whoHasToPay, whomToPay, amount, whoHasToPayFirstLetter, toWhomFirstLetter;
 
 
     }

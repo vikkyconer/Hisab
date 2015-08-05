@@ -12,7 +12,6 @@ public class MainScreenActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         Log.i("MainScreenActivity", "in onCreate");
-        getSupportActionBar().hide();
 
         new MainScreenPresenter(mainScreenView(), mainScreenModel());
 //        new SlidingDrawerPresenter(slidingDrawerView(), slidingDrawerModel());

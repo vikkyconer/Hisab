@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="120dp"
         android:background="@color/gray"
         android:orientation="horizontal"
         android:weightSum="5">
@@ -14,23 +14,38 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:paddingLeft="5dp">
 
             <TextView
-                android:id="@+id/who_has_to_pay"
+                android:id="@+id/who_should_pay_first_letter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/textview_design"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="V"
+                android:textColor="@color/white"
+                android:textSize="35sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/who_should_pay_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/who_should_pay_first_letter"
                 android:layout_centerInParent="true"
                 android:text="vikas"
-                android:textColor="@color/blue2"
-                android:textSize="20sp" />
+                android:textColor="@color/white"
+                android:typeface="serif" />
         </RelativeLayout>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/arrow_right" />
+            android:background="@drawable/arrow_right"
+            android:paddingTop="100dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -51,21 +66,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/arrow_right" />
+            android:background="@drawable/arrow_right"
+            android:paddingTop="100dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:paddingLeft="5dp">
 
             <TextView
-                android:id="@+id/whom_to_pay"
+                android:id="@+id/to_whom_names_first_letter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/textview_design"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="V"
+                android:textColor="@color/white"
+                android:textSize="35sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/to_whom_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/to_whom_names_first_letter"
                 android:layout_centerInParent="true"
                 android:text="vikas"
-                android:textColor="@color/blue2"
-                android:textSize="20sp" />
+                android:textColor="@color/white"
+                android:typeface="serif" />
         </RelativeLayout>
     </LinearLayout>
 
