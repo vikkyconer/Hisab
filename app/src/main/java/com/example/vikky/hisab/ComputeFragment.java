@@ -29,6 +29,7 @@ public class ComputeFragment extends Fragment implements ComputeView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i("ComputeFragment", "onCreateView()");
         computeRootFragment = inflater.inflate(R.layout.compute_fragment, container);
         setRetainInstance(true);
         return computeRootFragment;
@@ -36,6 +37,7 @@ public class ComputeFragment extends Fragment implements ComputeView {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        Log.i("ComputeFragment", "onViewCreated()");
         super.onViewCreated(view, savedInstanceState);
         showDetails = (ListView) view.findViewById(R.id.transaction_details_list);
         expenditureModels = new ArrayList<>();
@@ -45,31 +47,36 @@ public class ComputeFragment extends Fragment implements ComputeView {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.i("ComputeFragment", "onActivityCreated()");
         super.onActivityCreated(savedInstanceState);
         expenditureMap = ((ComputeActivity) getActivity()).getExpenditureMap();
         computeFunction(expenditureMap);
     }
 
     private void computeFunction(Map<String, Integer> expenditureMap) {
+        Log.i("ComputeFragment", "computeFunction()");
         count = 0;
         while (listIsEmpty(expenditureMap)) {
+            Log.i("val of listIsEmpty()", String.valueOf(listIsEmpty(expenditureMap)));
             findTop(expenditureMap);
             computation(expenditureMap);
         }
     }
 
     private void findTop(Map<String, Integer> map) {
-        for (Map.Entry<String, Integer> e : map.entrySet()) {
-            if (e.getValue() > 0) {
-                top = e.getKey();
+        Log.i("ComputeFragment", "findTop()");
+        for (Map.Entry<String, Integer> i : map.entrySet()) {
+            if (i.getValue() > 0) {
+                top = i.getKey();
                 break;
             }
         }
     }
 
     private boolean listIsEmpty(Map<String, Integer> map) {
+        Log.i("ComputeFragment", "listIsEmpty()");
         for (Map.Entry<String, Integer> i : map.entrySet()) {
-            if (i.getValue() != 0) {
+            if (i.getValue() > 2) {
                 return true;
             }
         }
@@ -77,6 +84,7 @@ public class ComputeFragment extends Fragment implements ComputeView {
     }
 
     private void computation(Map<String, Integer> expenditureMap) {
+        Log.i("ComputeFragment", "computation()");
         for (Map.Entry<String, Integer> i : expenditureMap.entrySet()) {
             if (i.getKey() != top && (i.getValue() * -1) > 0) {
                 if (expenditureMap.get(top) >= (i.getValue() * -1)) {
