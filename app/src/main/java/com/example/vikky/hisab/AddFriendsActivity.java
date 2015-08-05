@@ -25,7 +25,8 @@ public class AddFriendsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
         Log.i("AddFriendsActivity", "in onCreate");
-
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
         new AddFriendsPresenter(addFriendsView(), addFriendsModel());
     }
 

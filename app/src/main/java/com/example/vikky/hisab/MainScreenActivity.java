@@ -1,5 +1,6 @@
 package com.example.vikky.hisab;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -12,7 +13,8 @@ public class MainScreenActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         Log.i("MainScreenActivity", "in onCreate");
-
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
         new MainScreenPresenter(mainScreenView(), mainScreenModel());
 //        new SlidingDrawerPresenter(slidingDrawerView(), slidingDrawerModel());
 

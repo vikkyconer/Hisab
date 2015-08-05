@@ -2,21 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_screen_background_3"
     tools:context="com.example.vikky.hisab.AddFriendsActivity">
 
-    <LinearLayout
-        android:id="@+id/above_layout"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/gray"
-        android:orientation="horizontal" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:layout_below="@id/above_layout"
-        android:background="@color/green1"></LinearLayout>
 
     <fragment
         android:id="@+id/add_friends_fragment"

@@ -5,31 +5,6 @@
     android:background="@drawable/main_screen_background_1"
     tools:context="com.example.vikky.hisab.MainScreenActivity">
 
-    <LinearLayout
-        android:id="@+id/above_layout"
-        android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:background="@color/gray"
-        android:orientation="horizontal" />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/above_layout"
-        android:background="@color/green1">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="ADD TRIP"
-            android:textColor="@color/white"
-            android:textSize="50sp"
-            android:typeface="serif" />
-    </RelativeLayout>
-
-
     <fragment
         android:id="@+id/main_screen_fragment"
         android:name="com.example.vikky.hisab.MainScreenFragment"

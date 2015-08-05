@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -67,11 +66,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void setEventsForViews() {
         Log.i("MainScreenFragment", "in setEventsForViews");
-
         addPlace.setOnClickListener(this);
-        recyclerView.setOnClickListener(this);
-        placesAdapter.onClick(getView());
-
     }
 
     private void defaultConfiguration() {
@@ -119,12 +114,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.add_place) {
-            addPlaceData();
-        } else if (v.getId() == R.id.rv) {
-
-        } else if (v.getId() == R.id.change_background) {
-        }
+        addPlaceData();
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {

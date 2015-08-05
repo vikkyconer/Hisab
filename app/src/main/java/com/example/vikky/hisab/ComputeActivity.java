@@ -24,6 +24,8 @@ public class ComputeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_compute);
         Intent i = getIntent();
         setExpenditureMap((Map<String, Integer>) i.getSerializableExtra("expenditureMap"));
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
         new ComputePresenter(computeModel(), computeView());
     }
 
