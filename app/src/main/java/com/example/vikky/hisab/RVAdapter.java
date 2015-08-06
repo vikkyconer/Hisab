@@ -74,7 +74,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     public boolean onLongClick(View v) {
         Toast.makeText(context, "Hey Watch Out", Toast.LENGTH_LONG).show();
 
-        return false;
+        return true;
     }
 
 

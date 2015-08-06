@@ -3,26 +3,17 @@ package com.example.vikky.hisab;
 import android.widget.ImageView;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by vikky on 6/29/15.
  */
 public class Place {
-    private String placeId;
+    private Integer placeId;
     private String placeName;
     private LinkedList<Friend> friends;
-    private List<Place> placeList;
     private String daysAgo;
-    private String backgroundColor;
-
-    public String getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
+    private ImageView placePhoto;
+    private String placeDate;
 
     public String getDaysAgo() {
         return daysAgo;
@@ -32,10 +23,18 @@ public class Place {
         this.daysAgo = daysAgo;
     }
 
-    private ImageView placePhoto;
-    private String placeDate;
+    public Place() {
+    }
 
-    public String getPlaceId() {
+    public Place(String placeName, String daysAgo, String placeDate) {
+        super();
+        this.placeName = placeName;
+        this.daysAgo = daysAgo;
+        this.placeDate = placeDate;
+    }
+
+
+    public Integer getPlaceId() {
         return placeId;
     }
 
@@ -55,7 +54,7 @@ public class Place {
         this.placeDate = placeDate;
     }
 
-    public void setPlaceId(String placeId) {
+    public void setPlaceId(Integer placeId) {
         this.placeId = placeId;
     }
 
@@ -73,5 +72,10 @@ public class Place {
 
     public void setFriends(LinkedList<Friend> friends) {
         this.friends = friends;
+    }
+
+    @Override
+    public String toString() {
+        return "Place [id=" + placeId + ",Place Name=" + placeName + "days ago=" + daysAgo + "date" + placeDate + "]";
     }
 }
