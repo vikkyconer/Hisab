@@ -9,9 +9,9 @@ import rx.Observable;
  */
 public interface MainScreenView {
 
-    Observable<Map<String, String>> addPlace();
+    Observable<Place> addPlace();
 
-    void showPlaces(Map<String, String> sports);
+    void showPlaces(Place place);
 
 
 }

@@ -38,11 +38,11 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     TextView venueDate;
     View view;
 
-    public BehaviorSubject<Map<String, String>> getPlaceAdded() {
+    public BehaviorSubject<Place> getPlaceAdded() {
         return placeAdded;
     }
 
-    public BehaviorSubject<Map<String, String>> placeAdded = BehaviorSubject.create();
+    public BehaviorSubject<Place> placeAdded = BehaviorSubject.create();
 
 
     @Override
@@ -89,17 +89,17 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     }
 
     @Override
-    public Observable<Map<String, String>> addPlace() {
+    public Observable<Place> addPlace() {
         Log.i("MainScreenFragment", "Observable of addPlace");
         return placeAdded.asObservable();
     }
 
     @Override
-    public void showPlaces(Map<String, String> place) {
+    public void showPlaces(Place place) {
         Log.i("MainScreenFragment", "showPlaces");
-        places.add(this.place);
-        Log.i("MainScreenFragmentArray", String.valueOf(places.get(0)));
-//        placesAdapter.notifyDataSetChanged();
+        places.add(place);
+        Log.i("MainScreenFr placesSize", String.valueOf(places.get(0)));
+        placesAdapter.notifyDataSetChanged();
 
 
     }
@@ -138,9 +138,10 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     public void placeSelected(Map<String, String> place) {
         Log.i("MainScreenFragment", String.valueOf(place));
-        this.place.setPlaceName(place.get("placeName"));
-        this.place.setPlaceDate(place.get("placeDate"));
-        this.place.setDaysAgo(place.get("daysAgo"));
-        placeAdded.onNext(place);
+        Place placeEntered = new Place();
+        placeEntered.setPlaceName(place.get("placeName"));
+        placeEntered.setPlaceDate(place.get("placeDate"));
+        placeEntered.setDaysAgo(place.get("daysAgo"));
+        placeAdded.onNext(placeEntered);
     }
 }

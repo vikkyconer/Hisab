@@ -43,6 +43,7 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
     BehaviorSubject<Map<String, String>> placeName = BehaviorSubject.create();
     RelativeLayout cancel, ok;
     TextView inputDate;
+    boolean checkDate = false;
 
     static Dialogue newInstance() {
         Log.i("Dialogue", "newInstance called");
@@ -86,51 +87,56 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ok) {
-            Log.i("Dialogue", String.valueOf(inputPlace.getText()));
-            if (isValid()) {
-                placeData.put("placeName", String.valueOf(inputPlace.getText()));
-                placeName.onNext(placeData);
-                dismiss();
-            } else {
-                Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
-            }
 
-        } else if (v.getId() == R.id.cancel) {
-            Log.i("Dialogue", "in else");
-            dismiss();
-        } else if (v.getId() == R.id.date) {
-            DateFragment newFragment = new DateFragment();
-            newFragment.show(getFragmentManager(), "timePicker");
-
-            newFragment.selectedDate().subscribe(date -> {
-                venueDate = date;
-                Log.i("Date", date);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
-                placeData.put("placeDate", venueDate);
-                try {
-                    Date date1 = simpleDateFormat.parse(date);
-                    this.date = new Date();
-                    delay = (this.date.getTime() - date1.getTime());
-                    if (delay < 0) {
-                        Toast.makeText(getActivity(), "incorrect date", Toast.LENGTH_LONG).show();
-                        dismiss();
-                    }
-                    daysAgo = delay / (24 * 60 * 60 * 1000);
-                    placeData.put("daysAgo", String.valueOf(daysAgo));
-                    Log.i("date1", date1 + "");
-                    this.inputDate.setText(simpleDateFormat2.format(date1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+        switch (v.getId()) {
+            case R.id.ok:
+                Log.i("Dialogue", String.valueOf(inputPlace.getText()));
+                if (isValid()) {
+                    placeData.put("placeName", String.valueOf(inputPlace.getText()));
+                    placeName.onNext(placeData);
+                    dismiss();
+                } else {
+                    Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
                 }
+                checkDate = false;
+                break;
+            case R.id.cancel:
+                Log.i("Dialogue", "in else");
+                dismiss();
+                break;
+            case R.id.date:
+                checkDate = true;
+                DateFragment newFragment = new DateFragment();
+                newFragment.show(getFragmentManager(), "timePicker");
 
-            });
+                newFragment.selectedDate().subscribe(date -> {
+                    venueDate = date;
+                    Log.i("Date", date);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
+                    placeData.put("placeDate", venueDate);
+                    try {
+                        Date date1 = simpleDateFormat.parse(date);
+                        this.date = new Date();
+                        delay = (this.date.getTime() - date1.getTime());
+                        if (delay < 0) {
+                            Toast.makeText(getActivity(), "incorrect date", Toast.LENGTH_LONG).show();
+                            dismiss();
+                        }
+                        daysAgo = delay / (24 * 60 * 60 * 1000);
+                        placeData.put("daysAgo", String.valueOf(daysAgo));
+                        Log.i("date1", date1 + "");
+                        this.inputDate.setText(simpleDateFormat2.format(date1));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                });
         }
     }
 
     private boolean isValid() {
-        if (inputPlace.getText().length() == 0 ) {
+        if (inputPlace.getText().length() == 0 || checkDate == false) {
             return false;
         }
         return true;

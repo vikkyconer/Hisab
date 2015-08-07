@@ -141,19 +141,13 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
 
     private boolean isValid() {
         String msg = "";
-        if (amount.getText().length() == 0) {
-            msg = "please specify amount";
-        }
-        if (description.getText().length() == 0) {
-            msg = "please specify description";
-        }
-        if (spinnerIsEmpty()) {
-            msg = "please select atleast one for whom paid";
+
+        if (amount.getText().length() == 0 || description.getText().length() == 0 || spinnerIsEmpty()) {
+            msg = "You Might Forget Some Field";
         }
         if (msg.length() != 0) {
             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
         }
-
         return msg.length() == 0;
     }
 
