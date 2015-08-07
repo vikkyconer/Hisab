@@ -50,7 +50,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i("AddFriendsFragment","onCreateView()");
+        Log.i("AddFriendsFragment", "onCreateView()");
         addFriendsRootFragment = inflater.inflate(R.layout.add_friends_fragment, container);
         setRetainInstance(true);
         return addFriendsRootFragment;
@@ -58,7 +58,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.i("AddFriendsFragment","onViewCreated()");
+        Log.i("AddFriendsFragment", "onViewCreated()");
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
         defaultConfiguration();
@@ -98,7 +98,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     @Override
     public void onClick(View v) {
-        Log.i("AddFriendsFragment","onClick()");
+        Log.i("AddFriendsFragment", "onClick()");
         if (v.getId() == R.id.add_friends) {
             showNoticeDialogue();
         } else if (v.getId() == R.id.enter_expenses) {
@@ -110,7 +110,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void showFriendName(ArrayList<String> friends) {
-        Log.i("AddFriendsFragment","showFriendName()");
+        Log.i("AddFriendsFragment", "showFriendName()");
         friendsNameContainer.removeAllViews();
         for (int i = 0; i < friends.size(); i++) {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
@@ -122,7 +122,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void divideAmongFriends(int amount, ArrayList<String> friends) {
-        Log.i("AddFriendsFragment","divideAmongFriends()");
+        Log.i("AddFriendsFragment", "divideAmongFriends()");
         amount = amount / friends.size();           //catch divide by zero exception
         int previousAmount;
         for (int i = 0; i < friends.size(); i++) {
@@ -155,7 +155,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void calculate(Map<String, String> transactionDetails) {
-        Log.i("AddFriendsFragment","calculate()");
+        Log.i("AddFriendsFragment", "calculate()");
         amount = Integer.parseInt(transactionDetails.get("amount"));
         boolean[] selected = MultiSelectionSpinner.mSelection;
         paidForWhom.clear();
@@ -175,6 +175,9 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
         divideAmongFriends(amount, paidForWhom);
         Log.i("Notes", "after inputting values");
+        if (expenditureMap.size() > 0) {
+            compute.setVisibility(View.VISIBLE);
+        }
         printHash(expenditureMap);
     }
 
@@ -208,8 +211,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         showFriendName(friends);
         if (friends.size() > 1) {
             enterExpenses.setVisibility(View.VISIBLE);
-            compute.setVisibility(View.VISIBLE);
         }
-//        friendsAdapter.notifyDataSetChanged();
     }
 }
