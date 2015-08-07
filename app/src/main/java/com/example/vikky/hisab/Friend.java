@@ -4,17 +4,37 @@ package com.example.vikky.hisab;
  * Created by vikky on 6/29/15.
  */
 public class Friend {
+    private int id;
     private String name;
+    private String createdAt;
 
-    public Boolean getStatus() {
-        return status;
+    public Friend() {
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Friend(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    private Boolean status;
+    public Friend(String name) {
+        this.name = name;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

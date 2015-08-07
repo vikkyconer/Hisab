@@ -2,12 +2,12 @@ package com.example.vikky.hisab;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by vikky on 8/3/15.
@@ -22,13 +22,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Name
     private static final String DATABASE_NAME = "hisab";
-    private static final String table_PLACES = "books";
-    private static final String place_ID = "id";
-    private static final String place_NAME = "Place Name";
-    private static final String place_DAYS_AGO = "Days Ago";
-    private static final String place_DATE = "date";
 
-    private static final String[] COLUMNS = {place_ID, place_NAME, place_DAYS_AGO, place_DATE};
+    // Table Names
+    private static final String TABLE_PLACE = "places";
+    private static final String TABLE_FRIEND = "friends";
+    private static final String TABLE_PLACE_FRIEND = "place_friends";
+
+    // Common column names
+    private static final String KEY_ID = "id";
+    private static final String KEY_CREATED_AT = "created_at";
+
+    // PLACES Table - column nmaes
+    private static final String KEY_PLACE_NAME = "place_name";
+    private static final String KEY_DAYSAGO = "daysAgo";
+    private static final String KEY_DATE = "date";
+
+    // FRIENDS Table - column names
+    private static final String KEY_FRIEND_NAME = "friend_name";
+
+    // NOTE_TAGS Table - column names
+    private static final String KEY_PLACE_ID = "place_id";
+    private static final String KEY_FRIEND_ID = "friend_id";
+
+    // Table Create Statements
+    // Place table create statement
+    private static final String CREATE_TABLE_TODO = "CREATE TABLE "
+            + TABLE_PLACE + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLACE_NAME
+            + " TEXT," + KEY_DAYSAGO + " INTEGER," + KEY_DATE
+            + " DATETIME" + KEY_CREATED_AT + "DATETIME" + ")";
+
+    // Friend table create statement
+    private static final String CREATE_TABLE_TAG = "CREATE TABLE " + TABLE_FRIEND
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_FRIEND_NAME
+            + " TEXT" + KEY_CREATED_AT + "DATETIME" + ")";
+
+    // todo_tag table create statement
+    private static final String CREATE_TABLE_PLACE_FRIND = "CREATE TABLE "
+            + TABLE_PLACE_FRIEND + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_PLACE_ID + " INTEGER," + KEY_FRIEND_ID + " INTEGER,"
+            + KEY_CREATED_AT + " DATETIME" + ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,86 +68,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_PLACE_TABLE = "CREATE TABLE places ( " + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "Place Name TEXT, " + "Days Ago TEXT, " + "date TEXT" + ")";
-        db.execSQL(CREATE_PLACE_TABLE);
+
+        // creating required tables
+        db.execSQL(CREATE_TABLE_TODO);
+        db.execSQL(CREATE_TABLE_TAG);
+        db.execSQL(CREATE_TABLE_PLACE_FRIND);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS places");
-        this.onCreate(db);
+        // on upgrade drop older tables
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FRIEND);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE_FRIEND);
+
+        // create new tables
+        onCreate(db);
     }
 
-    public void createPlace(Place place) {
+    /*
+ * Creating a place
+ */
+    public long createPlace(Place place, long[] friend_ids) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(place_NAME, place.getPlaceName());
-        values.put(place_DAYS_AGO, place.getDaysAgo());
-        values.put(place_DATE, place.getPlaceDate());
+        values.put(KEY_PLACE_NAME, place.getPlaceName());
+        values.put(KEY_DAYSAGO, place.getDaysAgo());
+        values.put(KEY_DATE, place.getPlaceDate());
+        values.put(KEY_CREATED_AT, getDateTime());
 
-        db.insert(table_PLACES, null, values);
+        // insert row
+        long place_id = db.insert(TABLE_PLACE, null, values);
 
-        db.close();
-    }
-
-    public Place readPlace(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(table_PLACES, COLUMNS, "id = ?", new String[]{String.valueOf(id)}, null, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
+        // assigning friends to place
+        for (long friend_id : friend_ids) {
+            createPlaceFriend(place_id, friend_id);
         }
 
-        Place place = new Place();
-        place.setPlaceId(Integer.parseInt(cursor.getString(0)));
-        place.setPlaceName(cursor.getString(1));
-        place.setDaysAgo(cursor.getString(2));
-        place.setPlaceDate(cursor.getString(3));
-
-        return place;
+        return place_id;
     }
 
-    public List getAllPlaces() {
-        List places = new LinkedList<>();
-
-        String query = "SELECT * FROM " + table_PLACES;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        Place place = null;
-        if (cursor.moveToFirst()) {
-            do {
-                place = new Place();
-                place.setPlaceId(Integer.parseInt(cursor.getString(0)));
-                place.setPlaceName(cursor.getString(1));
-                place.setDaysAgo(cursor.getString(2));
-                place.setPlaceDate(cursor.getString(3));
-                places.add(place);
-            } while (cursor.moveToNext());
-        }
-        return places;
-    }
-
-    public int updatePlace(Place place) {
+    
+    private long createPlaceFriend(long place_id, long friend_id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("Place Name", place.getPlaceName());
-        values.put("Days Ago", place.getDaysAgo());
-        values.put("date", place.getPlaceDate());
-        int i = db.update(table_PLACES, values, place_ID + " = ?", new String[]{String.valueOf(place.getPlaceId())});
+        values.put(KEY_PLACE_ID, place_id);
+        values.put(KEY_FRIEND_ID, friend_id);
+        values.put(KEY_CREATED_AT, getDateTime());
 
-        db.close();
-        return i;
+        long id = db.insert(TABLE_PLACE_FRIEND, null, values);
+
+        return id;
     }
 
-    public void deletePlace(Place place) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.delete(table_PLACES, place_ID + " = ?", new String[]{String.valueOf(place.getPlaceId())});
-        db.close();
+    /**
+     * get datetime
+     */
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 }
