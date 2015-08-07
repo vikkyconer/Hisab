@@ -1,9 +1,9 @@
 package com.example.vikky.hisab;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class MainScreenActivity extends ActionBarActivity {
@@ -15,7 +15,6 @@ public class MainScreenActivity extends ActionBarActivity {
         Log.i("MainScreenActivity", "in onCreate");
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
-
 
 
         new MainScreenPresenter(mainScreenView(), mainScreenModel());
@@ -37,5 +36,11 @@ public class MainScreenActivity extends ActionBarActivity {
 
     private MainScreenView mainScreenView() {
         return (MainScreenFragment) getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Bye", Toast.LENGTH_SHORT).show();
+        super.onBackPressed();
     }
 }
