@@ -10,13 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 /**
  * Created by vikky on 7/2/15.
  */
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> implements View.OnClickListener {
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
     List<Place> placeList;
     Context context;
@@ -51,6 +52,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     private void setEventsForViews(PersonViewHolder holder) {
         holder.cv.setOnClickListener(this);
+        holder.cv.setOnLongClickListener(this);
     }
 
     @Override
@@ -67,6 +69,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     public void onClick(View v) {
         Navigator.toAddFriends(context);
     }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Toast.makeText(context, "Hey Watch Out", Toast.LENGTH_LONG).show();
+
+        return true;
+    }
+
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cv;

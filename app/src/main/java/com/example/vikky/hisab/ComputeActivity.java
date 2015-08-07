@@ -3,6 +3,7 @@ package com.example.vikky.hisab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 
 import java.util.Map;
 
@@ -24,8 +25,13 @@ public class ComputeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_compute);
         Intent i = getIntent();
         setExpenditureMap((Map<String, Integer>) i.getSerializableExtra("expenditureMap"));
+
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         new ComputePresenter(computeModel(), computeView());
     }
 
@@ -35,5 +41,17 @@ public class ComputeActivity extends ActionBarActivity {
 
     private ComputeModel computeModel() {
         return null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }

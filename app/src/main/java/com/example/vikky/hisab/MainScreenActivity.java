@@ -15,6 +15,9 @@ public class MainScreenActivity extends ActionBarActivity {
         Log.i("MainScreenActivity", "in onCreate");
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
+
+
+
         new MainScreenPresenter(mainScreenView(), mainScreenModel());
 //        new SlidingDrawerPresenter(slidingDrawerView(), slidingDrawerModel());
 

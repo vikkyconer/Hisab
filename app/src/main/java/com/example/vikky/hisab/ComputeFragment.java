@@ -76,7 +76,7 @@ public class ComputeFragment extends Fragment implements ComputeView {
     private boolean listIsEmpty(Map<String, Integer> map) {
         Log.i("ComputeFragment", "listIsEmpty()");
         for (Map.Entry<String, Integer> i : map.entrySet()) {
-            if (i.getValue() > 2) {
+            if (i.getValue() > map.size()) {
                 return true;
             }
         }
