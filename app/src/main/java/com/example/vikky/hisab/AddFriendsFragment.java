@@ -121,7 +121,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     private void divideAmongFriends(int amount, ArrayList<String> friends) {
         Log.i("AddFriendsFragment","divideAmongFriends()");
-        amount = amount / friends.size();
+        amount = amount / friends.size();           //catch divide by zero exception
         int previousAmount;
         for (int i = 0; i < friends.size(); i++) {
             if (expenditureMap.get(friends.get(i)) == null) {

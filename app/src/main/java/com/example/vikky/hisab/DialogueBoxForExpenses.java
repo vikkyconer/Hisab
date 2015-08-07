@@ -147,10 +147,22 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
         if (description.getText().length() == 0) {
             msg = "please specify description";
         }
+        if (spinnerIsEmpty()) {
+            msg = "please select atleast one for whom paid";
+        }
         if (msg.length() != 0) {
             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
         }
+
         return msg.length() == 0;
+    }
+
+    private boolean spinnerIsEmpty() {
+        for (int i = 0; i < MultiSelectionSpinner.mSelection.length; i++) {
+            if (MultiSelectionSpinner.mSelection[i] == true)
+                return false;
+        }
+        return true;
     }
 
     @Override
