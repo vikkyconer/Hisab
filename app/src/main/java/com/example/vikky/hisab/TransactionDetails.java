@@ -1,10 +1,13 @@
 package com.example.vikky.hisab;
 
+import java.util.ArrayList;
+
 /**
  * Created by vikky on 7/12/15.
  */
 public class TransactionDetails {
     String whoPaid, amount;
+    ArrayList<String> forWhom;
     String description;
 
     public String getWhoPaid() {

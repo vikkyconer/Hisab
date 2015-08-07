@@ -88,9 +88,14 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.ok) {
             Log.i("Dialogue", String.valueOf(inputPlace.getText()));
-            placeData.put("placeName", String.valueOf(inputPlace.getText()));
-            placeName.onNext(placeData);
-            dismiss();
+            if (isValid()) {
+                placeData.put("placeName", String.valueOf(inputPlace.getText()));
+                placeName.onNext(placeData);
+                dismiss();
+            } else {
+                Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
+            }
+
         } else if (v.getId() == R.id.cancel) {
             Log.i("Dialogue", "in else");
             dismiss();
@@ -122,6 +127,13 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
 
             });
         }
+    }
+
+    private boolean isValid() {
+        if (inputPlace.getText().length() == 0 ) {
+            return false;
+        }
+        return true;
     }
 }
 

@@ -1,15 +1,12 @@
 package com.example.vikky.hisab;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,16 +42,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     }
 
     private void initialize(PersonViewHolder holder, int i) {
-        holder.venueName.setText(placeList.get(i).getPlaceName());
+        holder.venueName.setText(placeList.get(i).getPlaceName().substring(0, 1).toUpperCase() + placeList.get(i).getPlaceName().substring(1));
         holder.venueDate.setText(placeList.get(i).getPlaceDate());
         holder.daysAgo.setText(placeList.get(i).getDaysAgo());
-        String color = placeList.get(i).getBackgroundColor();
-        holder.backgroundColor.setBackgroundColor(0xff0c85b9);
+//        String color = placeList.get(i).getBackgroundColor();
+//        holder.backgroundColor.setBackgroundColor(0xff0c85b9);
     }
 
     private void setEventsForViews(PersonViewHolder holder) {
-        holder.addFriendsIcon.setOnClickListener(this);
-        holder.changeBackground.setOnClickListener(this);
+        holder.cv.setOnClickListener(this);
     }
 
     @Override
@@ -69,12 +65,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.add_friends_icon) {
-            Navigator.toAddFriends(context);
-        } else if (v.getId() == R.id.change_background) {
-            Log.i("Motes", "changeBackground");
-            context.sendBroadcast(new Intent("start.fragment.action"));
-        }
+        Navigator.toAddFriends(context);
     }
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
@@ -82,8 +73,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         TextView venueName;
         TextView venueDate;
         TextView daysAgo;
-        ImageView addFriendsIcon;
-        ImageView changeBackground;
         RelativeLayout backgroundColor;
 
         PersonViewHolder(View itemView) {
@@ -92,8 +81,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             venueName = (TextView) itemView.findViewById(R.id.venue_name);
             daysAgo = (TextView) itemView.findViewById(R.id.days_ago);
             venueDate = (TextView) itemView.findViewById(R.id.venue_date);
-            addFriendsIcon = (ImageView) itemView.findViewById(R.id.add_friends_icon);
-            changeBackground = (ImageView) itemView.findViewById(R.id.change_background);
             backgroundColor = (RelativeLayout) itemView.findViewById(R.id.background_color);
         }
     }
