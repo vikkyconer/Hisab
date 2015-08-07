@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -37,6 +38,8 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     LinearLayoutManager linearLayoutManager;
     TextView venueDate;
     View view;
+    List list;
+    DatabaseHelper db = new DatabaseHelper(getActivity());
 
     public BehaviorSubject<Map<String, String>> getPlaceAdded() {
         return placeAdded;
@@ -50,6 +53,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.i("MainScreenFragment", "in onCreateView");
 
         mainScreenRootFragment = inflater.inflate(R.layout.main_screen_fragment, container);
+//        db.onUpgrade(db.getWritableDatabase(), 1, 2);
         setRetainInstance(true);
         return mainScreenRootFragment;
     }
@@ -107,7 +111,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void colorSelected(String color) {
         Log.i("Notes", color);
-        place.setBackgroundColor(color);
+//        place.setBackgroundColor(color);
         placesAdapter.notifyDataSetChanged();
     }
 
@@ -141,6 +145,14 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         this.place.setPlaceName(place.get("placeName"));
         this.place.setPlaceDate(place.get("placeDate"));
         this.place.setDaysAgo(place.get("daysAgo"));
+       /* db.createPlace(new Place(place.get("placeName"), place.get("daysAgo"), place.get("placeDate")));
+
+        list = db.getAllPlaces();
+        List listPlaceName = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            Log.i("placeNames", list.get(i).toString());
+        }*/
         placeAdded.onNext(place);
     }
 }

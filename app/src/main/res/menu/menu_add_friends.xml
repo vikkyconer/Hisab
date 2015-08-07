@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.vikky.hisab.AddFriendsActivity">
 
-    <item
-        android:id="@+id/back"
-        android:icon="@drawable/add_people"
-        android:orderInCategory="1"
-        app:showAsAction="always"
-        android:title="back" />
 
     <item
         android:id="@+id/action_settings"

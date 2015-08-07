@@ -20,4 +20,5 @@
     <item name="seperator1" type="color">#1c3c54</item>
     <item name="blackTextColor" type="color">#0c2232</item>
     <item name="menue_seperator" type="color">#0c85b9</item>
+    <item name="light_grey" type="color">#d3d3d3</item>
 </resources>
