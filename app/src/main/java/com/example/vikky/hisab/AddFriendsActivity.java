@@ -1,5 +1,6 @@
 package com.example.vikky.hisab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +16,7 @@ public class AddFriendsActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
+    private int placeId;
 
     public TransactionDetails getDetails() {
         return details;
@@ -33,6 +35,8 @@ public class AddFriendsActivity extends ActionBarActivity {
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
 
+        Intent i = getIntent();
+        setPlaceId(i.getIntExtra("placeId", 0));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -45,6 +49,14 @@ public class AddFriendsActivity extends ActionBarActivity {
 
     private AddFriendsView addFriendsView() {
         return (AddFriendsFragment) getSupportFragmentManager().findFragmentById(R.id.add_friends_fragment);
+    }
+
+    public int getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(int placeId) {
+        this.placeId = placeId;
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -44,8 +45,10 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private RecyclerView detailsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     //    private ListView friendsListView;
-    private BehaviorSubject<Map<String, String>> friendAdded = BehaviorSubject.create();
+    private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
     private ArrayList<String> paidForWhom;
+    DatabaseHelper db;
+
 
     @Nullable
     @Override
@@ -53,6 +56,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         Log.i("AddFriendsFragment", "onCreateView()");
         addFriendsRootFragment = inflater.inflate(R.layout.add_friends_fragment, container);
         setRetainInstance(true);
+        db = new DatabaseHelper(getActivity());
         return addFriendsRootFragment;
     }
 
@@ -195,22 +199,35 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void friendEntered(Map<String, String> friend) {
-        this.friend.setName(friend.get("friendName"));
-        friendAdded.onNext(friend);
+        Friend friend1 = new Friend(friend.get("friendName"));
+        long friend_id = db.createFriend(friend1, ((AddFriendsActivity) getActivity()).getPlaceId());
+        friendAdded.onNext(friend1);
 
     }
 
     @Override
-    public Observable<Map<String, String>> enterFriend() {
+    public Observable<Friend> enterFriend() {
         return friendAdded.asObservable();
     }
 
     @Override
-    public void showFriend(Map<String, String> friend) {
-        friends.add(this.friend.getName());
+    public void showFriend(Friend friend) {
+        friends.add(friend.getName());
         showFriendName(friends);
         if (friends.size() > 1) {
             enterExpenses.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void initialize() {
+        // Getting friends under single Place
+        Log.d("ToDo", "Get todos under single Tag name");
+
+        List<Friend> friendList = db.getAllFriendsByPlace(String.valueOf(((AddFriendsActivity) getActivity()).getPlaceId()));
+        for (Friend friend : friendList) {
+            Log.d("ToDo Watchlist", friend.getName());
+            showFriend(friend);
         }
     }
 }

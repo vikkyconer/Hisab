@@ -3,7 +3,6 @@ package com.example.vikky.hisab;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -159,16 +158,11 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     public void placeSelected(Map<String, String> place) {
         Log.i("MainScreenFragment", String.valueOf(place));
-        Place placeEntered = new Place();
-        placeEntered.setPlaceName(place.get("placeName"));
-        placeEntered.setPlaceDate(place.get("placeDate"));
-        placeEntered.setDaysAgo(Integer.parseInt(place.get("daysAgo")));
-
         // Creating Place
-        Place place1 = new Place(place.get("placeName"), Integer.parseInt(place.get("daysAgo")), place.get("placeDate"));
+        Place placeEntered = new Place(place.get("placeName"), Integer.parseInt(place.get("daysAgo")), place.get("placeDate"));
 
         //inserting under database place
-        long place_id = db.createPlace(place1);
+        long place_id = db.createPlace(placeEntered);
 
         Log.e("Place Count", "Place count: " + db.getPlaceCount());
         placeAdded.onNext(placeEntered);

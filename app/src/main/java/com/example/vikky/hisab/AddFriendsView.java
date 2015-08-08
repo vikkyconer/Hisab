@@ -8,7 +8,9 @@ import rx.Observable;
  * Created by vikky on 7/1/15.
  */
 public interface AddFriendsView {
-    Observable<Map<String, String>> enterFriend();
+    Observable<Friend> enterFriend();
 
-    void showFriend(Map<String, String> friend);
+    void showFriend(Friend friend);
+
+    void initialize();
 }

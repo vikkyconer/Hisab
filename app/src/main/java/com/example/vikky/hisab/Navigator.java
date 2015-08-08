@@ -3,6 +3,7 @@ package com.example.vikky.hisab;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +13,10 @@ import java.util.Map;
  * Created by vikky on 6/29/15.
  */
 public class Navigator {
-    public static void toAddFriends(Context context) {
+    public static void toAddFriends(Context context, int placeId) {
         Intent i = new Intent(context, AddFriendsActivity.class);
+        Log.i("while sending", String.valueOf(placeId));
+        i.putExtra("placeId", placeId);
         context.startActivity(i);
     }
 

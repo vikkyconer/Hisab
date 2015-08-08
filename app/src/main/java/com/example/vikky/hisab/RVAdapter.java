@@ -3,6 +3,7 @@ package com.example.vikky.hisab;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     Context context;
     ArrayAdapter<String> friendsAdapter;
     ListView colorListView;
+    int position;
 
     public RVAdapter(List<Place> placeList, Context context) {
         this.placeList = placeList;
@@ -39,18 +41,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     @Override
     public void onBindViewHolder(PersonViewHolder holder, int i) {
         initialize(holder, i);
-        setEventsForViews(holder);
+        setEventsForViews(holder, i);
     }
 
     private void initialize(PersonViewHolder holder, int i) {
         holder.venueName.setText(placeList.get(i).getPlaceName().substring(0, 1).toUpperCase() + placeList.get(i).getPlaceName().substring(1));
         holder.venueDate.setText(placeList.get(i).getPlaceDate());
         holder.daysAgo.setText(String.valueOf(placeList.get(i).getDaysAgo()));
+        Log.i("Placeid", String.valueOf(placeList.get(i).getPlaceId()));
 //        String color = placeList.get(i).getBackgroundColor();
 //        holder.backgroundColor.setBackgroundColor(0xff0c85b9);
     }
 
-    private void setEventsForViews(PersonViewHolder holder) {
+    private void setEventsForViews(PersonViewHolder holder, int i) {
+        position = i;
+        Log.i("PositionValue", String.valueOf(position));
         holder.cv.setOnClickListener(this);
         holder.cv.setOnLongClickListener(this);
     }
@@ -67,7 +72,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public void onClick(View v) {
-        Navigator.toAddFriends(context);
+        Navigator.toAddFriends(context, placeList.get(position).getPlaceId());
     }
 
     @Override

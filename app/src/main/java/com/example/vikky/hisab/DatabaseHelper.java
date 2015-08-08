@@ -53,18 +53,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_PLACE = "CREATE TABLE "
             + TABLE_PLACE + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLACE_NAME
             + " TEXT," + KEY_DAYSAGO + " INTEGER," + KEY_DATE
-            + " DATETIME"  + ")";
+            + " DATETIME" + ")";
 
     // Friend table create statement
     private static final String CREATE_TABLE_FRIEND = "CREATE TABLE " + TABLE_FRIEND
             + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_FRIEND_NAME
-            + " TEXT"  + ")";
+            + " TEXT" + ")";
 
     // todo_tag table create statement
     private static final String CREATE_TABLE_PLACE_FRIND = "CREATE TABLE "
             + TABLE_PLACE_FRIEND + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_PLACE_ID + " INTEGER," + KEY_FRIEND_ID + " INTEGER,"
-            + ")";
+            + KEY_PLACE_ID + " INTEGER," + KEY_FRIEND_ID + " INTEGER" + ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -212,5 +211,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // return count
         return count;
+    }
+
+    /*
+* Creating a friend
+*/
+    public long createFriend(Friend friend, long place_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_FRIEND_NAME, friend.getName());
+//        values.put(KEY_CREATED_AT, getDateTime());
+
+        // insert row
+        long friend_id = db.insert(TABLE_FRIEND, null, values);
+
+        // assigning friends to place
+//        for (long place_id : friend_ids) {
+        createPlaceFriend(place_id, friend_id);
+//        }
+        return friend_id;
+    }
+
+    /*
+     * getting all friends under place
+     * */
+    public List<Friend> getAllFriendsByPlace(String place_id) {
+        List<Friend> friends = new ArrayList<Friend>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_FRIEND + " friend, "
+                + TABLE_PLACE + " place, " + TABLE_PLACE_FRIEND + " place_friend WHERE place."
+                + KEY_ID + " = '" + place_id + "'" + " AND place." + KEY_ID
+                + " = " + "place_friend." + KEY_PLACE_ID + " AND friend." + KEY_ID + " = "
+                + "place_friend." + KEY_FRIEND_ID;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Friend friend = new Friend();
+                friend.setId(c.getInt((c.getColumnIndex(KEY_ID))));
+                friend.setName((c.getString(c.getColumnIndex(KEY_FRIEND_NAME))));
+//                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+                // adding to friend list
+                friends.add(friend);
+            } while (c.moveToNext());
+        }
+
+        return friends;
     }
 }
