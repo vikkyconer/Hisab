@@ -39,7 +39,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     TextView venueDate;
     View view;
     List list;
-    DatabaseHelper db = new DatabaseHelper(getActivity());
+    DatabaseHelper db;
 
     public BehaviorSubject<Place> getPlaceAdded() {
         return placeAdded;
@@ -53,6 +53,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.i("MainScreenFragment", "in onCreateView");
 
         mainScreenRootFragment = inflater.inflate(R.layout.main_screen_fragment, container);
+        db = new DatabaseHelper(getActivity());
 //        db.onUpgrade(db.getWritableDatabase(), 1, 2);
         setRetainInstance(true);
         return mainScreenRootFragment;
@@ -89,7 +90,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         places = new ArrayList<>();
         place = new Place();
         placesAdapter = new RVAdapter(places, getActivity());
-        getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter("start.fragment.action"));
+//        getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter("start.fragment.action"));
     }
 
     @Override
@@ -104,10 +105,26 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         places.add(place);
         Log.i("MainScreenFr placesSize", String.valueOf(places.get(0)));
         placesAdapter.notifyDataSetChanged();
-
-
     }
 
+    @Override
+    public void initial() {
+        List<Place> allPlaces = db.getAllPlaces();
+        places.clear();
+        for (Place place : allPlaces) {
+            Log.d("ToDo", place.getPlaceName());
+            Place place1 = new Place(place.getPlaceId(), place.getPlaceName(), place.getDaysAgo(), place.getPlaceDate());
+            Log.i("after Calling", "places");
+            showPlaces(place1);
+            Log.i("after calling", "onNext");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        db.closeDB();
+        super.onDestroy();
+    }
 
     private void colorSelected(String color) {
         Log.i("Notes", color);
@@ -145,7 +162,15 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Place placeEntered = new Place();
         placeEntered.setPlaceName(place.get("placeName"));
         placeEntered.setPlaceDate(place.get("placeDate"));
-        placeEntered.setDaysAgo(place.get("daysAgo"));
+        placeEntered.setDaysAgo(Integer.parseInt(place.get("daysAgo")));
+
+        // Creating Place
+        Place place1 = new Place(place.get("placeName"), Integer.parseInt(place.get("daysAgo")), place.get("placeDate"));
+
+        //inserting under database place
+        long place_id = db.createPlace(place1);
+
+        Log.e("Place Count", "Place count: " + db.getPlaceCount());
         placeAdded.onNext(placeEntered);
 
     }

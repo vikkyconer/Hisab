@@ -6,6 +6,7 @@ package com.example.vikky.hisab;
 public class Friend {
     private int id;
     private String name;
+    private boolean status;
     private String createdAt;
 
     public Friend() {
@@ -14,6 +15,14 @@ public class Friend {
     public Friend(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public Friend(String name) {

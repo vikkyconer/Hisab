@@ -8,7 +8,7 @@ public class Place {
     private String placeName;
     private int daysAgo;
     private String placeDate;
-    private String createdAt;
+//    private String createdAt;
 
     public int getDaysAgo() {
         return daysAgo;
@@ -34,13 +34,13 @@ public class Place {
         this.placeDate = placeDate;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
+//    public String getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(String createdAt) {
+//        this.createdAt = createdAt;
+//    }
 
     public int getPlaceId() {
         return placeId;

@@ -45,7 +45,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     private void initialize(PersonViewHolder holder, int i) {
         holder.venueName.setText(placeList.get(i).getPlaceName().substring(0, 1).toUpperCase() + placeList.get(i).getPlaceName().substring(1));
         holder.venueDate.setText(placeList.get(i).getPlaceDate());
-        holder.daysAgo.setText(placeList.get(i).getDaysAgo());
+        holder.daysAgo.setText(String.valueOf(placeList.get(i).getDaysAgo()));
 //        String color = placeList.get(i).getBackgroundColor();
 //        holder.backgroundColor.setBackgroundColor(0xff0c85b9);
     }
