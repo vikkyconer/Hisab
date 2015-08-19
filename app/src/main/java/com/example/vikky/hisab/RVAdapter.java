@@ -18,10 +18,10 @@ import java.util.List;
 /**
  * Created by vikky on 7/2/15.
  */
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> implements View.OnClickListener, View.OnLongClickListener {
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
     List<Place> placeList;
-    Context context;
+    static Context context;
     ArrayAdapter<String> friendsAdapter;
     ListView colorListView;
     int position;
@@ -40,8 +40,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public void onBindViewHolder(PersonViewHolder holder, int i) {
+        holder.place = placeList.get(i);
         initialize(holder, i);
-        setEventsForViews(holder, i);
+
     }
 
     private void initialize(PersonViewHolder holder, int i) {
@@ -51,13 +52,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         Log.i("Placeid", String.valueOf(placeList.get(i).getPlaceId()));
 //        String color = placeList.get(i).getBackgroundColor();
 //        holder.backgroundColor.setBackgroundColor(0xff0c85b9);
-    }
-
-    private void setEventsForViews(PersonViewHolder holder, int i) {
-        position = i;
-        Log.i("PositionValue", String.valueOf(position));
-        holder.cv.setOnClickListener(this);
-        holder.cv.setOnLongClickListener(this);
     }
 
     @Override
@@ -70,25 +64,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         return placeList.size();
     }
 
-    @Override
-    public void onClick(View v) {
-        Navigator.toAddFriends(context, placeList.get(position).getPlaceId());
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        Toast.makeText(context, "Hey Watch Out", Toast.LENGTH_LONG).show();
-
-        return true;
-    }
-
-
-    public static class PersonViewHolder extends RecyclerView.ViewHolder {
+    public static class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         CardView cv;
+
+
         TextView venueName;
         TextView venueDate;
         TextView daysAgo;
         RelativeLayout backgroundColor;
+        public Place place;
 
         PersonViewHolder(View itemView) {
             super(itemView);
@@ -97,6 +81,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             daysAgo = (TextView) itemView.findViewById(R.id.days_ago);
             venueDate = (TextView) itemView.findViewById(R.id.venue_date);
             backgroundColor = (RelativeLayout) itemView.findViewById(R.id.background_color);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Navigator.toAddFriends(context, place.getPlaceId());
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Toast.makeText(context, place.getPlaceName(), Toast.LENGTH_SHORT).show();
+            return true;
         }
     }
 
