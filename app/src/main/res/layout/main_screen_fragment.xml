@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:text="Enter Place Name..."
+                android:hint="Enter Place Name..."
                 android:textColor="@color/greyTextColor1"
                 android:typeface="serif" />
         </LinearLayout>

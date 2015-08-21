@@ -47,7 +47,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     long delay, daysAgo;
     List list;
     DatabaseHelper db;
-    int placeNameLength;
+    //    int placeNameLength;
     TextView date, go;
     private Map<String, String> placeData;
     private boolean checkDate;
@@ -89,7 +89,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void defaultConfiguration() {
         Log.i("MainScreenFragment", "in defaultConfiguration");
-        placeNameLength = enterPlace.getText().length();
+//        placeNameLength = enterPlace.getText().length();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(placesAdapter);
 
@@ -200,9 +200,9 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     }
 
     private boolean isValid() {
-        int placeLength = enterPlace.getText().length() - placeNameLength;
+        int placeLength = enterPlace.getText().length();
 
-        if (placeLength == 0 || checkDate == false || enterPlace.getText().length() == 0) {
+        if (placeLength == 0 || checkDate == false) {
             return false;
         }
         return true;

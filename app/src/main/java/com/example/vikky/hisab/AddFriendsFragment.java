@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
     private ArrayList<String> paidForWhom;
     DatabaseHelper db;
-    private int friendNameLength = 0;
+//    private int friendNameLength = 0;
 
 
     @Nullable
@@ -79,11 +80,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void defaultConfiguration() {
-//        friendsListView.setAdapter(friendsAdapter);
         detailsRecyclerView.setLayoutManager(linearLayoutManager);
-
         detailsRecyclerView.setAdapter(detailsAdapter);
-        friendNameLength = enterFriendName.getText().length();
     }
 
     private void initializeViews(View view) {
@@ -112,12 +110,14 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         Log.i("AddFriendsFragment", "onClick()");
         if (v.getId() == R.id.add_friends) {
             if (isValid()) {
-                friendData.put("friendName", String.valueOf(enterFriendName.getText()));
-                friendEntered(friendData);
-
-//                    dismiss();
+                if (isSameFriendNameEntered(enterFriendName.getText().toString())) {
+                    friendData.put("friendName", String.valueOf(enterFriendName.getText()));
+                    friendEntered(friendData);
+                }else {
+                    Toast.makeText(getActivity(), "Friend Already Exist", Toast.LENGTH_LONG).show();
+                }
             } else {
-                Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Enter Friend Name", Toast.LENGTH_LONG).show();
             }
             enterFriendName.setText("Add Friend...");
         } else if (v.getId() == R.id.enter_expenses) {
@@ -129,10 +129,19 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private boolean isValid() {
-        int friendNameLength = enterFriendName.getText().length() - this.friendNameLength;
-
-        if (friendNameLength == 0 || enterFriendName.getText().length() == 0) {
+        int friendNameLength = enterFriendName.getText().length();
+        if (friendNameLength == 0) {
             return false;
+        }
+        return true;
+    }
+
+    private boolean isSameFriendNameEntered(String friendName) {
+        Iterator names = friendData.entrySet().iterator();
+        while (names.hasNext()) {
+            Map.Entry name = (Map.Entry) names.next();
+            if (friendName == name.getValue())
+                return false;
         }
         return true;
     }
@@ -217,11 +226,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         }
     }
 
-    private void showNoticeDialogue() {
-        DialogueForAddingFriends addingFriends = DialogueForAddingFriends.newInstance();
-        addingFriends.inputPlaceName().subscribe(friend -> friendEntered(friend));
-        addingFriends.show(getFragmentManager(), "add_friend");
-    }
 
     private void friendEntered(Map<String, String> friend) {
         Friend friend1 = new Friend(friend.get("friendName"));
