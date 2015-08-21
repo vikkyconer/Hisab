@@ -84,6 +84,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.i("MainScreenFragment", "in setEventsForViews");
         date.setOnClickListener(this);
         go.setOnClickListener(this);
+        enterPlace.setOnClickListener(this);
 
     }
 
@@ -192,8 +193,11 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
                     Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
                 }
                 checkDate = false;
-                enterPlace.setText("Enter Place Name...");
+                enterPlace.setText("");
                 date.setText("Date");
+                break;
+            case R.id.enter_place:
+                enterPlace.setText("");
                 break;
         }
         addPlaceData();
