@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,17 +39,18 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     RelativeLayout listFriends;
     private ArrayList<TransactionDetails> detailsList;
     private int amount;
+    private Map<String, String> friendData;
     LinearLayout friendsNameContainer;
     private Map<String, Integer> expenditureMap;
     private TransactionDetails transactionDetails;
-    //    private ArrayAdapter<String> friendsAdapter;
+    private EditText enterFriendName;
     private TransactionDetailsRVAdapter detailsAdapter;
     private RecyclerView detailsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
-    //    private ListView friendsListView;
     private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
     private ArrayList<String> paidForWhom;
     DatabaseHelper db;
+    private int friendNameLength = 0;
 
 
     @Nullable
@@ -79,7 +81,9 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private void defaultConfiguration() {
 //        friendsListView.setAdapter(friendsAdapter);
         detailsRecyclerView.setLayoutManager(linearLayoutManager);
+
         detailsRecyclerView.setAdapter(detailsAdapter);
+        friendNameLength = enterFriendName.getText().length();
     }
 
     private void initializeViews(View view) {
@@ -98,6 +102,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         friend = new Friend();
         friends = new ArrayList<>();
         detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity(), paidForWhom);
+        enterFriendName = (EditText) view.findViewById(R.id.enter_friend_name);
+        friendData = new HashMap<>();
 //        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
     }
 
@@ -105,13 +111,30 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     public void onClick(View v) {
         Log.i("AddFriendsFragment", "onClick()");
         if (v.getId() == R.id.add_friends) {
-            showNoticeDialogue();
+            if (isValid()) {
+                friendData.put("friendName", String.valueOf(enterFriendName.getText()));
+                friendEntered(friendData);
+
+//                    dismiss();
+            } else {
+                Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
+            }
+            enterFriendName.setText("Add Friend...");
         } else if (v.getId() == R.id.enter_expenses) {
             showCustomDialogurForWhoPaid();
         } else if (v.getId() == R.id.compute) {
             printHash(expenditureMap);
             Navigator.toCompute(getActivity(), expenditureMap);
         }
+    }
+
+    private boolean isValid() {
+        int friendNameLength = enterFriendName.getText().length() - this.friendNameLength;
+
+        if (friendNameLength == 0 || enterFriendName.getText().length() == 0) {
+            return false;
+        }
+        return true;
     }
 
     private void showFriendName(ArrayList<String> friends) {

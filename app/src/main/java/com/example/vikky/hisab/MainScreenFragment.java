@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.hudomju.swipe.SwipeToDismissTouchListener;
-import com.hudomju.swipe.adapter.RecyclerViewAdapter;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,14 +38,19 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     Place place;
     public LinkedList<Place> placesList;
     View mainScreenRootFragment;
-    TextView addPlace;
+    //    TextView addPlace;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-    TextView venueDate;
+    String venueDate;
     View view;
     EditText enterPlace;
+    long delay, daysAgo;
     List list;
     DatabaseHelper db;
+    int placeNameLength;
+    TextView date, go;
+    private Map<String, String> placeData;
+    private boolean checkDate;
 
     public BehaviorSubject<Place> getPlaceAdded() {
         return placeAdded;
@@ -75,58 +82,31 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void setEventsForViews() {
         Log.i("MainScreenFragment", "in setEventsForViews");
-        addPlace.setOnClickListener(this);
+        date.setOnClickListener(this);
+        go.setOnClickListener(this);
 
-        final SwipeToDismissTouchListener<RecyclerViewAdapter> touchListener =
-                new SwipeToDismissTouchListener<>(
-                        new RecyclerViewAdapter(recyclerView),
-                        new SwipeToDismissTouchListener.DismissCallbacks<RecyclerViewAdapter>() {
-                            @Override
-                            public boolean canDismiss(int position) {
-                                return true;
-                            }
-
-                            @Override
-                            public void onDismiss(RecyclerViewAdapter view, int position) {
-//                                adapter.remove(position);
-                            }
-                        });
-
-        recyclerView.setOnTouchListener(touchListener);
-        recyclerView.setOnScrollListener((RecyclerView.OnScrollListener) touchListener.makeScrollListener());
-       /* recyclerView.addOnItemTouchListener(new SwipeableItemClickListener(this,
-                new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        if (view.getId() == R.id.txt_delete) {
-                            touchListener.processPendingDismisses();
-                        } else if (view.getId() == R.id.txt_undo) {
-                            touchListener.undoPendingDismiss();
-                        } else { // R.id.txt_data
-                            Toast.makeText(context, "Position " + position, LENGTH_SHORT).show();
-                        }
-                    }
-                }));*/
     }
 
     private void defaultConfiguration() {
         Log.i("MainScreenFragment", "in defaultConfiguration");
-
+        placeNameLength = enterPlace.getText().length();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(placesAdapter);
+
     }
 
     private void initializeViews(View view) {
         Log.i("MainScreenFragment", "in initializeViews");
-//        addPlace = (TextView) view.findViewById(R.id.add_place);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
-//        recyclerView.setItemAnimator(new SlideInLeftAnimator());
-        venueDate = (TextView) view.findViewById(R.id.venue_date);
+//        venueDate = (TextView) view.findViewById(R.id.venue_date);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         places = new ArrayList<>();
         place = new Place();
         placesAdapter = new RVAdapter(places, getActivity());
-//        getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter("start.fragment.action"));
+        date = (TextView) view.findViewById(R.id.date);
+        enterPlace = (EditText) view.findViewById(R.id.enter_place);
+        placeData = new HashMap<>();
+        go = (TextView) view.findViewById(R.id.go);
     }
 
     @Override
@@ -172,7 +152,60 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.date:
+                checkDate = true;
+                DateFragment newFragment = new DateFragment();
+                newFragment.show(getFragmentManager(), "timePicker");
+
+                newFragment.selectedDate().subscribe(date -> {
+                    venueDate = date;
+                    Log.i("Date", date);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
+                    placeData.put("placeDate", venueDate);
+                    try {
+                        Date date1 = simpleDateFormat.parse(date);
+                        Date delay = new Date();
+                        this.delay = (delay.getTime() - date1.getTime());
+                        if (this.delay < 0) {
+                            Toast.makeText(getActivity(), "incorrect date", Toast.LENGTH_LONG).show();
+//                            dismiss();
+                        }
+                        daysAgo = this.delay / (24 * 60 * 60 * 1000);
+                        placeData.put("daysAgo", String.valueOf(daysAgo));
+                        Log.i("date1", date1 + "");
+                        this.date.setText(simpleDateFormat2.format(date1));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                });
+                break;
+            case R.id.go:
+                Log.i("Notes", "lets Go");
+                if (isValid()) {
+                    placeData.put("placeName", String.valueOf(enterPlace.getText()));
+                    placeSelected(placeData);
+//                    dismiss();
+                } else {
+                    Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
+                }
+                checkDate = false;
+                enterPlace.setText("Enter Place Name...");
+                date.setText("Date");
+                break;
+        }
         addPlaceData();
+    }
+
+    private boolean isValid() {
+        int placeLength = enterPlace.getText().length() - placeNameLength;
+
+        if (placeLength == 0 || checkDate == false || enterPlace.getText().length() == 0) {
+            return false;
+        }
+        return true;
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -189,9 +222,9 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     public void addPlaceData() {
         Log.i("MainScreenFragment", "addPlaceData");
-        Dialogue placeData = Dialogue.newInstance();
-        placeData.inputPlaceName().subscribe(place -> placeSelected(place));
-        placeData.show(getFragmentManager(), "Select gender");
+//        Dialogue placeData = Dialogue.newInstance();
+//        placeData.inputPlaceName().subscribe(place -> placeSelected(place));
+//        placeData.show(getFragmentManager(), "Select gender");
     }
 
     public void placeSelected(Map<String, String> place) {

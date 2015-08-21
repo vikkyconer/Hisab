@@ -26,24 +26,42 @@
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <View
-        android:id="@+id/below_this"
-        android:layout_width="1dp"
-        android:layout_height="120dp"
-        android:layout_alignParentRight="true"
-        android:background="@color/black" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
 
-    <TextView
-        android:id="@+id/add_friends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/below_this"
-        android:background="@drawable/textview_design"
-        android:gravity="center"
-        android:text="+"
-        android:textColor="@color/white"
-        android:textSize="35dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <EditText
+                android:id="@+id/enter_friend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Add Friend..."
+                android:textColor="@color/greyTextColor1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/add_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="Go"
+            android:textSize="20dp" />
+    </RelativeLayout>
 
     <View
         android:id="@+id/expenses_below_this"
@@ -52,27 +70,36 @@
         android:layout_alignParentRight="true"
         android:background="@color/black" />
 
-    <Button
-        android:id="@+id/enter_expenses"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/expenses_below_this"
-        android:layout_toLeftOf="@id/add_friends"
-        android:background="@drawable/textview_design"
-        android:padding="10dp"
-        android:text="EXPENSES"
-        android:typeface="serif"
-        android:visibility="gone" />
+        android:layout_below="@id/expenses_below_this">
 
-    <Button
-        android:id="@+id/compute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/expenses_below_this"
-        android:layout_toLeftOf="@id/enter_expenses"
-        android:background="@drawable/textview_design"
-        android:padding="10dp"
-        android:text="COMPUTE"
-        android:typeface="serif"
-        android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <Button
+                android:id="@+id/enter_expenses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview_design"
+                android:padding="10dp"
+                android:text="EXPENSES"
+                android:typeface="serif"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/compute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/textview_design"
+                android:padding="10dp"
+                android:text="COMPUTE"
+                android:typeface="serif"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
