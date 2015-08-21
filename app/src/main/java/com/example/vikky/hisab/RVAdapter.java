@@ -3,11 +3,11 @@ package com.example.vikky.hisab;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,9 +49,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         holder.venueName.setText(placeList.get(i).getPlaceName().substring(0, 1).toUpperCase() + placeList.get(i).getPlaceName().substring(1));
         holder.venueDate.setText(placeList.get(i).getPlaceDate());
         holder.daysAgo.setText(String.valueOf(placeList.get(i).getDaysAgo()));
-        Log.i("Placeid", String.valueOf(placeList.get(i).getPlaceId()));
-//        String color = placeList.get(i).getBackgroundColor();
-//        holder.backgroundColor.setBackgroundColor(0xff0c85b9);
+        if (placeList.get(i).getNoOfPeopleWent() > 0) {
+            holder.noOfPeopleWentContainer.setVisibility(View.VISIBLE);
+            holder.noOfPeopleWent.setText(placeList.get(i).getNoOfPeopleWent());
+
+        }
     }
 
     @Override
@@ -65,14 +67,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     }
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+
         CardView cv;
-
-
         TextView venueName;
         TextView venueDate;
         TextView daysAgo;
         RelativeLayout backgroundColor;
         public Place place;
+        LinearLayout noOfPeopleWentContainer;
+        TextView noOfPeopleWent;
 
         PersonViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +84,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             daysAgo = (TextView) itemView.findViewById(R.id.days_ago);
             venueDate = (TextView) itemView.findViewById(R.id.venue_date);
             backgroundColor = (RelativeLayout) itemView.findViewById(R.id.background_color);
+            noOfPeopleWentContainer = (LinearLayout) itemView.findViewById(R.id.no_of_people_container);
+            noOfPeopleWent = (TextView) itemView.findViewById(R.id.no_of_people_went);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -97,6 +102,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             Toast.makeText(context, place.getPlaceName(), Toast.LENGTH_SHORT).show();
             return true;
         }
+
+
     }
 
 }

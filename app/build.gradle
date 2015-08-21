@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.vikky.hisab"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -34,4 +34,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:+'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.hudomju:swipe-to-dismiss-undo:1.0'
 }
+

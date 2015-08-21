@@ -8,6 +8,7 @@ public class Place {
     private String placeName;
     private int daysAgo;
     private String placeDate;
+    private int noOfPeopleWent;
 //    private String createdAt;
 
     public int getDaysAgo() {
@@ -21,17 +22,19 @@ public class Place {
     public Place() {
     }
 
-    public Place(String placeName, int daysAgo, String placeDate) {
+    public Place(String placeName, int daysAgo, String placeDate, int noOfPeopleWent) {
         this.placeName = placeName;
         this.daysAgo = daysAgo;
         this.placeDate = placeDate;
+        this.noOfPeopleWent = noOfPeopleWent;
     }
 
-    public Place(int placeId, String placeName, int daysAgo, String placeDate) {
+    public Place(int placeId, String placeName, int daysAgo, String placeDate, int noOfPeopleWent) {
         this.placeId = placeId;
         this.placeName = placeName;
         this.daysAgo = daysAgo;
         this.placeDate = placeDate;
+        this.noOfPeopleWent = noOfPeopleWent;
     }
 
 //    public String getCreatedAt() {
@@ -64,5 +67,13 @@ public class Place {
 
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
+    }
+
+    public int getNoOfPeopleWent() {
+        return noOfPeopleWent;
+    }
+
+    public void setNoOfPeopleWent(int noOfPeopleWent) {
+        this.noOfPeopleWent = noOfPeopleWent;
     }
 }

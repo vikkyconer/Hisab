@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by vikky on 7/1/15.
  */
-public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener {
+public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener, View.OnLongClickListener {
     private View addFriendsRootFragment;
     private TextView addFriends;
     private Button enterExpenses;
@@ -120,6 +121,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.show_friends_name, null);
             ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i));
+            view.setOnLongClickListener(this);
             ((TextView) view.findViewById(R.id.names_first_letter)).setText(friends.get(i).substring(0, 1).toUpperCase());
             friendsNameContainer.addView(view);
         }
@@ -201,6 +203,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private void friendEntered(Map<String, String> friend) {
         Friend friend1 = new Friend(friend.get("friendName"));
         long friend_id = db.createFriend(friend1, ((AddFriendsActivity) getActivity()).getPlaceId());
+
+//        db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
         friendAdded.onNext(friend1);
 
     }
@@ -214,6 +218,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     public void showFriend(Friend friend) {
         friends.add(friend.getName());
         showFriendName(friends);
+        db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
+
         if (friends.size() > 1) {
             enterExpenses.setVisibility(View.VISIBLE);
         }
@@ -229,5 +235,11 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             Log.d("ToDo Watchlist", friend.getName());
             showFriend(friend);
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Toast.makeText(getActivity(), "hey", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }

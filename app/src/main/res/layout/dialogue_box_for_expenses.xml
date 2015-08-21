@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/blue1">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/who_paid"
@@ -14,13 +13,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="Who Paid? : "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/greyTextColor1" />
 
         <Spinner
             android:id="@+id/input_who_paid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"></Spinner>
 
     </LinearLayout>
@@ -38,8 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/who_paid"
+            android:paddingLeft="10dp"
             android:text="Amount :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/greyTextColor1" />
 
         <EditText
             android:id="@+id/amount_paid"
@@ -59,8 +63,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="Description :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/greyTextColor1" />
 
         <EditText
             android:id="@+id/input_description"
@@ -79,8 +85,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="For Whom? :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/greyTextColor1" />
 
         <com.example.vikky.hisab.MultiSelectionSpinner
             android:id="@+id/mySpinner1"
@@ -90,69 +98,54 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/paid_for_whom"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <RelativeLayout
             android:id="@+id/cancel"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_weight="1"
+                android:paddingTop="5dp"
                 android:text="CANCEL"
-                android:textSize="20sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray" />
+                android:textColor="@color/blue1"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/cancel"
-            android:background="@color/gray" />
 
         <RelativeLayout
             android:id="@+id/ok"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1">
+            android:layout_height="30dp"
+            android:layout_weight="2">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_weight="1"
+                android:paddingRight="40dp"
+                android:paddingTop="5dp"
                 android:text="OK"
-                android:textSize="20sp" />
+                android:textColor="@color/blue1"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -12,7 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.hudomju.swipe.SwipeToDismissTouchListener;
+import com.hudomju.swipe.adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,6 +41,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     LinearLayoutManager linearLayoutManager;
     TextView venueDate;
     View view;
+    EditText enterPlace;
     List list;
     DatabaseHelper db;
 
@@ -71,6 +76,37 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     private void setEventsForViews() {
         Log.i("MainScreenFragment", "in setEventsForViews");
         addPlace.setOnClickListener(this);
+
+        final SwipeToDismissTouchListener<RecyclerViewAdapter> touchListener =
+                new SwipeToDismissTouchListener<>(
+                        new RecyclerViewAdapter(recyclerView),
+                        new SwipeToDismissTouchListener.DismissCallbacks<RecyclerViewAdapter>() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(RecyclerViewAdapter view, int position) {
+//                                adapter.remove(position);
+                            }
+                        });
+
+        recyclerView.setOnTouchListener(touchListener);
+        recyclerView.setOnScrollListener((RecyclerView.OnScrollListener) touchListener.makeScrollListener());
+       /* recyclerView.addOnItemTouchListener(new SwipeableItemClickListener(this,
+                new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if (view.getId() == R.id.txt_delete) {
+                            touchListener.processPendingDismisses();
+                        } else if (view.getId() == R.id.txt_undo) {
+                            touchListener.undoPendingDismiss();
+                        } else { // R.id.txt_data
+                            Toast.makeText(context, "Position " + position, LENGTH_SHORT).show();
+                        }
+                    }
+                }));*/
     }
 
     private void defaultConfiguration() {
@@ -82,8 +118,9 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void initializeViews(View view) {
         Log.i("MainScreenFragment", "in initializeViews");
-        addPlace = (TextView) view.findViewById(R.id.add_place);
+//        addPlace = (TextView) view.findViewById(R.id.add_place);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+//        recyclerView.setItemAnimator(new SlideInLeftAnimator());
         venueDate = (TextView) view.findViewById(R.id.venue_date);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         places = new ArrayList<>();
@@ -106,13 +143,14 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         placesAdapter.notifyDataSetChanged();
     }
 
+
     @Override
     public void initial() {
         List<Place> allPlaces = db.getAllPlaces();
         places.clear();
         for (Place place : allPlaces) {
             Log.d("ToDo", place.getPlaceName());
-            Place place1 = new Place(place.getPlaceId(), place.getPlaceName(), place.getDaysAgo(), place.getPlaceDate());
+            Place place1 = new Place(place.getPlaceId(), place.getPlaceName(), place.getDaysAgo(), place.getPlaceDate(), place.getNoOfPeopleWent());
             Log.i("after Calling", "places");
             showPlaces(place1);
             Log.i("after calling", "onNext");
@@ -159,7 +197,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     public void placeSelected(Map<String, String> place) {
         Log.i("MainScreenFragment", String.valueOf(place));
         // Creating Place
-        Place placeEntered = new Place(place.get("placeName"), Integer.parseInt(place.get("daysAgo")), place.get("placeDate"));
+        Place placeEntered = new Place(place.get("placeName"), Integer.parseInt(place.get("daysAgo")), place.get("placeDate"), 0);
 
         //inserting under database place
         long place_id = db.createPlace(placeEntered);

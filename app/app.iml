@@ -92,11 +92,12 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.0.0-rc.9" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-23.0.0" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-0.23.0" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="roundedimageview-1.5.0" level="project" />
-    <orderEntry type="library" exported="" name="cardview-v7-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.0.0" level="project" />
+    <orderEntry type="library" exported="" name="cardview-v7-23.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.0.0" level="project" />
+    <orderEntry type="library" exported="" name="swipe-to-dismiss-undo-1.0" level="project" />
   </component>
 </module>

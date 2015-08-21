@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/blue1">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/name_containor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/greyTextColor1" />
 
         <EditText
             android:id="@+id/enter_name"
@@ -29,13 +29,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name_containor"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Display Name :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Nick Name :"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/greyTextColor1" />
 
         <EditText
             android:id="@+id/enter_display_name"
@@ -46,69 +47,54 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/display_name_containor"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <RelativeLayout
             android:id="@+id/cancel"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_weight="1"
+                android:paddingTop="5dp"
                 android:text="CANCEL"
-                android:textSize="20sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray" />
+                android:textColor="@color/blue1"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/cancel"
-            android:background="@color/gray" />
 
         <RelativeLayout
             android:id="@+id/ok"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1">
+            android:layout_height="30dp"
+            android:layout_weight="2">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_weight="1"
+                android:paddingRight="40dp"
+                android:paddingTop="5dp"
                 android:text="OK"
-                android:textSize="20sp" />
+                android:textColor="@color/blue1"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray" />
         </RelativeLayout>
     </LinearLayout>
 

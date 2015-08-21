@@ -31,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_PLACE = "places";
     private static final String TABLE_FRIEND = "friends";
     private static final String TABLE_PLACE_FRIEND = "place_friends";
+    private static final String TABLE_EXPENSES = "expenses";
 
     // Common column names
     private static final String KEY_ID = "id";
@@ -40,30 +41,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_PLACE_NAME = "place_name";
     private static final String KEY_DAYSAGO = "daysAgo";
     private static final String KEY_DATE = "date";
+    private static final String KEY_NO_OF_PEOPLE_WENT = "noOfPeopleWent";
 
     // FRIENDS Table - column names
     private static final String KEY_FRIEND_NAME = "friend_name";
 
-    // NOTE_TAGS Table - column names
+    // PLACES_FRIENDS Table - column names
     private static final String KEY_PLACE_ID = "place_id";
     private static final String KEY_FRIEND_ID = "friend_id";
+
+    //EXPENSES Table - column names
+    private static final String KEY_WHO_PAID = "who_paid";
+    private static final String KEY_FOR_WHOM = "for_whom";
+    private static final String KEY_AMOUNT = "amount";
 
     // Table Create Statements
     // Place table create statement
     private static final String CREATE_TABLE_PLACE = "CREATE TABLE "
             + TABLE_PLACE + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLACE_NAME
             + " TEXT," + KEY_DAYSAGO + " INTEGER," + KEY_DATE
-            + " DATETIME" + ")";
+            + " DATETIME," + KEY_NO_OF_PEOPLE_WENT + " INTEGER" + ")";
 
     // Friend table create statement
     private static final String CREATE_TABLE_FRIEND = "CREATE TABLE " + TABLE_FRIEND
             + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_FRIEND_NAME
             + " TEXT" + ")";
 
-    // todo_tag table create statement
+    // place_friend table create statement
     private static final String CREATE_TABLE_PLACE_FRIND = "CREATE TABLE "
             + TABLE_PLACE_FRIEND + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_PLACE_ID + " INTEGER," + KEY_FRIEND_ID + " INTEGER" + ")";
+
+    //expenses table create statement
+    private static final String CREATE_TABLE_EXPENSES = "CREATE TABLE "
+            + TABLE_EXPENSES + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_PLACE_ID + " INTEGER," + KEY_WHO_PAID + " INTEGER"
+            + KEY_FOR_WHOM + " INTEGER," + KEY_AMOUNT + " INTEGER" + ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -99,6 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PLACE_NAME, place.getPlaceName());
         values.put(KEY_DAYSAGO, place.getDaysAgo());
         values.put(KEY_DATE, place.getPlaceDate());
+        values.put(KEY_NO_OF_PEOPLE_WENT, place.getNoOfPeopleWent());
 //        values.put(KEY_CREATED_AT, getDateTime());
 
         // insert row
@@ -111,6 +125,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 */
         return place_id;
     }
+
+    //update place
+
+    public int updatePlace(long place_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Place place = getPlace(place_id);
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NO_OF_PEOPLE_WENT, place.getNoOfPeopleWent());
+
+        // updating row
+        return db.update(TABLE_PLACE, values, KEY_ID + " = ?",
+                new String[]{String.valueOf(place.getPlaceId())});
+    }
+
 
     /*
  * get single Place
@@ -133,6 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         place.setPlaceName((c.getString(c.getColumnIndex(KEY_PLACE_NAME))));
         place.setPlaceDate((c.getString(c.getColumnIndex(KEY_DATE))));
         place.setDaysAgo(Integer.parseInt((c.getString(c.getColumnIndex(KEY_DAYSAGO)))));
+        place.setNoOfPeopleWent(Integer.parseInt(c.getString(c.getColumnIndex(KEY_NO_OF_PEOPLE_WENT))));
 //        place.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
         return place;
@@ -158,6 +189,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 place.setPlaceName((c.getString(c.getColumnIndex(KEY_PLACE_NAME))));
                 place.setPlaceDate((c.getString(c.getColumnIndex(KEY_DATE))));
                 place.setDaysAgo(Integer.parseInt((c.getString(c.getColumnIndex(KEY_DAYSAGO)))));
+                place.setNoOfPeopleWent(Integer.parseInt(c.getString(c.getColumnIndex(KEY_NO_OF_PEOPLE_WENT))));
 //                place.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
                 // adding to place list
@@ -213,6 +245,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public int getFriendsCount(long place_id) {
+        return 0;
+    }
+
     /*
 * Creating a friend
 */
@@ -265,4 +301,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return friends;
     }
+
+
 }
