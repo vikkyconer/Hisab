@@ -305,6 +305,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return friends;
     }
 
+    /*
+ * Deleting a place
+ */
+    public void deletePlace(long place_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PLACE, KEY_ID + " = ?",
+                new String[]{String.valueOf(place_id)});
+        db.delete(TABLE_PLACE_FRIEND, KEY_PLACE_ID + " = ?",
+                new String[]{String.valueOf(place_id)});
+    }
+
   /*  //create expenses
     public long createExpenses(TransactionDetails transactionDetails) {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by vikky on 6/29/15.
  */
-public class MainScreenFragment extends Fragment implements MainScreenView, View.OnClickListener {
+public class MainScreenFragment extends Fragment implements MainScreenView, View.OnClickListener, OnStartDragListener {
 
     ArrayList<Place> places;
     RVAdapter placesAdapter;
@@ -47,6 +48,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     long delay, daysAgo;
     List list;
     DatabaseHelper db;
+    private ItemTouchHelper mItemTouchHelper;
     //    int placeNameLength;
     TextView date, go;
     private Map<String, String> placeData;
@@ -93,7 +95,19 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 //        placeNameLength = enterPlace.getText().length();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(placesAdapter);
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // do whatever
+                        Log.i("Notes Position", String.valueOf(position));
+                        Navigator.toAddFriends(getActivity(), position + 1);
+                    }
+                })
+        );
 
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(placesAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void initializeViews(View view) {
@@ -242,5 +256,10 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         Log.e("Place Count", "Place count: " + db.getPlaceCount());
         placeAdded.onNext(placeEntered);
 
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 }

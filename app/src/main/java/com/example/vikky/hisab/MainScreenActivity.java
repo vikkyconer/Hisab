@@ -19,6 +19,7 @@ public class MainScreenActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main_screen);
         Log.i("MainScreenActivity", "in onCreate");
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        setTitle("Home");
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
 
 

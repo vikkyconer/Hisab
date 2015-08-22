@@ -33,6 +33,7 @@ public class AddFriendsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_add_friends);
         Log.i("AddFriendsActivity", "in onCreate");
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        setTitle("Add Friends");
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
 
         Intent i = getIntent();

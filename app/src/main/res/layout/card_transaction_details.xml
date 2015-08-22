@@ -22,12 +22,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rs "
-                    android:textColor="@color/green1"
-                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/amount"

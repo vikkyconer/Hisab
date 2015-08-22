@@ -27,6 +27,7 @@ public class ComputeActivity extends ActionBarActivity {
         setExpenditureMap((Map<String, Integer>) i.getSerializableExtra("expenditureMap"));
 
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        setTitle("Result");
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.blue1));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

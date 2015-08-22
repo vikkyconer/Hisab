@@ -12,20 +12,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by vikky on 7/2/15.
  */
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> implements ItemTouchHelperAdapter {
 
     List<Place> placeList;
     static Context context;
     ArrayAdapter<String> friendsAdapter;
     ListView colorListView;
-    static int position;
+    DatabaseHelper db;
 
     public RVAdapter(List<Place> placeList, Context context) {
         this.placeList = placeList;
@@ -36,13 +36,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
         PersonViewHolder pvh = new PersonViewHolder(v);
+        db = new DatabaseHelper(context);
         return pvh;
     }
 
     @Override
     public void onBindViewHolder(PersonViewHolder holder, int i) {
-        holder.place = placeList.get(i);
+
         initialize(holder, i);
+
 
     }
 
@@ -65,19 +67,39 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     @Override
     public int getItemCount() {
         Log.i("Notes", String.valueOf(placeList.size()));
-        position = placeList.size();
         return placeList.size();
     }
 
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(placeList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(placeList, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
 
-    public static class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    @Override
+    public void onItemDismiss(int position) {
+        placeList.remove(position);
+//        db.deletePlace(position + 1);
+        notifyItemRemoved(position);
+    }
+
+
+    public static class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         CardView cv;
         TextView venueName;
         TextView venueDate;
         TextView daysAgo;
         RelativeLayout backgroundColor;
-        public Place place;
         LinearLayout noOfPeopleWentContainer;
         TextView noOfPeopleWent;
 
@@ -91,23 +113,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             noOfPeopleWentContainer = (LinearLayout) itemView.findViewById(R.id.no_of_people_container);
             noOfPeopleWent = (TextView) itemView.findViewById(R.id.no_of_people_went);
 
-            itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            Log.i("Bind", String.valueOf(place.getPlaceId()));
-            if (place.getPlaceId() == 0)
-                Navigator.toAddFriends(context, position);
-            else
-                Navigator.toAddFriends(context, place.getPlaceId());
-
-        }
 
         @Override
         public boolean onLongClick(View v) {
-            Toast.makeText(context, place.getPlaceName(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, place.getPlaceName(), Toast.LENGTH_SHORT).show();
             return true;
         }
 
