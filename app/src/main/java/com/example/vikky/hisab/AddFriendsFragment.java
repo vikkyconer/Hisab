@@ -190,13 +190,15 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     private void mapTransactionDetails(Map<String, String> transactionDetails) {
         this.transactionDetails = new TransactionDetails();
-        this.transactionDetails.setAmount(transactionDetails.get("amount"));
+        this.transactionDetails.setAmount(Integer.valueOf(transactionDetails.get("amount")));
         this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
         this.transactionDetails.setDescription(transactionDetails.get("description"));
-
+        this.transactionDetails.setPlaceId(((AddFriendsActivity) getActivity()).getPlaceId());
         detailsList.add(this.transactionDetails);
 
         calculate(transactionDetails);
+
+//        db.createExpenses(transactionDetails);
 
     }
 
@@ -210,6 +212,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
                 paidForWhom.add(friends.get(i));
             }
         }
+        this.transactionDetails.setForWhom(paidForWhom);
         int previousAmount;
         if (expenditureMap.get(transactionDetails.get("whoPaid")) == null) {
             previousAmount = 0;

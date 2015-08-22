@@ -3,6 +3,7 @@ package com.example.vikky.hisab;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     static Context context;
     ArrayAdapter<String> friendsAdapter;
     ListView colorListView;
-    int position;
+    static int position;
 
     public RVAdapter(List<Place> placeList, Context context) {
         this.placeList = placeList;
@@ -63,8 +64,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public int getItemCount() {
+        Log.i("Notes", String.valueOf(placeList.size()));
+        position = placeList.size();
         return placeList.size();
     }
+
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
@@ -93,7 +97,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
         @Override
         public void onClick(View v) {
-            Navigator.toAddFriends(context, place.getPlaceId());
+            Log.i("Bind", String.valueOf(place.getPlaceId()));
+            if (place.getPlaceId() == 0)
+                Navigator.toAddFriends(context, position);
+            else
+                Navigator.toAddFriends(context, place.getPlaceId());
 
         }
 

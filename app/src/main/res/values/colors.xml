@@ -21,4 +21,6 @@
     <item name="blackTextColor" type="color">#0c2232</item>
     <item name="menue_seperator" type="color">#0c85b9</item>
     <item name="light_grey" type="color">#d3d3d3</item>
+    <item name="deep_purple" type="color">#673ab7</item>
+    <item name="light_purple" type="color">#7e57c2</item>
 </resources>

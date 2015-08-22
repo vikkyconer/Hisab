@@ -52,8 +52,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //EXPENSES Table - column names
     private static final String KEY_WHO_PAID = "who_paid";
-    private static final String KEY_FOR_WHOM = "for_whom";
+    private static final ArrayList<String> KEY_FOR_WHOM = new ArrayList<>();
     private static final String KEY_AMOUNT = "amount";
+    private static final String KEY_DESCRIPTION = "description";
 
     // Table Create Statements
     // Place table create statement
@@ -75,8 +76,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //expenses table create statement
     private static final String CREATE_TABLE_EXPENSES = "CREATE TABLE "
             + TABLE_EXPENSES + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_PLACE_ID + " INTEGER," + KEY_WHO_PAID + " INTEGER"
-            + KEY_FOR_WHOM + " INTEGER," + KEY_AMOUNT + " INTEGER" + ")";
+            + KEY_PLACE_ID + " INTEGER," + KEY_WHO_PAID + " TEXT"
+            + KEY_FOR_WHOM + " TEXT," + KEY_AMOUNT + " INTEGER" + KEY_DESCRIPTION + " TEXT" + ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -89,6 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PLACE);
         db.execSQL(CREATE_TABLE_FRIEND);
         db.execSQL(CREATE_TABLE_PLACE_FRIND);
+        db.execSQL(CREATE_TABLE_EXPENSES);
     }
 
     @Override
@@ -97,6 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FRIEND);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE_FRIEND);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSES);
 
         // create new tables
         onCreate(db);
@@ -301,6 +304,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return friends;
     }
+
+  /*  //create expenses
+    public long createExpenses(TransactionDetails transactionDetails) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLACE_ID, transactionDetails.getPlaceId());
+        values.put(KEY_WHO_PAID, transactionDetails.getWhoPaid());
+        values.put(KEY_FOR_WHOM, transactionDetails.getForWhomIds());
+        values.put(KEY_AMOUNT, transactionDetails.getAmount());
+        values.put();
+
+//        values.put(KEY_CREATED_AT, getDateTime());
+
+        long id = db.insert(TABLE_EXPENSES, null, values);
+
+        return id;
+    }*/
 
 
 }

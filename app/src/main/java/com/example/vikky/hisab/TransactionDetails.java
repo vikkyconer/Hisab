@@ -6,9 +6,31 @@ import java.util.ArrayList;
  * Created by vikky on 7/12/15.
  */
 public class TransactionDetails {
-    String whoPaid, amount;
+    String whoPaid;
+    Integer placeId, amount, transactionId;
     ArrayList<String> forWhom;
     String description;
+
+
+    public TransactionDetails() {
+    }
+
+    public TransactionDetails(int placeId, String whoPaid, ArrayList<String> forWhom, int amount, String description) {
+        this.placeId = placeId;
+        this.whoPaid = whoPaid;
+        this.forWhom = forWhom;
+        this.amount = amount;
+        this.description = description;
+    }
+
+    public TransactionDetails(int transactionId, int placeId, String whoPaid, ArrayList<String> forWhom, int amount, String description) {
+        this.transactionId = transactionId;
+        this.placeId = placeId;
+        this.whoPaid = whoPaid;
+        this.forWhom = forWhom;
+        this.amount = amount;
+        this.description = description;
+    }
 
     public String getWhoPaid() {
         return whoPaid;
@@ -18,12 +40,20 @@ public class TransactionDetails {
         this.whoPaid = whoPaid;
     }
 
-    public String getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public Integer getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 
     public String getDescription() {
@@ -34,36 +64,19 @@ public class TransactionDetails {
         this.description = description;
     }
 
- /*   @Override
-    public int describeContents() {
-        return 0;
+    public ArrayList<String> getForWhomIds() {
+        return forWhom;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(whoPaid);
-        dest.writeString(forWhom);
-        dest.writeString(amount);
-        dest.writeString(description);
-
+    public void setForWhom(ArrayList<String> forWhom) {
+        this.forWhom = forWhom;
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        @Override
-        public TransactionDetails createFromParcel(Parcel source) {
-            return new TransactionDetails(source);
-        }
+    public Integer getPlaceId() {
+        return placeId;
+    }
 
-        @Override
-        public TransactionDetails[] newArray(int size) {
-            return new TransactionDetails[size];
-        }
-    };
-
-    public TransactionDetails(Parcel source) {
-        whoPaid = source.readString();
-        forWhom = source.readString();
-        amount = source.readString();
-        description = source.readString();
-    }*/
+    public void setPlaceId(Integer placeId) {
+        this.placeId = placeId;
+    }
 }

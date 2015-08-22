@@ -13,15 +13,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue2"
+            android:background="@color/blue1"
             android:padding="5dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/amount_container"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/black">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rs "
+                    android:textColor="@color/green1"
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/amount"
@@ -32,7 +38,7 @@
                     android:textColor="@color/white"
                     android:textSize="50sp"
                     android:typeface="serif" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/description"
