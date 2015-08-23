@@ -3,70 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:paddingBottom="5dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:paddingBottom="5dp" />
-
-    </FrameLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:id="@+id/add_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray1" />
-
-        <LinearLayout
-            android:id="@+id/enter_place_container"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content">
-
-            <EditText
-
-                android:id="@+id/enter_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:hint="Enter Place Name..."
-                android:textColor="@color/greyTextColor1"
-                android:typeface="serif" />
-        </LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="8dp">
 
         <TextView
-            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="50dp"
-            android:layout_toRightOf="@id/enter_place_container"
-            android:text="Date"
-            android:textColor="@color/greyTextColor1"
-            android:textSize="20dp"
-            android:typeface="serif" />
+            android:background="@drawable/textview_design"
+            android:text="" />
 
         <TextView
-            android:id="@+id/go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="GO"
-            android:textSize="20dp"
-            android:typeface="serif" />
-
+            android:layout_centerInParent="true"
+            android:text="+"
+            android:textColor="@color/white"
+            android:textSize="40dp" />
     </RelativeLayout>
+
 
 </RelativeLayout>

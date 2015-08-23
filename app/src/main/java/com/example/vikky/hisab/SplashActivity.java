@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Window;
 
 
 public class SplashActivity extends ActionBarActivity {
@@ -24,7 +23,7 @@ public class SplashActivity extends ActionBarActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mainIntent = new Intent(SplashActivity.this, MainScreenActivity.class);
+                Intent mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
 //                mp.stop();
                 SplashActivity.this.finish();

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,13 +45,14 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     LinearLayoutManager linearLayoutManager;
     String venueDate;
     View view;
-    EditText enterPlace;
+//    EditText enterPlace;
     long delay, daysAgo;
     List list;
     DatabaseHelper db;
     private ItemTouchHelper mItemTouchHelper;
     //    int placeNameLength;
-    TextView date, go;
+//    TextView date;
+    RelativeLayout addPlace;
     private Map<String, String> placeData;
     private boolean checkDate;
 
@@ -84,9 +86,9 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void setEventsForViews() {
         Log.i("MainScreenFragment", "in setEventsForViews");
-        date.setOnClickListener(this);
-        go.setOnClickListener(this);
-        enterPlace.setOnClickListener(this);
+//        date.setOnClickListener(this);
+        addPlace.setOnClickListener(this);
+//        enterPlace.setOnClickListener(this);
 
     }
 
@@ -118,10 +120,10 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         places = new ArrayList<>();
         place = new Place();
         placesAdapter = new RVAdapter(places, getActivity());
-        date = (TextView) view.findViewById(R.id.date);
-        enterPlace = (EditText) view.findViewById(R.id.enter_place);
+//        date = (TextView) view.findViewById(R.id.date);
+//        enterPlace = (EditText) view.findViewById(R.id.enter_place);
         placeData = new HashMap<>();
-        go = (TextView) view.findViewById(R.id.go);
+        addPlace = (RelativeLayout) view.findViewById(R.id.add_place);
     }
 
     @Override
@@ -168,7 +170,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.date:
+         /*   case R.id.date:
                 checkDate = true;
                 DateFragment newFragment = new DateFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
@@ -196,35 +198,35 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
                     }
 
                 });
+                break;*/
+            case R.id.add_place:
+                addPlaceData();
+//                Log.i("Notes", "lets Go");
+//                if (isValid()) {
+//                    placeData.put("placeName", String.valueOf(enterPlace.getText()));
+//                    placeSelected(placeData);
+////                    dismiss();
+//                } else {
+//                    Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
+//                }
+//                checkDate = false;
+//                enterPlace.setText("");
+//                date.setText("Date");
                 break;
-            case R.id.go:
-                Log.i("Notes", "lets Go");
-                if (isValid()) {
-                    placeData.put("placeName", String.valueOf(enterPlace.getText()));
-                    placeSelected(placeData);
-//                    dismiss();
-                } else {
-                    Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
-                }
-                checkDate = false;
+           /* case R.id.enter_place:
                 enterPlace.setText("");
-                date.setText("Date");
-                break;
-            case R.id.enter_place:
-                enterPlace.setText("");
-                break;
+                break;*/
         }
-        addPlaceData();
     }
 
-    private boolean isValid() {
+   /* private boolean isValid() {
         int placeLength = enterPlace.getText().length();
 
         if (placeLength == 0 || checkDate == false) {
             return false;
         }
         return true;
-    }
+    }*/
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
@@ -240,9 +242,9 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     public void addPlaceData() {
         Log.i("MainScreenFragment", "addPlaceData");
-//        Dialogue placeData = Dialogue.newInstance();
-//        placeData.inputPlaceName().subscribe(place -> placeSelected(place));
-//        placeData.show(getFragmentManager(), "Select gender");
+        Dialogue placeData = Dialogue.newInstance();
+        placeData.inputPlaceName().subscribe(place -> placeSelected(place));
+        placeData.show(getFragmentManager(), "Select gender");
     }
 
     public void placeSelected(Map<String, String> place) {

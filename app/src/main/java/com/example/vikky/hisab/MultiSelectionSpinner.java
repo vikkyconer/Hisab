@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -21,10 +22,12 @@ public class MultiSelectionSpinner extends Spinner implements
     static String[] _items = null;
     static boolean[] mSelection = null;
 
+    public Context context;
     ArrayAdapter<String> simple_adapter;
 
     public MultiSelectionSpinner(Context context) {
         super(context);
+        this.context = context;
 
         simple_adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_item);
@@ -55,9 +58,16 @@ public class MultiSelectionSpinner extends Spinner implements
     public boolean performClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMultiChoiceItems(_items, mSelection, this);
+        builder.setPositiveButton("OK",foo());
         builder.show();
         return true;
     }
+
+    private DialogInterface.OnClickListener foo() {
+        Log.i("Notes","chill hai");
+        return null;
+    }
+
 
     @Override
     public void setAdapter(SpinnerAdapter adapter) {
@@ -194,3 +204,5 @@ public class MultiSelectionSpinner extends Spinner implements
         return _items;
     }
 }
+
+

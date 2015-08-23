@@ -154,7 +154,11 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         for (int i = 0; i < friends.size(); i++) {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.show_friends_name, null);
-            ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i));
+            if( friends.get(i).length() > 6) {
+                ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i).substring(0,6).concat("..."));
+            }else {
+                ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i));
+            }
             RemoveFriend(view, i);
             ((TextView) view.findViewById(R.id.names_first_letter)).setText(friends.get(i).substring(0, 1).toUpperCase());
             friendsNameContainer.addView(view);
