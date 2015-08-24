@@ -23,7 +23,7 @@ public class SplashActivity extends ActionBarActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
+                Intent mainIntent = new Intent(SplashActivity.this, MainScreenActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
 //                mp.stop();
                 SplashActivity.this.finish();

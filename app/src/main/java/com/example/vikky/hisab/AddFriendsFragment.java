@@ -31,7 +31,7 @@ import rx.subjects.BehaviorSubject;
 public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener, View.OnLongClickListener {
     private View addFriendsRootFragment;
     private TextView addFriends;
-    private Button enterExpenses;
+//    private Button enterExpenses;
     private Button compute;
     private Friend friend;
     private ArrayList<String> friends;
@@ -75,7 +75,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     private void setEventsForViews() {
         addFriends.setOnClickListener(this);
-        enterExpenses.setOnClickListener(this);
+//        enterExpenses.setOnClickListener(this);
         compute.setOnClickListener(this);
         enterFriendName.setOnClickListener(this);
     }
@@ -90,7 +90,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         names = (TextView) view.findViewById(R.id.first_name);
         firstLetter = (TextView) view.findViewById(R.id.names_first_letter);
         listFriends = (RelativeLayout) view.findViewById(R.id.list_friends);
-        enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
+//        enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
         friendsNameContainer = (LinearLayout) view.findViewById(R.id.friends_name_container);
         detailsList = new ArrayList<>();
         paidForWhom = new ArrayList<>();
@@ -121,13 +121,16 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
                 Toast.makeText(getActivity(), "Enter Friend Name", Toast.LENGTH_LONG).show();
             }
             enterFriendName.setText("");
-        } else if (v.getId() == R.id.enter_expenses) {
-            showCustomDialogurForWhoPaid();
+//        } else if (v.getId() == R.id.enter_expenses) {
+//            showCustomDialogurForWhoPaid();
+//        }
         } else if (v.getId() == R.id.compute) {
             printHash(expenditureMap);
             Navigator.toCompute(getActivity(), expenditureMap);
         } else if (v.getId() == R.id.enter_friend_name) {
             enterFriendName.setText("");
+        } else {
+            showCustomDialogurForWhoPaid();
         }
     }
 
@@ -154,9 +157,9 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         for (int i = 0; i < friends.size(); i++) {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.show_friends_name, null);
-            if( friends.get(i).length() > 6) {
-                ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i).substring(0,6).concat("..."));
-            }else {
+            if (friends.get(i).length() > 6) {
+                ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i).substring(0, 6).concat("..."));
+            } else {
                 ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i));
             }
             RemoveFriend(view, i);
@@ -167,6 +170,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     private void RemoveFriend(View view, int i) {
         friendPosition = i;
+        view.setOnClickListener(this);
         view.setOnLongClickListener(this);
 
     }
@@ -262,9 +266,9 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         showFriendName(friends);
         db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
 
-        if (friends.size() > 1) {
-            enterExpenses.setVisibility(View.VISIBLE);
-        }
+//        if (friends.size() > 1) {
+//            enterExpenses.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override

@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:id="@+id/who_paid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="Who Paid? : "
+            android:text="Who Paid "
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 
@@ -22,7 +22,6 @@
             android:id="@+id/input_who_paid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"></Spinner>
 
     </LinearLayout>
@@ -32,16 +31,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/who_paid"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="vertical"
+        android:padding="8dp">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/who_paid"
-            android:paddingLeft="10dp"
-            android:text="Amount :"
+            android:text="Amount"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 
@@ -57,14 +55,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/amount"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="Description :"
+            android:text="Description"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 
@@ -79,14 +76,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/description"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="For Whom? :"
+            android:text="For Whom"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 
@@ -148,6 +144,4 @@
 
         </RelativeLayout>
     </LinearLayout>
-
-
 </RelativeLayout>

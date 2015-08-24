@@ -1,119 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="140dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
     android:padding="5dp">
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="5dp">
+
+        <TextView
+            android:id="@+id/who_should_pay_first_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/textview_design"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="V"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/who_should_pay_first_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/who_should_pay_first_letter"
+            android:layout_centerInParent="true"
+            android:text="vikas"
+            android:textColor="@color/black"
+            android:typeface="serif" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/right_arrow" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="5dp">
+
+        <TextView
+            android:id="@+id/to_whom_names_first_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/textview_design"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="V"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/to_whom_first_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/to_whom_names_first_letter"
+            android:layout_centerInParent="true"
+            android:text="vikas"
+            android:textColor="@color/black"
+            android:typeface="serif" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:weightSum="5">
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="5dp">
-
-            <TextView
-                android:id="@+id/who_should_pay_first_letter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@drawable/textview_design"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="V"
-                android:textColor="@color/white"
-                android:textSize="35sp"
-                android:typeface="serif" />
-
-            <TextView
-                android:id="@+id/who_should_pay_first_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/who_should_pay_first_letter"
-                android:layout_centerInParent="true"
-                android:text="vikas"
-                android:textColor="@color/black"
-                android:typeface="serif" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_weight="1"
-                android:text="will give"
-                android:textSize="18dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="65"
-                android:textColor="@color/red1"
-                android:textSize="35sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="to"
-                android:textSize="20dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="5dp">
-
-            <TextView
-                android:id="@+id/to_whom_names_first_letter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@drawable/textview_design"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="V"
-                android:textColor="@color/white"
-                android:textSize="35sp"
-                android:typeface="serif" />
-
-            <TextView
-                android:id="@+id/to_whom_first_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/to_whom_names_first_letter"
-                android:layout_centerInParent="true"
-                android:text="vikas"
-                android:textColor="@color/black"
-                android:typeface="serif" />
-        </RelativeLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="65"
+            android:textColor="@color/red1"
+            android:textSize="35sp" />
+    </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

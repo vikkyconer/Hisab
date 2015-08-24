@@ -7,21 +7,22 @@
         android:id="@+id/place_or_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Place(Title) :"
+            android:paddingBottom="3dp"
+            android:text="Place"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 
         <EditText
             android:id="@+id/enter_place"
             android:layout_width="match_parent"
-            android:textColor="@color/greyTextColor1"
-            android:layout_height="wrap_content"></EditText>
+            android:layout_height="wrap_content"
+            android:textColor="@color/greyTextColor1"></EditText>
     </LinearLayout>
 
     <LinearLayout
@@ -29,26 +30,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/place_or_title"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="vertical"
+        android:padding="8dp">
 
 
         <TextView
             android:id="@+id/date_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
             android:paddingRight="5dp"
-            android:text="DATE :"
+            android:text="Date"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 
         <TextView
             android:id="@+id/date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_toRightOf="@id/date_label"
             android:paddingLeft="5dp"
-            android:text="select date"
+            android:text="Select Date"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 

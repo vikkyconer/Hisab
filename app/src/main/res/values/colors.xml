@@ -15,6 +15,9 @@
     <item name="red1" type="color">#e64e4e</item>
     <item name="transparent" type="color">#00000000</item>
     <item name="green" type="color">#006400</item>
+    <item name="background_green" type="color">#00cc66</item>
+    <item name="background_green1" type="color">#00cc99</item>
+    <item name="background_green2" type="color">#00cc33</item>
     <item name="green1" type="color">#359900</item>
     <item name="blueTextColor1" type="color">#0c2232</item>
     <item name="seperator1" type="color">#1c3c54</item>
@@ -23,4 +26,6 @@
     <item name="light_grey" type="color">#d3d3d3</item>
     <item name="deep_purple" type="color">#673ab7</item>
     <item name="light_purple" type="color">#7e57c2</item>
+    <item name="orange" type="color">#ff8251</item>
+    <item name="orange1" type="color">#ff9966</item>
 </resources>

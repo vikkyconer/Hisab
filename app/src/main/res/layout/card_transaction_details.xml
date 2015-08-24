@@ -8,12 +8,11 @@
         android:id="@+id/cv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="5dp">
+        card_view:cardCornerRadius="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue1"
             android:padding="5dp">
 
             <LinearLayout
@@ -29,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="40"
-                    android:textColor="@color/white"
+                    android:textColor="@color/greyTextColor1"
                     android:textSize="50sp"
                     android:typeface="serif" />
             </LinearLayout>
@@ -42,8 +41,8 @@
                 android:inputType="textCapSentences"
                 android:paddingLeft="5dp"
                 android:text="burgers"
-                android:textColor="@color/white"
-                android:textSize="25dp"
+                android:textColor="@color/greyTextColor1"
+                android:textSize="20dp"
                 android:typeface="serif" />
 
             <LinearLayout
@@ -64,7 +63,7 @@
                     android:capitalize="characters"
                     android:padding="5dp"
                     android:text="vikas"
-                    android:textColor="@color/white"
+                    android:textColor="@color/greyTextColor1"
                     android:textSize="20dp"
                     android:typeface="serif" />
 
@@ -91,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="For : "
-                    android:textColor="@color/white"
+                    android:textColor="@color/greyTextColor1"
                     android:textSize="18dp"
                     android:typeface="serif" />
 

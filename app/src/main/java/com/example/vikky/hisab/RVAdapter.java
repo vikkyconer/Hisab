@@ -72,6 +72,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        Log.i("Notes", "onItemMove");
+        Log.i("fromPos", String.valueOf(fromPosition));
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
                 Collections.swap(placeList, i, i + 1);

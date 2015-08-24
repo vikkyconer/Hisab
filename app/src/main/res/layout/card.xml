@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lyt_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,13 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        app:cardCornerRadius="20dp">
 
         <RelativeLayout
             android:id="@+id/background_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:padding="10dp">
 
 
@@ -26,6 +29,7 @@
                 android:layout_alignParentTop="true"
                 android:focusable="true"
                 android:text="Lonavala"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
 
             <TextView
@@ -33,7 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/venue_name"
-                android:text="17/08/2015" />
+                android:text="17/08/2015"
+                android:textColor="@color/greyTextColor1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,7 +46,8 @@
                 android:layout_below="@id/venue_name"
                 android:layout_toRightOf="@id/venue_date"
                 android:paddingLeft="5sp"
-                android:text="(" />
+                android:text="("
+                android:textColor="@color/greyTextColor1" />
 
             <TextView
                 android:id="@+id/days_ago"
@@ -50,7 +56,8 @@
                 android:layout_below="@id/venue_name"
                 android:layout_toRightOf="@id/venue_date"
                 android:paddingLeft="10sp"
-                android:text="2" />
+                android:text="2"
+                android:textColor="@color/greyTextColor1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,7 +65,8 @@
                 android:layout_below="@id/venue_name"
                 android:layout_toRightOf="@id/days_ago"
                 android:paddingLeft="2sp"
-                android:text="days ago )" />
+                android:text="days ago )"
+                android:textColor="@color/greyTextColor1" />
 
             <LinearLayout
                 android:id="@+id/no_of_people_container"

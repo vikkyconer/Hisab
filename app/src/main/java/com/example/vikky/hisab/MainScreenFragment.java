@@ -13,15 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +39,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     LinearLayoutManager linearLayoutManager;
     String venueDate;
     View view;
-//    EditText enterPlace;
+    //    EditText enterPlace;
     long delay, daysAgo;
     List list;
     DatabaseHelper db;
@@ -122,6 +116,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         placesAdapter = new RVAdapter(places, getActivity());
 //        date = (TextView) view.findViewById(R.id.date);
 //        enterPlace = (EditText) view.findViewById(R.id.enter_place);
+
         placeData = new HashMap<>();
         addPlace = (RelativeLayout) view.findViewById(R.id.add_place);
     }
@@ -169,54 +164,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-         /*   case R.id.date:
-                checkDate = true;
-                DateFragment newFragment = new DateFragment();
-                newFragment.show(getFragmentManager(), "timePicker");
-
-                newFragment.selectedDate().subscribe(date -> {
-                    venueDate = date;
-                    Log.i("Date", date);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
-                    placeData.put("placeDate", venueDate);
-                    try {
-                        Date date1 = simpleDateFormat.parse(date);
-                        Date delay = new Date();
-                        this.delay = (delay.getTime() - date1.getTime());
-                        if (this.delay < 0) {
-                            Toast.makeText(getActivity(), "incorrect date", Toast.LENGTH_LONG).show();
-//                            dismiss();
-                        }
-                        daysAgo = this.delay / (24 * 60 * 60 * 1000);
-                        placeData.put("daysAgo", String.valueOf(daysAgo));
-                        Log.i("date1", date1 + "");
-                        this.date.setText(simpleDateFormat2.format(date1));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                });
-                break;*/
-            case R.id.add_place:
-                addPlaceData();
-//                Log.i("Notes", "lets Go");
-//                if (isValid()) {
-//                    placeData.put("placeName", String.valueOf(enterPlace.getText()));
-//                    placeSelected(placeData);
-////                    dismiss();
-//                } else {
-//                    Toast.makeText(getActivity(), "Enter Venue and Date", Toast.LENGTH_LONG).show();
-//                }
-//                checkDate = false;
-//                enterPlace.setText("");
-//                date.setText("Date");
-                break;
-           /* case R.id.enter_place:
-                enterPlace.setText("");
-                break;*/
-        }
+        addPlaceData();
     }
 
    /* private boolean isValid() {
@@ -262,6 +210,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        Log.i("Notes", "onStartDrag");
         mItemTouchHelper.startDrag(viewHolder);
     }
 }
