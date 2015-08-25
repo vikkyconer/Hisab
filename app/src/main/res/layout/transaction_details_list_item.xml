@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     android:background="@color/white"
-    android:orientation="horizontal"
-    android:padding="5dp">
+    android:orientation="horizontal">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="5dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/who_should_pay_first_letter"
@@ -24,16 +25,21 @@
             android:textSize="35sp"
             android:typeface="serif" />
 
-        <TextView
-            android:id="@+id/who_should_pay_first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/who_should_pay_first_letter"
-            android:layout_centerInParent="true"
-            android:text="vikas"
-            android:textColor="@color/black"
-            android:typeface="serif" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/who_should_pay_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="vikas"
+                android:textColor="@color/black"
+                android:typeface="serif" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -48,10 +54,11 @@
             android:background="@drawable/right_arrow" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="5dp">
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/to_whom_names_first_letter"
@@ -65,16 +72,20 @@
             android:textSize="35sp"
             android:typeface="serif" />
 
-        <TextView
-            android:id="@+id/to_whom_first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/to_whom_names_first_letter"
-            android:layout_centerInParent="true"
-            android:text="vikas"
-            android:textColor="@color/black"
-            android:typeface="serif" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/to_whom_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="vikas"
+                android:textColor="@color/black"
+                android:typeface="serif" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

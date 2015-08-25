@@ -7,8 +7,8 @@
         android:id="@+id/add_friends_container"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:background="@color/white">
+        android:layout_margin="8dp"
+        android:background="@drawable/add_friend">
 
 
         <EditText
@@ -16,30 +16,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:background="@null"
             android:gravity="center"
             android:hint="Add Friend..."
             android:textColor="@color/greyTextColor1" />
 
-        <RelativeLayout
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/gray" />
-
-
-            <TextView
-                android:id="@+id/add_friends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
-                android:text="Go"
-                android:textSize="20dp" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/add_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/go_arrow"
+            android:textSize="20dp" />
     </RelativeLayout>
 
 
@@ -47,7 +38,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/add_friends_container"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="42dp">
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -61,20 +53,39 @@
                 android:padding="4dp"></LinearLayout>
         </HorizontalScrollView>
 
-         <android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-             android:padding="5dp"></android.support.v7.widget.RecyclerView>
+            android:padding="5dp"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/compute"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/blue1"
-        android:text="Compute"
-        android:typeface="serif" />
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Tap on Name for adding expenses"
+            android:textColor="@color/greyTextColor1"
+            android:layout_marginBottom="3dp"/>
+
+        <Button
+            android:id="@+id/compute"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/button"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="5"
+            android:shadowDy="2"
+            android:shadowRadius="11"
+            android:text="Calculate Expenses !"
+            android:textColor="#FFFFFF"
+            android:textSize="23sp" />
+    </LinearLayout>
 </RelativeLayout>

@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".AddFriendsActivity"
-            android:label="@string/title_activity_add_friends" >
+            android:label="@string/title_activity_add_friends"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".ComputeActivity"

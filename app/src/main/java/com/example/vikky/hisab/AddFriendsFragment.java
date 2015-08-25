@@ -31,7 +31,7 @@ import rx.subjects.BehaviorSubject;
 public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener, View.OnLongClickListener {
     private View addFriendsRootFragment;
     private TextView addFriends;
-//    private Button enterExpenses;
+    //    private Button enterExpenses;
     private Button compute;
     private Friend friend;
     private ArrayList<String> friends;
@@ -50,6 +50,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
     private ArrayList<String> paidForWhom;
     DatabaseHelper db;
+    AddFriendsAdapter friendsAdapter;
     private int friendPosition;
 //    private int friendNameLength = 0;
 
@@ -100,6 +101,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
         friend = new Friend();
         friends = new ArrayList<>();
+        friendsAdapter = new AddFriendsAdapter(friends,getActivity());
         detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity(), paidForWhom);
         enterFriendName = (EditText) view.findViewById(R.id.enter_friend_name);
         friendData = new HashMap<>();
@@ -123,7 +125,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             enterFriendName.setText("");
 //        } else if (v.getId() == R.id.enter_expenses) {
 //            showCustomDialogurForWhoPaid();
-//        }
         } else if (v.getId() == R.id.compute) {
             printHash(expenditureMap);
             Navigator.toCompute(getActivity(), expenditureMap);
@@ -153,6 +154,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     private void showFriendName(ArrayList<String> friends) {
         Log.i("AddFriendsFragment", "showFriendName()");
+//        friendsAdapter.notifyDataSetChanged();
         friendsNameContainer.removeAllViews();
         for (int i = 0; i < friends.size(); i++) {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
@@ -203,7 +205,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         this.transactionDetails.setDescription(transactionDetails.get("description"));
         this.transactionDetails.setPlaceId(((AddFriendsActivity) getActivity()).getPlaceId());
         detailsList.add(this.transactionDetails);
-
+        detailsAdapter.notifyDataSetChanged();
         calculate(transactionDetails);
 
 //        db.createExpenses(transactionDetails);
