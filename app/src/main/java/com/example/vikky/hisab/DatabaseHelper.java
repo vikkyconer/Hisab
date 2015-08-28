@@ -31,7 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_PLACE = "places";
     private static final String TABLE_FRIEND = "friends";
     private static final String TABLE_PLACE_FRIEND = "place_friends";
-    private static final String TABLE_EXPENSES = "expenses";
+    private static final String TABLE_EXPENSE = "expenses";
+    private static final String TABLE_PLACE_EXPENSE = "place_expenses";
 
     // Common column names
     private static final String KEY_ID = "id";
@@ -56,6 +57,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_AMOUNT = "amount";
     private static final String KEY_DESCRIPTION = "description";
 
+    //PLACES_EXPENSES Table - column names
+    //KEY_PLACE_ID... already defined
+    private static final String KEY_EXPENSE_ID = "expenses_id";
+
     // Table Create Statements
     // Place table create statement
     private static final String CREATE_TABLE_PLACE = "CREATE TABLE "
@@ -74,10 +79,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_PLACE_ID + " INTEGER," + KEY_FRIEND_ID + " INTEGER" + ")";
 
     //expenses table create statement
-    private static final String CREATE_TABLE_EXPENSES = "CREATE TABLE "
-            + TABLE_EXPENSES + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_PLACE_ID + " INTEGER," + KEY_WHO_PAID + " TEXT"
-            + KEY_FOR_WHOM + " TEXT," + KEY_AMOUNT + " INTEGER" + KEY_DESCRIPTION + " TEXT" + ")";
+    private static final String CREATE_TABLE_EXPENSE = "CREATE TABLE "
+            + TABLE_EXPENSE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_WHO_PAID + " TEXT," + KEY_FOR_WHOM + " TEXT,"
+            + KEY_AMOUNT + " INTEGER," + KEY_DESCRIPTION + " TEXT" + ")";
+
+    //place_expenses table create statement
+    private static final String CREATE_TABLE_PLACE_EXPENSES = "CREATE TABLE "
+            + TABLE_PLACE_EXPENSE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_PLACE_ID + " INTEGER," + KEY_EXPENSE_ID + " INTEGER" + ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -90,7 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PLACE);
         db.execSQL(CREATE_TABLE_FRIEND);
         db.execSQL(CREATE_TABLE_PLACE_FRIND);
-        db.execSQL(CREATE_TABLE_EXPENSES);
+        db.execSQL(CREATE_TABLE_EXPENSE);
+        db.execSQL(CREATE_TABLE_PLACE_EXPENSES);
     }
 
     @Override
@@ -99,7 +110,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FRIEND);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE_FRIEND);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE_EXPENSE);
 
         // create new tables
         onCreate(db);
@@ -331,30 +343,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //create expenses
-    public long createExpenses(long place_id, long friend_who_paid_id, long for_whom_id, int amount, String desc) {
+    public long createExpenses(long place_id,long friend_who_paid_id, long for_whom_id, int amount, String desc) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_PLACE_ID, place_id);
         values.put(KEY_WHO_PAID, friend_who_paid_id);
         values.put(KEY_FOR_WHOM, for_whom_id);
         values.put(KEY_AMOUNT, amount);
         values.put(KEY_DESCRIPTION, desc);
 
 
-        long id = db.insert(TABLE_EXPENSES, null, values);
+        long expense_id = db.insert(TABLE_EXPENSE, null, values);
 
-        return id;
+        createPlaceExpenses(place_id, expense_id);
+
+
+        return expense_id;
     }
 
-   /* *//*
-     * getting all expenses under place
-     * *//*
-    public List<TransactionDetails> getAllExpensesByPlace(String place_id) {
-        List<TransactionDetails> transactionDetailses = new ArrayList<TransactionDetails>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_EXPENSES + " expenses, "
-                + " WHERE place." + KEY_PLACE_ID + " = '" + place_id;
+    /*  * getting all expenses under place
+      **/
+    public List<TransactionDetails> getAllExpensesByPlace(String place_id) {
+        List<TransactionDetails> transactionDetail = new ArrayList<TransactionDetails>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_EXPENSE + " expense, "
+                + TABLE_PLACE + " place, " + TABLE_PLACE_EXPENSE + " place_expense WHERE place."
+                + KEY_ID + " = '" + place_id + "'" + " AND place." + KEY_ID
+                + " = " + "place_expense." + KEY_PLACE_ID + " AND expense." + KEY_ID + " = "
+                + "place_expense." + KEY_EXPENSE_ID;
 
         Log.e(LOG, selectQuery);
 
@@ -369,14 +386,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 transactionDetails.setAmount((c.getInt(c.getColumnIndex(KEY_AMOUNT))));
                 transactionDetails.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
                 transactionDetails.setWhoPaid(c.getString(c.getColumnIndex(KEY_WHO_PAID)));
-//                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
                 // adding to friend list
-                friends.add(friend);
+                transactionDetail.add(transactionDetails);
             } while (c.moveToNext());
         }
 
-        return friends;
+        return transactionDetail;
     }
-*/
+
+
+    //creating place_expenses
+    private long createPlaceExpenses(long place_id, long expenses_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLACE_ID, place_id);
+        values.put(KEY_EXPENSE_ID, expenses_id);
+//        values.put(KEY_CREATED_AT, getDateTime());
+
+        long id = db.insert(TABLE_PLACE_EXPENSE, null, values);
+
+        return id;
+    }
 }

@@ -35,6 +35,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private Button compute;
     private Friend friend;
     private ArrayList<String> friends;
+    private ArrayList<Map<String, String>> details;
     TextView names, firstLetter, tapToAdd;
     RelativeLayout listFriends;
     private ArrayList<TransactionDetails> detailsList;
@@ -108,6 +109,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         friendData = new HashMap<>();
         friendIds = new ArrayList<>();
         tapToAdd = (TextView) view.findViewById(R.id.tap);
+        details = new ArrayList<>();
 //        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
     }
 
@@ -251,14 +253,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         if (expenditureMap.size() > 0) {
             tapToAdd.setVisibility(View.INVISIBLE);
         }
-        printHash(expenditureMap);
-    }
-
-    private void printHash(Map<String, Integer> map) {
-        for (Map.Entry<String, Integer> e : map.entrySet()) {
-            String pos = e.getKey();
-            Log.i("hashvalue at ", pos + String.valueOf(e.getValue()));
-        }
     }
 
 
@@ -298,7 +292,18 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             Log.d("ToDo Watchlist", friend.getName());
             showFriend(friend);
         }
+        List<TransactionDetails> transactionDetailsList = db.getAllExpensesByPlace(String.valueOf(((AddFriendsActivity) getActivity()).getPlaceId()));
+        for (TransactionDetails details : transactionDetailsList) {
+            Log.i("expenses", details.getDescription());
+            showExpenses(details);
+        }
 
+    }
+
+    private void showExpenses(TransactionDetails details) {
+        detailsList.clear();
+        detailsList.add(details);
+        detailsAdapter.notifyDataSetChanged();
     }
 
     @Override
