@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,19 +28,13 @@ import rx.subjects.BehaviorSubject;
  * Created by vikky on 7/1/15.
  */
 public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener, View.OnLongClickListener {
-    private View addFriendsRootFragment;
-    private TextView addFriends;
-    //    private Button enterExpenses;
+    private TextView addFriends, tapToAdd;
     private Button compute;
-    private Friend friend;
-    private ArrayList<String> friends;
-    private ArrayList<Map<String, String>> details;
-    TextView names, firstLetter, tapToAdd;
-    RelativeLayout listFriends;
+    private ArrayList<String> friends, paidForWhom;
     private ArrayList<TransactionDetails> detailsList;
-    private int amount;
+    private int amount, friendPosition;
     private Map<String, String> friendData;
-    LinearLayout friendsNameContainer;
+    private LinearLayout friendsNameContainer;
     private Map<String, Integer> expenditureMap;
     private TransactionDetails transactionDetails;
     private EditText enterFriendName;
@@ -49,22 +42,16 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private RecyclerView detailsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
-    private ArrayList<String> paidForWhom;
     private DatabaseHelper db;
     private ArrayList<Long> friendIds;
-    AddFriendsAdapter friendsAdapter;
-    private int friendPosition;
-//    private int friendNameLength = 0;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i("AddFriendsFragment", "onCreateView()");
-        addFriendsRootFragment = inflater.inflate(R.layout.add_friends_fragment, container);
         setRetainInstance(true);
-        db = new DatabaseHelper(getActivity());
-        return addFriendsRootFragment;
+        return inflater.inflate(R.layout.add_friends_fragment, container);
     }
 
     @Override
@@ -89,10 +76,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void initializeViews(View view) {
+        db = new DatabaseHelper(getActivity());
         addFriends = (TextView) view.findViewById(R.id.add_friends);
-        names = (TextView) view.findViewById(R.id.first_name);
-        firstLetter = (TextView) view.findViewById(R.id.names_first_letter);
-        listFriends = (RelativeLayout) view.findViewById(R.id.list_friends);
 //        enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
         friendsNameContainer = (LinearLayout) view.findViewById(R.id.friends_name_container);
         detailsList = new ArrayList<>();
@@ -101,46 +86,46 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         compute = (Button) view.findViewById(R.id.compute);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
-        friend = new Friend();
         friends = new ArrayList<>();
-        friendsAdapter = new AddFriendsAdapter(friends, getActivity());
         detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity(), paidForWhom);
         enterFriendName = (EditText) view.findViewById(R.id.enter_friend_name);
         friendData = new HashMap<>();
         friendIds = new ArrayList<>();
         tapToAdd = (TextView) view.findViewById(R.id.tap);
-        details = new ArrayList<>();
-//        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
     }
 
     @Override
     public void onClick(View v) {
         Log.i("AddFriendsFragment", "onClick()");
-        if (v.getId() == R.id.add_friends) {
-            if (isValid()) {
-                if (isSameFriendNameEntered(enterFriendName.getText().toString())) {
+
+        switch (v.getId()) {
+            case R.id.add_friends:
+                if (isValid()) {
                     friendData.put("friendName", String.valueOf(enterFriendName.getText()));
                     friendEntered(friendData);
                 } else {
-                    Toast.makeText(getActivity(), "Friend Already There", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Enter Friend Name", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(getActivity(), "Enter Friend Name", Toast.LENGTH_LONG).show();
-            }
-            enterFriendName.setText("");
-//        } else if (v.getId() == R.id.enter_expenses) {
-//            showCustomDialogurForWhoPaid();
-        } else if (v.getId() == R.id.compute) {
-            if (expenditureMap.size() == 0) {
-                Toast.makeText(getActivity(), "Please add expenses frist", Toast.LENGTH_SHORT).show();
-            } else {
-                Navigator.toCompute(getActivity(), expenditureMap);
-            }
-        } else if (v.getId() == R.id.enter_friend_name) {
-            enterFriendName.setText("");
-        } else {
-            showCustomDialogurForWhoPaid();
+                enterFriendName.setText("");
+                break;
+
+            case R.id.compute:
+                if (expenditureMap.size() == 0) {
+                    Toast.makeText(getActivity(), "Please add expenses frist", Toast.LENGTH_SHORT).show();
+                } else {
+                    Navigator.toCompute(getActivity(), expenditureMap);
+                }
+                break;
+
+            case R.id.enter_friend_name:
+                enterFriendName.setText("");
+                break;
+
+            default:
+                showCustomDialogurForWhoPaid();
+
         }
+
     }
 
     private boolean isValid() {
@@ -148,14 +133,16 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         if (friendNameLength == 0) {
             return false;
         }
-        return true;
+        return isSameFriendNameEntered(enterFriendName.getText().toString());
     }
 
     private boolean isSameFriendNameEntered(String friendName) {
         for (int i = 0; i < friends.size(); i++) {
             Log.i("Notes", friendName);
-            if (friendName.equals(friends.get(i)))
+            if (friendName.equals(friends.get(i))) {
+                Toast.makeText(getActivity(), "Name already exist", Toast.LENGTH_SHORT).show();
                 return false;
+            }
         }
         return true;
     }
@@ -168,16 +155,15 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.show_friends_name, null);
             String finalName;
-            finalName = friends.get(i).substring(0, 1).toUpperCase();
             if (friends.get(i).length() > 10) {
-                finalName += friends.get(i).substring(1, 10);
+                finalName = friends.get(i).substring(0, 10);
                 finalName += "...";
             } else {
-                finalName += friends.get(i).substring(1);
+                finalName = friends.get(i).substring(0);
             }
             ((TextView) view.findViewById(R.id.first_name)).setText(finalName);
             RemoveFriend(view, i);
-            ((TextView) view.findViewById(R.id.names_first_letter)).setText(friends.get(i).substring(0, 1).toUpperCase());
+            ((TextView) view.findViewById(R.id.names_first_letter)).setText(friends.get(i).substring(0, 1));
             friendsNameContainer.addView(view);
         }
     }
@@ -234,6 +220,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         for (int i = 0; i < selected.length; i++) {
             if (selected[i] == true) {
                 paidForWhom.add(friends.get(i));
+                Log.i("Times", "adding expense");
                 db.createExpenses(((AddFriendsActivity) getActivity()).getPlaceId(), db.getFriendId(transactionDetails.get("whoPaid"))
                         , friendIds.get(i), Integer.parseInt(transactionDetails.get("amount")), transactionDetails.get("description"));
             }
@@ -293,17 +280,16 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             showFriend(friend);
         }
         List<TransactionDetails> transactionDetailsList = db.getAllExpensesByPlace(String.valueOf(((AddFriendsActivity) getActivity()).getPlaceId()));
+        detailsList.clear();
         for (TransactionDetails details : transactionDetailsList) {
             Log.i("expenses", details.getDescription());
             showExpenses(details);
         }
-
+        detailsAdapter.notifyDataSetChanged();
     }
 
     private void showExpenses(TransactionDetails details) {
-        detailsList.clear();
         detailsList.add(details);
-        detailsAdapter.notifyDataSetChanged();
     }
 
     @Override

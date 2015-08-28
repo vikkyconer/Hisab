@@ -20,6 +20,7 @@
         <EditText
             android:id="@+id/enter_name"
             android:layout_width="match_parent"
+            android:inputType="textCapSentences"
             android:layout_height="wrap_content"></EditText>
     </LinearLayout>
 

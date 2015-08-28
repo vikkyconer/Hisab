@@ -33,4 +33,8 @@ public class Navigator {
         context.startActivity(i);
     }
 
+    public static void toGuideScreens(Context context) {
+        Intent i = new Intent(context, GuideActivity.class);
+        context.startActivity(i);
+    }
 }

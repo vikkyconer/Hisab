@@ -49,7 +49,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     }
 
     private void initialize(PersonViewHolder holder, int i) {
-        holder.venueName.setText(placeList.get(i).getPlaceName().substring(0, 1).toUpperCase() + placeList.get(i).getPlaceName().substring(1));
+        holder.venueName.setText(placeList.get(i).getPlaceName());
         holder.venueDate.setText(placeList.get(i).getPlaceDate());
         holder.daysAgo.setText(String.valueOf(placeList.get(i).getDaysAgo()));
         if (placeList.get(i).getNoOfPeopleWent() > 0) {

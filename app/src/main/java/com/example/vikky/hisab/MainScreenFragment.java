@@ -14,11 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,24 +28,13 @@ import rx.subjects.BehaviorSubject;
  */
 public class MainScreenFragment extends Fragment implements MainScreenView, View.OnClickListener, OnStartDragListener {
 
-    ArrayList<Place> places;
-    RVAdapter placesAdapter;
-    Place place;
-    public LinkedList<Place> placesList;
-    View mainScreenRootFragment;
-    //    TextView addPlace;
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    String venueDate;
-    View view;
-    //    EditText enterPlace;
-    long delay, daysAgo;
-    List list;
-    DatabaseHelper db;
+    private ArrayList<Place> places;
+    private RVAdapter placesAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private DatabaseHelper db;
     private ItemTouchHelper mItemTouchHelper;
-    //    int placeNameLength;
-//    TextView date;
-    ImageView addPlace;
+    private ImageView addPlace;
     private Map<String, String> placeData;
     private boolean checkDate;
 
@@ -61,12 +48,8 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i("MainScreenFragment", "in onCreateView");
-
-        mainScreenRootFragment = inflater.inflate(R.layout.main_screen_fragment, container);
-        db = new DatabaseHelper(getActivity());
-//        db.onUpgrade(db.getWritableDatabase(), 1, 2);
         setRetainInstance(true);
-        return mainScreenRootFragment;
+        return inflater.inflate(R.layout.main_screen_fragment, container);
     }
 
     @Override
@@ -81,10 +64,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     private void setEventsForViews() {
         Log.i("MainScreenFragment", "in setEventsForViews");
-//        date.setOnClickListener(this);
         addPlace.setOnClickListener(this);
-//        enterPlace.setOnClickListener(this);
-
     }
 
     private void defaultConfiguration() {
@@ -110,14 +90,10 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     private void initializeViews(View view) {
         Log.i("MainScreenFragment", "in initializeViews");
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
-//        venueDate = (TextView) view.findViewById(R.id.venue_date);
+        db = new DatabaseHelper(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         places = new ArrayList<>();
-        place = new Place();
         placesAdapter = new RVAdapter(places, getActivity());
-//        date = (TextView) view.findViewById(R.id.date);
-//        enterPlace = (EditText) view.findViewById(R.id.enter_place);
-
         placeData = new HashMap<>();
         addPlace = (ImageView) view.findViewById(R.id.add_place);
     }
@@ -145,6 +121,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
             Log.d("ToDo", place.getPlaceName());
             Place place1 = new Place(place.getPlaceId(), place.getPlaceName(), place.getDaysAgo(), place.getPlaceDate(), place.getNoOfPeopleWent());
             Log.i("after Calling", "places");
+
             showPlaces(place1);
             Log.i("after calling", "onNext");
         }
