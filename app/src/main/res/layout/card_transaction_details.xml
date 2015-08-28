@@ -14,37 +14,32 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:padding="3dp">
 
             <LinearLayout
                 android:id="@+id/amount_container"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/show_money"
+                android:orientation="vertical">
 
 
                 <TextView
                     android:id="@+id/amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
                     android:text="40"
-                    android:textColor="@color/greyTextColor1"
+                    android:textColor="@color/white"
                     android:textSize="40sp"
                     android:typeface="serif" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/money"
-                    android:textSize="20dp" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/money" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@color/gray" />
             </LinearLayout>
 
             <TextView
@@ -60,57 +55,38 @@
                 android:typeface="serif" />
 
             <LinearLayout
-                android:id="@+id/who_paid_container"
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description"
                 android:layout_toRightOf="@id/amount_container"
                 android:orientation="horizontal"
-                android:paddingBottom="2.5dp"
-                android:paddingLeft="5dp">
+                android:paddingLeft="4dp">
 
 
                 <TextView
                     android:id="@+id/who_paid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:capitalize="characters"
                     android:padding="5dp"
                     android:text="vikas"
-                    android:textColor="@color/greyTextColor1"
-                    android:textSize="15dp"
+                    android:textColor="@color/blue1"
+                    android:textSize="16dp"
                     android:typeface="serif" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_toRightOf="@id/who_paid"
-                    android:text="Paid"
-                    android:textColor="@color/green"
-                    android:textSize="15dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/who_paid_container"
-                android:layout_toRightOf="@id/amount_container"
-                android:orientation="horizontal"
-                android:paddingBottom="2.5dp"
-                android:paddingLeft="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="For : "
-                    android:textColor="@color/greyTextColor1"
-                    android:textSize="13dp"
-                    android:typeface="serif" />
+                    android:background="@drawable/right_arrow" />
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
 
                     <LinearLayout
                         android:id="@+id/for_whom_paid_container"

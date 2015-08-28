@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     private ItemTouchHelper mItemTouchHelper;
     //    int placeNameLength;
 //    TextView date;
-    RelativeLayout addPlace;
+    ImageView addPlace;
     private Map<String, String> placeData;
     private boolean checkDate;
 
@@ -118,7 +119,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 //        enterPlace = (EditText) view.findViewById(R.id.enter_place);
 
         placeData = new HashMap<>();
-        addPlace = (RelativeLayout) view.findViewById(R.id.add_place);
+        addPlace = (ImageView) view.findViewById(R.id.add_place);
     }
 
     @Override

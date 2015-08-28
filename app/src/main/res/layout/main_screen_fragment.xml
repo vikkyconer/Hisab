@@ -10,30 +10,17 @@
         android:paddingBottom="5dp" />
 
 
-
-    <RelativeLayout
+    <ImageView
         android:id="@+id/add_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
-        android:layout_marginRight="8dp">
+        android:layout_marginRight="8dp"
+        android:background="@drawable/add_place1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_design"
-            android:text="" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="+"
-            android:textColor="@color/white"
-            android:textSize="30dp" />
-    </RelativeLayout>
+    </ImageView>
 
 
 </RelativeLayout>

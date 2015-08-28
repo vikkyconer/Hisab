@@ -35,7 +35,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private Button compute;
     private Friend friend;
     private ArrayList<String> friends;
-    TextView names, firstLetter;
+    TextView names, firstLetter, tapToAdd;
     RelativeLayout listFriends;
     private ArrayList<TransactionDetails> detailsList;
     private int amount;
@@ -49,7 +49,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private LinearLayoutManager linearLayoutManager;
     private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
     private ArrayList<String> paidForWhom;
-    DatabaseHelper db;
+    private DatabaseHelper db;
+    private ArrayList<Long> friendIds;
     AddFriendsAdapter friendsAdapter;
     private int friendPosition;
 //    private int friendNameLength = 0;
@@ -101,10 +102,12 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
         friend = new Friend();
         friends = new ArrayList<>();
-        friendsAdapter = new AddFriendsAdapter(friends,getActivity());
+        friendsAdapter = new AddFriendsAdapter(friends, getActivity());
         detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity(), paidForWhom);
         enterFriendName = (EditText) view.findViewById(R.id.enter_friend_name);
         friendData = new HashMap<>();
+        friendIds = new ArrayList<>();
+        tapToAdd = (TextView) view.findViewById(R.id.tap);
 //        friendsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, friends);
     }
 
@@ -126,8 +129,11 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 //        } else if (v.getId() == R.id.enter_expenses) {
 //            showCustomDialogurForWhoPaid();
         } else if (v.getId() == R.id.compute) {
-            printHash(expenditureMap);
-            Navigator.toCompute(getActivity(), expenditureMap);
+            if (expenditureMap.size() == 0) {
+                Toast.makeText(getActivity(), "Please add expenses frist", Toast.LENGTH_SHORT).show();
+            } else {
+                Navigator.toCompute(getActivity(), expenditureMap);
+            }
         } else if (v.getId() == R.id.enter_friend_name) {
             enterFriendName.setText("");
         } else {
@@ -159,11 +165,15 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         for (int i = 0; i < friends.size(); i++) {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.show_friends_name, null);
-            if (friends.get(i).length() > 6) {
-                ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i).substring(0, 6).concat("..."));
+            String finalName;
+            finalName = friends.get(i).substring(0, 1).toUpperCase();
+            if (friends.get(i).length() > 10) {
+                finalName += friends.get(i).substring(1, 10);
+                finalName += "...";
             } else {
-                ((TextView) view.findViewById(R.id.first_name)).setText(friends.get(i));
+                finalName += friends.get(i).substring(1);
             }
+            ((TextView) view.findViewById(R.id.first_name)).setText(finalName);
             RemoveFriend(view, i);
             ((TextView) view.findViewById(R.id.names_first_letter)).setText(friends.get(i).substring(0, 1).toUpperCase());
             friendsNameContainer.addView(view);
@@ -204,6 +214,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
         this.transactionDetails.setDescription(transactionDetails.get("description"));
         this.transactionDetails.setPlaceId(((AddFriendsActivity) getActivity()).getPlaceId());
+
+
         detailsList.add(this.transactionDetails);
         detailsAdapter.notifyDataSetChanged();
         calculate(transactionDetails);
@@ -220,6 +232,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         for (int i = 0; i < selected.length; i++) {
             if (selected[i] == true) {
                 paidForWhom.add(friends.get(i));
+                db.createExpenses(((AddFriendsActivity) getActivity()).getPlaceId(), db.getFriendId(transactionDetails.get("whoPaid"))
+                        , friendIds.get(i), Integer.parseInt(transactionDetails.get("amount")), transactionDetails.get("description"));
             }
         }
         this.transactionDetails.setForWhom(paidForWhom);
@@ -235,7 +249,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         divideAmongFriends(amount, paidForWhom);
         Log.i("Notes", "after inputting values");
         if (expenditureMap.size() > 0) {
-            compute.setVisibility(View.VISIBLE);
+            tapToAdd.setVisibility(View.INVISIBLE);
         }
         printHash(expenditureMap);
     }
@@ -251,7 +265,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private void friendEntered(Map<String, String> friend) {
         Friend friend1 = new Friend(friend.get("friendName"));
         long friend_id = db.createFriend(friend1, ((AddFriendsActivity) getActivity()).getPlaceId());
-
+        friendIds.add(friend_id);
+        Log.i("friendId", String.valueOf(db.getFriendId(friend.get("friendName"))));
 //        db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
         friendAdded.onNext(friend1);
 
@@ -283,6 +298,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             Log.d("ToDo Watchlist", friend.getName());
             showFriend(friend);
         }
+
     }
 
     @Override

@@ -92,12 +92,21 @@
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
+
+        <TextView
+            android:id="@+id/money_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/money" />
+
         <TextView
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/money_img"
             android:text="65"
             android:textColor="@color/red1"
             android:textSize="35sp" />

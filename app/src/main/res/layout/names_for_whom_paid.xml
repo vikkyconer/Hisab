@@ -11,8 +11,8 @@
         android:capitalize="characters"
         android:padding="5dp"
         android:text="vikas"
-        android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textColor="@color/gray"
+        android:textSize="14dp"
         android:typeface="serif" />
 
     <TextView

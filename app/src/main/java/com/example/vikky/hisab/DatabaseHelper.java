@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //EXPENSES Table - column names
     private static final String KEY_WHO_PAID = "who_paid";
-    private static final ArrayList<String> KEY_FOR_WHOM = new ArrayList<>();
+    private static final String KEY_FOR_WHOM = "for_whom";
     private static final String KEY_AMOUNT = "amount";
     private static final String KEY_DESCRIPTION = "description";
 
@@ -272,6 +272,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return friend_id;
     }
 
+    public long getFriendId(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_FRIEND + " WHERE "
+                + KEY_FRIEND_NAME + " LIKE " + "'" + name + "'";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c.getLong(c.getColumnIndex(KEY_ID));
+    }
+
     /*
      * getting all friends under place
      * */
@@ -316,23 +330,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(place_id)});
     }
 
-  /*  //create expenses
-    public long createExpenses(TransactionDetails transactionDetails) {
+    //create expenses
+    public long createExpenses(long place_id, long friend_who_paid_id, long for_whom_id, int amount, String desc) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_PLACE_ID, transactionDetails.getPlaceId());
-        values.put(KEY_WHO_PAID, transactionDetails.getWhoPaid());
-        values.put(KEY_FOR_WHOM, transactionDetails.getForWhomIds());
-        values.put(KEY_AMOUNT, transactionDetails.getAmount());
-        values.put();
+        values.put(KEY_PLACE_ID, place_id);
+        values.put(KEY_WHO_PAID, friend_who_paid_id);
+        values.put(KEY_FOR_WHOM, for_whom_id);
+        values.put(KEY_AMOUNT, amount);
+        values.put(KEY_DESCRIPTION, desc);
 
-//        values.put(KEY_CREATED_AT, getDateTime());
 
         long id = db.insert(TABLE_EXPENSES, null, values);
 
         return id;
-    }*/
+    }
 
+   /* *//*
+     * getting all expenses under place
+     * *//*
+    public List<TransactionDetails> getAllExpensesByPlace(String place_id) {
+        List<TransactionDetails> transactionDetailses = new ArrayList<TransactionDetails>();
 
+        String selectQuery = "SELECT  * FROM " + TABLE_EXPENSES + " expenses, "
+                + " WHERE place." + KEY_PLACE_ID + " = '" + place_id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                TransactionDetails transactionDetails = new TransactionDetails();
+                transactionDetails.setPlaceId(c.getInt((c.getColumnIndex(KEY_PLACE_ID))));
+                transactionDetails.setAmount((c.getInt(c.getColumnIndex(KEY_AMOUNT))));
+                transactionDetails.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+                transactionDetails.setWhoPaid(c.getString(c.getColumnIndex(KEY_WHO_PAID)));
+//                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+                // adding to friend list
+                friends.add(friend);
+            } while (c.moveToNext());
+        }
+
+        return friends;
+    }
+*/
 }

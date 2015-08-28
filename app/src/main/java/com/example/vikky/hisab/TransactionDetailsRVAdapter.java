@@ -38,6 +38,8 @@ public class TransactionDetailsRVAdapter extends RecyclerView.Adapter<Transactio
 
     @Override
     public void onBindViewHolder(TransactionsViewHolder holder, int i) {
+        if (transactionDetailsList.get(i).getAmount() > 9999)
+            holder.amount.setTextSize(20);
         holder.amount.setText(String.valueOf(transactionDetailsList.get(i).getAmount()));
         holder.whoPaid.setText(transactionDetailsList.get(i).getWhoPaid());
         Log.i("ForWhomList", forWhom.get(0));

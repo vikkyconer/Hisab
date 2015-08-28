@@ -4,10 +4,10 @@
     <corners android:radius="16dp" />
     <gradient
         android:angle="45"
-        android:centerColor="@color/light_red"
+        android:centerColor="@color/green_light_shade"
         android:centerX="35%"
-        android:endColor="@color/light_red"
-        android:startColor="@color/light_red"
+        android:endColor="@color/gray"
+        android:startColor="@color/gray"
         android:type="linear" />
     <padding
         android:bottom="5dp"
@@ -15,6 +15,6 @@
         android:right="5dp"
         android:top="5dp" />
     <size
-        android:width="270dp"
+        android:width="40dp"
         android:height="40dp" />
 </shape>
