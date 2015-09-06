@@ -221,8 +221,8 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
             if (selected[i] == true) {
                 paidForWhom.add(friends.get(i));
                 Log.i("Times", "adding expense");
-                db.createExpenses(((AddFriendsActivity) getActivity()).getPlaceId(), db.getFriendId(transactionDetails.get("whoPaid"))
-                        , friendIds.get(i), Integer.parseInt(transactionDetails.get("amount")), transactionDetails.get("description"));
+//                db.createExpenses(((AddFriendsActivity) getActivity()).getPlaceId(), db.getFriendId(transactionDetails.get("whoPaid"))
+//                        , friendIds.get(i), Integer.parseInt(transactionDetails.get("amount")), transactionDetails.get("description"));
             }
         }
         this.transactionDetails.setForWhom(paidForWhom);

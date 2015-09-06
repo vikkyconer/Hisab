@@ -342,7 +342,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(place_id)});
     }
 
-    //create expenses
+   /* //create expenses
     public long createExpenses(long place_id,long friend_who_paid_id, long for_whom_id, int amount, String desc) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -360,7 +360,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return expense_id;
     }
-
+*/
 
     /*  * getting all expenses under place
       **/
