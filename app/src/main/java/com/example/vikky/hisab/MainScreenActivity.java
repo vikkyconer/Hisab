@@ -28,14 +28,6 @@ public class MainScreenActivity extends ActionBarActivity {
 
     }
 
-    private SlidingDrawerModel slidingDrawerModel() {
-        return null;
-    }
-
-    private SlidingDrawerView slidingDrawerView() {
-        return null; //(SlidingDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.left_drawer);
-    }
-
     private MainScreenModel mainScreenModel() {
         return null;
     }

@@ -57,18 +57,6 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/empty_circle_for_view_pager" />
 
-        <ImageView
-            android:id="@+id/fifth_circle"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/empty_circle_for_view_pager" />
 
-        <ImageView
-            android:id="@+id/sixth_circle"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/empty_circle_for_view_pager" />
     </LinearLayout>
 </RelativeLayout>

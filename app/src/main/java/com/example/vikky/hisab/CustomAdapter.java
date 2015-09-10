@@ -65,7 +65,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
         // Set values for spinner each row
         friendName.setText(tempValues.getName());
         tempValues.setStatus(true);
-        friendStatus.setImageResource(R.drawable.uncheck);
+//        friendStatus.setImageResource(R.drawable.uncheck);
 
 
         return row;

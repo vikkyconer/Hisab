@@ -15,18 +15,14 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int index) {
         switch (index) {
-            case 0:
 
-                return new SignInGuideFragment();
-            case 1:
+            case 0:
                 return new AddPlaceGuideFragment();
-            case 2:
-                return new AddFriendsGuideFragment();
-            case 3:
+            case 1:
                 return new EnterExpensesGuideFragment();
-            case 4:
+            case 2:
                 return new ComputeExpensesGuideFragment();
-            case 5:
+            case 3:
                 return new LetsGoFragment();
         }
         return null;
@@ -34,6 +30,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 6;
+        return 4;
     }
 }

@@ -160,9 +160,9 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         public void onReceive(Context context, Intent intent) {
             //This piece of code will be executed when you click on your item
             // Call your fragment...
-            ColorListViewFragment colorListViewFragment = ColorListViewFragment.newInstance();
-            colorListViewFragment.inputPlaceName().subscribe(color -> colorSelected(color));
-            colorListViewFragment.show(getFragmentManager(), "timePicker");
+//            ColorListViewFragment colorListViewFragment = ColorListViewFragment.newInstance();
+//            colorListViewFragment.inputPlaceName().subscribe(color -> colorSelected(color));
+//            colorListViewFragment.show(getFragmentManager(), "timePicker");
         }
     };
 
