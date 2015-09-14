@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.vikky.hisab" >
+    package="com.ideabank.vikky.hisab" >
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <uses-permission android:name="android.permission.READ_CONTACTS" />
+        android:theme="@style/AppTheme" > />
 
         <activity
-            android:name=".SplashActivity"
+            android:name="com.ideabank.vikky.hisab.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,24 +21,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainScreenActivity"
+            android:name="com.ideabank.vikky.hisab.MainScreenActivity"
             android:label="@string/title_activity_main_screen" >
         </activity>
         <activity
-            android:name=".LoginScreenActivity"
+            android:name="com.ideabank.vikky.hisab.LoginScreenActivity"
             android:label="@string/title_activity_login_screen" >
         </activity>
         <activity
-            android:name=".AddFriendsActivity"
+            android:name="com.ideabank.vikky.hisab.AddFriendsActivity"
             android:label="@string/title_activity_add_friends"
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
-            android:name=".ComputeActivity"
+            android:name="com.ideabank.vikky.hisab.ComputeActivity"
             android:label="@string/title_activity_compute" >
         </activity>
         <activity
-            android:name=".GuideActivity"
+            android:name="com.ideabank.vikky.hisab.GuideActivity"
             android:label="@string/title_activity_guide" >
         </activity>
     </application>

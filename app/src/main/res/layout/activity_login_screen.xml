@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vikky.hisab.LoginScreenActivity">
+    tools:context="com.ideabank.vikky.hisab.LoginScreenActivity">
 
     <fragment
         android:id="@+id/login_screen_fragment"
-        android:name="com.example.vikky.hisab.LoginScreenFragment"
+        android:name="com.ideabank.vikky.hisab.LoginScreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

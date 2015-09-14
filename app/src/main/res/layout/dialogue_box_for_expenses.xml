@@ -86,7 +86,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/greyTextColor1" />
 
-        <com.example.vikky.hisab.MultiSelectionSpinner
+        <com.ideabank.vikky.hisab.MultiSelectionSpinner
             android:id="@+id/mySpinner1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

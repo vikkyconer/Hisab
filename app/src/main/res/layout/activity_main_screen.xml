@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_green1"
-    tools:context="com.example.vikky.hisab.MainScreenActivity">
+    tools:context="com.ideabank.vikky.hisab.MainScreenActivity">
 
     <fragment
         android:id="@+id/main_screen_fragment"
-        android:name="com.example.vikky.hisab.MainScreenFragment"
+        android:name="com.ideabank.vikky.hisab.MainScreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
