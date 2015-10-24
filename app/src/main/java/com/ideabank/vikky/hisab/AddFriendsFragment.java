@@ -36,7 +36,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private Map<String, String> friendData;
     private LinearLayout friendsNameContainer;
     private Map<String, Integer> expenditureMap;
-    private TransactionDetails transactionDetails;
     private EditText enterFriendName;
     private TransactionDetailsRVAdapter expenseAdapter;
     private RecyclerView detailsRecyclerView;
@@ -45,6 +44,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private BehaviorSubject<TransactionDetails> expenseAdded = BehaviorSubject.create();
     private DatabaseHelper db;
     private ArrayList<Long> friendIds;
+    int i = 0;
 
 
     @Nullable
@@ -78,7 +78,6 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         db = new DatabaseHelper(getActivity());
         addFriends = (TextView) view.findViewById(R.id.add_friends);
 //        enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
-        this.transactionDetails = new TransactionDetails();
         friendsNameContainer = (LinearLayout) view.findViewById(R.id.friends_name_container);
         expenseList = new ArrayList<>();
         paidForWhomList = new ArrayList<>();
@@ -197,13 +196,14 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     }
 
     private void setTransactionDetails(Map<String, String> transactionDetails) {
-        this.transactionDetails.setAmount(Integer.valueOf(transactionDetails.get("amount")));
-        this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
-        this.transactionDetails.setDescription(transactionDetails.get("description"));
-        this.transactionDetails.setPlaceId(((AddFriendsActivity) getActivity()).getPlaceId());
-        this.transactionDetails.setForWhom(calculate(transactionDetails));
+        TransactionDetails transactionDetails1 = new TransactionDetails();
+        transactionDetails1.setAmount(Integer.valueOf(transactionDetails.get("amount")));
+        transactionDetails1.setWhoPaid(transactionDetails.get("whoPaid"));
+        transactionDetails1.setDescription(transactionDetails.get("description"));
+        transactionDetails1.setPlaceId(((AddFriendsActivity) getActivity()).getPlaceId());
+        transactionDetails1.setForWhom(calculate(transactionDetails));
 
-        expenseAdded.onNext(this.transactionDetails);
+        expenseAdded.onNext(transactionDetails1);
     }
 
     private ArrayList<String> calculate(Map<String, String> transactionDetails) {
@@ -256,18 +256,7 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     @Override
     public void showExpenses(TransactionDetails expense) {
-        Log.i("expense", expense.getWhoPaid());
         expenseList.add(expense);
-//        TransactionDetails transactionDetails = new TransactionDetails();
-//        transactionDetails.setWhoPaid("vikas");
-//        transactionDetails.setAmount(1234);
-//        transactionDetails.setDescription("burger");
-//        transactionDetails.setPlaceId(1);
-//
-//        expenseList.add(transactionDetails);
-        for(int i=0;i<expenseList.size();i++) {
-            Log.i("who paid",expenseList.get(i).getWhoPaid());
-        }
         expenseAdapter.notifyDataSetChanged();
     }
 

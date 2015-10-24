@@ -110,11 +110,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
 
     @Override
     public void showPlaces(Place place) {
-        Log.i("MainScreenFragment", "showPlaces");
         placesList.add(place);
-        for(int i=0;i<placesList.size();i++) {
-            Log.i("who paid",placesList.get(i).getPlaceName());
-        }
         placesAdapter.notifyDataSetChanged();
     }
 
