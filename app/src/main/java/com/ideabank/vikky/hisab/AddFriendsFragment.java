@@ -30,18 +30,19 @@ import rx.subjects.BehaviorSubject;
 public class AddFriendsFragment extends Fragment implements AddFriendsView, View.OnClickListener, View.OnLongClickListener {
     private TextView addFriends, tapToAdd;
     private Button compute;
-    private ArrayList<String> friends, paidForWhom;
-    private ArrayList<TransactionDetails> detailsList;
+    private ArrayList<String> friendsList, paidForWhomList;
+    private ArrayList<TransactionDetails> expenseList;
     private int amount, friendPosition;
     private Map<String, String> friendData;
     private LinearLayout friendsNameContainer;
     private Map<String, Integer> expenditureMap;
     private TransactionDetails transactionDetails;
     private EditText enterFriendName;
-    private TransactionDetailsRVAdapter detailsAdapter;
+    private TransactionDetailsRVAdapter expenseAdapter;
     private RecyclerView detailsRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
+    private BehaviorSubject<TransactionDetails> expenseAdded = BehaviorSubject.create();
     private DatabaseHelper db;
     private ArrayList<Long> friendIds;
 
@@ -63,16 +64,14 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         setEventsForViews();
     }
 
-    private void setEventsForViews() {
-        addFriends.setOnClickListener(this);
-//        enterExpenses.setOnClickListener(this);
-        compute.setOnClickListener(this);
-        enterFriendName.setOnClickListener(this);
+    @Override
+    public Observable<Friend> enterFriend() {
+        return friendAdded.asObservable();
     }
 
-    private void defaultConfiguration() {
-        detailsRecyclerView.setLayoutManager(linearLayoutManager);
-        detailsRecyclerView.setAdapter(detailsAdapter);
+    @Override
+    public Observable<TransactionDetails> enterExpense() {
+        return expenseAdded.asObservable();
     }
 
     private void initializeViews(View view) {
@@ -81,18 +80,49 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 //        enterExpenses = (Button) view.findViewById(R.id.enter_expenses);
         this.transactionDetails = new TransactionDetails();
         friendsNameContainer = (LinearLayout) view.findViewById(R.id.friends_name_container);
-        detailsList = new ArrayList<>();
-        paidForWhom = new ArrayList<>();
+        expenseList = new ArrayList<>();
+        paidForWhomList = new ArrayList<>();
         expenditureMap = new HashMap<>();
         compute = (Button) view.findViewById(R.id.compute);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         detailsRecyclerView = (RecyclerView) view.findViewById(R.id.details);
-        friends = new ArrayList<>();
-        detailsAdapter = new TransactionDetailsRVAdapter(detailsList, getActivity(), paidForWhom);
+        friendsList = new ArrayList<>();
+        expenseAdapter = new TransactionDetailsRVAdapter(expenseList, getActivity(), paidForWhomList);
         enterFriendName = (EditText) view.findViewById(R.id.enter_friend_name);
         friendData = new HashMap<>();
         friendIds = new ArrayList<>();
         tapToAdd = (TextView) view.findViewById(R.id.tap);
+    }
+
+    private void defaultConfiguration() {
+        detailsRecyclerView.setLayoutManager(linearLayoutManager);
+        detailsRecyclerView.setAdapter(expenseAdapter);
+    }
+
+    private void setEventsForViews() {
+        addFriends.setOnClickListener(this);
+//        enterExpenses.setOnClickListener(this);
+        compute.setOnClickListener(this);
+        enterFriendName.setOnClickListener(this);
+    }
+
+    @Override
+    public void initializeSavedData() {
+        // Getting friends under single Place
+        Log.d("ToDo", "Get todos under single Tag name");
+
+        List<Friend> friendList = db.getAllFriendsByPlace(String.valueOf(((AddFriendsActivity) getActivity()).getPlaceId()));
+        for (Friend friend : friendList) {
+            Log.d("ToDo Watchlist", friend.getName());
+            showFriend(friend);
+        }
+     /*   List<TransactionDetails> transactionDetailsList = db.getAllExpensesByPlace(String.valueOf(((AddFriendsActivity) getActivity()).getPlaceId()));
+        expenseList.clear();
+        for (TransactionDetails details : transactionDetailsList) {
+            Log.i("expenses", details.getDescription());
+            showExpenses(details);
+        }*/
+//        detailsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -129,23 +159,116 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     }
 
-    private boolean isValid() {
-        int friendNameLength = enterFriendName.getText().length();
-        if (friendNameLength == 0) {
-            return false;
-        }
-        return isSameFriendNameEntered(enterFriendName.getText().toString());
+    @Override
+    public boolean onLongClick(View v) {
+        Toast.makeText(getActivity(), friendsList.get(friendPosition), Toast.LENGTH_SHORT).show();
+        return true;
     }
 
-    private boolean isSameFriendNameEntered(String friendName) {
+    private boolean isValid() {
+        Validations validations = new Validations(friendsList,getActivity());
+        Boolean c = validations.nameLength(enterFriendName.getText().toString());
+        if (c == true)
+            return validations.dublicateName(enterFriendName.getText().toString());
+        return false;
+    }
+
+
+
+    private void divideAmongFriends(int amount, ArrayList<String> friends) {
+        Log.i("AddFriendsFragment", "divideAmongFriends()");
+        amount = amount / friends.size();           //catch divide by zero exception
+        int previousAmount;
         for (int i = 0; i < friends.size(); i++) {
-            Log.i("Notes", friendName);
-            if (friendName.equals(friends.get(i))) {
-                Toast.makeText(getActivity(), "Name already exist", Toast.LENGTH_SHORT).show();
-                return false;
+            if (expenditureMap.get(friends.get(i)) == null) {
+                previousAmount = 0;
+            } else {
+                previousAmount = expenditureMap.get(friends.get(i));
+            }
+            expenditureMap.put(friends.get(i), previousAmount - amount);
+        }
+    }
+
+    private void showCustomDialogurForWhoPaid() {
+        DialogueBoxForExpenses dialogueBoxForExpenses = DialogueBoxForExpenses.newInstance();
+        dialogueBoxForExpenses.inputPlaceName(friendsList).subscribe(transactionDetails -> setTransactionDetails(transactionDetails));
+
+        dialogueBoxForExpenses.show(getFragmentManager(), "who paid");
+    }
+
+    private void setTransactionDetails(Map<String, String> transactionDetails) {
+        this.transactionDetails.setAmount(Integer.valueOf(transactionDetails.get("amount")));
+        this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
+        this.transactionDetails.setDescription(transactionDetails.get("description"));
+        this.transactionDetails.setPlaceId(((AddFriendsActivity) getActivity()).getPlaceId());
+        this.transactionDetails.setForWhom(calculate(transactionDetails));
+
+        expenseAdded.onNext(this.transactionDetails);
+    }
+
+    private ArrayList<String> calculate(Map<String, String> transactionDetails) {
+        Log.i("AddFriendsFragment", "calculate()");
+        amount = Integer.parseInt(transactionDetails.get("amount"));
+        boolean[] selected = MultiSelectionSpinner.mSelection;
+        paidForWhomList.clear();
+        for (int i = 0; i < selected.length; i++) {
+            if (selected[i] == true) {
+                paidForWhomList.add(friendsList.get(i));
+                Log.i("Times", "adding expense");
+//                db.createExpenses(((AddFriendsActivity) getActivity()).getPlaceId(), db.getFriendId(transactionDetails.get("whoPaid"))
+//                        , friendIds.get(i), Integer.parseInt(transactionDetails.get("amount")), transactionDetails.get("description"));
             }
         }
-        return true;
+
+        int previousAmount;
+        if (expenditureMap.get(transactionDetails.get("whoPaid")) == null) {
+            previousAmount = 0;
+
+        } else {
+            previousAmount = expenditureMap.get(transactionDetails.get("whoPaid"));
+        }
+        expenditureMap.put(transactionDetails.get("whoPaid"), amount + previousAmount);
+
+        divideAmongFriends(amount, paidForWhomList);
+        Log.i("Notes", "after inputting values");
+        if (expenditureMap.size() > 0) {
+            tapToAdd.setVisibility(View.INVISIBLE);
+        }
+        return paidForWhomList;
+    }
+
+    private void friendEntered(Map<String, String> friend) {
+        Friend friend1 = new Friend(friend.get("friendName"));
+        long friend_id = db.createFriend(friend1, ((AddFriendsActivity) getActivity()).getPlaceId());
+        friendIds.add(friend_id);
+        Log.i("friendId", String.valueOf(db.getFriendId(friend.get("friendName"))));
+//        db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
+        friendAdded.onNext(friend1);
+
+    }
+
+    @Override
+    public void showFriend(Friend friend) {
+        friendsList.add(friend.getName());
+        showFriendName(friendsList);
+        db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
+    }
+
+    @Override
+    public void showExpenses(TransactionDetails expense) {
+        Log.i("expense", expense.getWhoPaid());
+        expenseList.add(expense);
+//        TransactionDetails transactionDetails = new TransactionDetails();
+//        transactionDetails.setWhoPaid("vikas");
+//        transactionDetails.setAmount(1234);
+//        transactionDetails.setDescription("burger");
+//        transactionDetails.setPlaceId(1);
+//
+//        expenseList.add(transactionDetails);
+        for(int i=0;i<expenseList.size();i++) {
+            Log.i("who paid",expenseList.get(i).getWhoPaid());
+        }
+        expenseAdapter.notifyDataSetChanged();
     }
 
     private void showFriendName(ArrayList<String> friends) {
@@ -176,127 +299,4 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     }
 
-    private void divideAmongFriends(int amount, ArrayList<String> friends) {
-        Log.i("AddFriendsFragment", "divideAmongFriends()");
-        amount = amount / friends.size();           //catch divide by zero exception
-        int previousAmount;
-        for (int i = 0; i < friends.size(); i++) {
-            if (expenditureMap.get(friends.get(i)) == null) {
-                previousAmount = 0;
-            } else {
-                previousAmount = expenditureMap.get(friends.get(i));
-            }
-            expenditureMap.put(friends.get(i), previousAmount - amount);
-        }
-    }
-
-    private void showCustomDialogurForWhoPaid() {
-        DialogueBoxForExpenses dialogueBoxForExpenses = DialogueBoxForExpenses.newInstance();
-        dialogueBoxForExpenses.inputPlaceName(friends).subscribe(transactionDetails -> mapTransactionDetails(transactionDetails));
-        dialogueBoxForExpenses.show(getFragmentManager(), "who paid");
-
-    }
-
-    private void mapTransactionDetails(Map<String, String> transactionDetails) {
-        this.transactionDetails.setAmount(Integer.valueOf(transactionDetails.get("amount")));
-        this.transactionDetails.setWhoPaid(transactionDetails.get("whoPaid"));
-        this.transactionDetails.setDescription(transactionDetails.get("description"));
-        this.transactionDetails.setPlaceId(((AddFriendsActivity) getActivity()).getPlaceId());
-
-        this.transactionDetails.setForWhom(calculate(transactionDetails));
-        detailsList.add(this.transactionDetails);
-        Log.i("Notes","before notifyDataSetChanged");
-        detailsAdapter.notifyDataSetChanged();
-
-
-//        db.createExpenses(transactionDetails);
-
-    }
-
-    private ArrayList<String> calculate(Map<String, String> transactionDetails) {
-        Log.i("AddFriendsFragment", "calculate()");
-        amount = Integer.parseInt(transactionDetails.get("amount"));
-        boolean[] selected = MultiSelectionSpinner.mSelection;
-        paidForWhom.clear();
-        for (int i = 0; i < selected.length; i++) {
-            if (selected[i] == true) {
-                paidForWhom.add(friends.get(i));
-                Log.i("Times", "adding expense");
-//                db.createExpenses(((AddFriendsActivity) getActivity()).getPlaceId(), db.getFriendId(transactionDetails.get("whoPaid"))
-//                        , friendIds.get(i), Integer.parseInt(transactionDetails.get("amount")), transactionDetails.get("description"));
-            }
-        }
-
-        int previousAmount;
-        if (expenditureMap.get(transactionDetails.get("whoPaid")) == null) {
-            previousAmount = 0;
-
-        } else {
-            previousAmount = expenditureMap.get(transactionDetails.get("whoPaid"));
-        }
-        expenditureMap.put(transactionDetails.get("whoPaid"), amount + previousAmount);
-
-        divideAmongFriends(amount, paidForWhom);
-        Log.i("Notes", "after inputting values");
-        if (expenditureMap.size() > 0) {
-            tapToAdd.setVisibility(View.INVISIBLE);
-        }
-        return paidForWhom;
-    }
-
-
-    private void friendEntered(Map<String, String> friend) {
-        Friend friend1 = new Friend(friend.get("friendName"));
-        long friend_id = db.createFriend(friend1, ((AddFriendsActivity) getActivity()).getPlaceId());
-        friendIds.add(friend_id);
-        Log.i("friendId", String.valueOf(db.getFriendId(friend.get("friendName"))));
-//        db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
-        friendAdded.onNext(friend1);
-
-    }
-
-    @Override
-    public Observable<Friend> enterFriend() {
-        return friendAdded.asObservable();
-    }
-
-    @Override
-    public void showFriend(Friend friend) {
-        friends.add(friend.getName());
-        showFriendName(friends);
-        db.updatePlace(((AddFriendsActivity) getActivity()).getPlaceId());
-
-//        if (friends.size() > 1) {
-//            enterExpenses.setVisibility(View.VISIBLE);
-//        }
-    }
-
-    @Override
-    public void initialize() {
-        // Getting friends under single Place
-        Log.d("ToDo", "Get todos under single Tag name");
-
-        List<Friend> friendList = db.getAllFriendsByPlace(String.valueOf(((AddFriendsActivity) getActivity()).getPlaceId()));
-        for (Friend friend : friendList) {
-            Log.d("ToDo Watchlist", friend.getName());
-            showFriend(friend);
-        }
-        List<TransactionDetails> transactionDetailsList = db.getAllExpensesByPlace(String.valueOf(((AddFriendsActivity) getActivity()).getPlaceId()));
-        detailsList.clear();
-        for (TransactionDetails details : transactionDetailsList) {
-            Log.i("expenses", details.getDescription());
-            showExpenses(details);
-        }
-//        detailsAdapter.notifyDataSetChanged();
-    }
-
-    private void showExpenses(TransactionDetails details) {
-        detailsList.add(details);
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        Toast.makeText(getActivity(), friends.get(friendPosition), Toast.LENGTH_SHORT).show();
-        return true;
-    }
 }

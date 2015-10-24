@@ -8,7 +8,7 @@ import android.util.Log;
 public class MainScreenPresenter {
     public MainScreenPresenter(MainScreenView view, MainScreenModel model) {
         Log.i("Notes", "in MainScreenPresenter");
-        view.initial();
+        view.initializeSavedData();
 //        view.initial().subscribe(-> view.showPlaces(place));
         view.addPlace().subscribe(place -> view.showPlaces(place));
 //        view.addPlace().subscribe(place -> model.place(place).subscribeOn(Schedulers.io())

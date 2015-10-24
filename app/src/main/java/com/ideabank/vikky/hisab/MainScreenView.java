@@ -12,5 +12,5 @@ public interface MainScreenView {
     void showPlaces(Place place);
 
 
-    void initial();
+    void initializeSavedData();
 }

@@ -8,7 +8,8 @@ import android.util.Log;
 public class AddFriendsPresenter {
     public AddFriendsPresenter(AddFriendsView view, AddFriendsModel model) {
         Log.i("AddFriendsPresenter", "constructor");
-        view.initialize();
+        view.initializeSavedData();
         view.enterFriend().subscribe(friend -> view.showFriend(friend));
+        view.enterExpense().subscribe(expense -> view.showExpenses(expense));
     }
 }

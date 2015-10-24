@@ -14,8 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +32,7 @@ import rx.subjects.BehaviorSubject;
  */
 public class MainScreenFragment extends Fragment implements MainScreenView, View.OnClickListener, OnStartDragListener {
 
-    private ArrayList<Place> places;
+    private ArrayList<Place> placesList;
     private RVAdapter placesAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -92,8 +96,8 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         db = new DatabaseHelper(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        places = new ArrayList<>();
-        placesAdapter = new RVAdapter(places, getActivity());
+        placesList = new ArrayList<>();
+        placesAdapter = new RVAdapter(placesList, getActivity());
         placeData = new HashMap<>();
         addPlace = (ImageView) view.findViewById(R.id.add_place);
     }
@@ -107,24 +111,52 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
     @Override
     public void showPlaces(Place place) {
         Log.i("MainScreenFragment", "showPlaces");
-        places.add(place);
-        Log.i("MainScreenFr placesSize", String.valueOf(places.get(0)));
+        placesList.add(place);
+        for(int i=0;i<placesList.size();i++) {
+            Log.i("who paid",placesList.get(i).getPlaceName());
+        }
         placesAdapter.notifyDataSetChanged();
     }
 
 
     @Override
-    public void initial() {
+    public void initializeSavedData() {
         List<Place> allPlaces = db.getAllPlaces();
-        places.clear();
+        placesList.clear();
         for (Place place : allPlaces) {
             Log.d("ToDo", place.getPlaceName());
-            Place place1 = new Place(place.getPlaceId(), place.getPlaceName(), place.getDaysAgo(), place.getPlaceDate(), place.getNoOfPeopleWent());
+            long updatedDays = updateDaysAgo(place.getPlaceDate());
+            place.setDaysAgo((int) updatedDays);
+            Place place1 = new Place(place.getPlaceId(), place.getPlaceName() , place.getDaysAgo(), place.getPlaceDate(), place.getNoOfPeopleWent());
             Log.i("after Calling", "places");
 
             showPlaces(place1);
             Log.i("after calling", "onNext");
         }
+    }
+
+    private long updateDaysAgo(String placeDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        long daysAgo = 0;
+        Date todaysDate;
+        try {
+            Date date1 = simpleDateFormat.parse(placeDate);
+            todaysDate = new Date();
+            long delay = (todaysDate.getTime() - date1.getTime());
+            if (delay < 0) {
+                Toast.makeText(getActivity(), "incorrect date", Toast.LENGTH_LONG).show();
+                //dismiss();
+            }
+            daysAgo = delay / (24 * 60 * 60 * 1000);
+            placeData.put("daysAgo", String.valueOf(daysAgo));
+            Log.i("date1", date1 + "");
+            //this.inputDate.setText(simpleDateFormat2.format(date1));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return daysAgo;
     }
 
     @Override

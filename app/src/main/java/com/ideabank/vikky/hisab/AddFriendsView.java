@@ -10,5 +10,9 @@ public interface AddFriendsView {
 
     void showFriend(Friend friend);
 
-    void initialize();
+    void initializeSavedData();
+
+    Observable<TransactionDetails> enterExpense();
+
+    void showExpenses(TransactionDetails expense);
 }
