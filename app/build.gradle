@@ -16,22 +16,22 @@ android {
         applicationId "com.ideabank.vikky.hisab"
         minSdkVersion 15
         targetSdkVersion 19
-        versionCode 5
-        versionName "0.4"
+        versionCode 6
+        versionName "0.4.1"
     }
     buildTypes {
         release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.config
-//            pseudoLocalesEnabled false
-//            zipAlignEnabled true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            pseudoLocalesEnabled false
+            zipAlignEnabled true
         }
         debug {
-//            signingConfig signingConfigs.config
-//            pseudoLocalesEnabled false
-//            minifyEnabled false
-//            zipAlignEnabled true
+            signingConfig signingConfigs.config
+            pseudoLocalesEnabled false
+            minifyEnabled false
+            zipAlignEnabled true
         }
     }
     productFlavors {
