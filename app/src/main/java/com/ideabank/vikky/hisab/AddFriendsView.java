@@ -15,4 +15,8 @@ public interface AddFriendsView {
     Observable<TransactionDetails> enterExpense();
 
     void showExpenses(TransactionDetails expense);
+
+    Observable<Friend> friendSelectedWhoPaid();
+
+    void showDialogue(Friend friend);
 }

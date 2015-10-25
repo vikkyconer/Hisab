@@ -11,5 +11,6 @@ public class AddFriendsPresenter {
         view.initializeSavedData();
         view.enterFriend().subscribe(friend -> view.showFriend(friend));
         view.enterExpense().subscribe(expense -> view.showExpenses(expense));
+        view.friendSelectedWhoPaid().subscribe(friend -> view.showDialogue(friend));
     }
 }

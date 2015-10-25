@@ -10,7 +10,7 @@ import android.util.Log;
 public class SplashActivity extends ActionBarActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 4500;
-//    private int userLoginCount;
+    private int userLoginCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +23,11 @@ public class SplashActivity extends ActionBarActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                userLoginCount = Integer.parseInt(AppSettings.getValue(SplashActivity.this, AppSettings.PREF_IS_USER_LOGIN_COUNT, "0"));
+                userLoginCount = Integer.parseInt(AppSettings.getValue(SplashActivity.this, AppSettings.PREF_IS_USER_LOGIN_COUNT, "0"));
 //                Log.i("NotesSplash", String.valueOf(userLoginCount));
 //
 //                if (userLoginCount == 0) {
-//                    AppSettings.setValue(SplashActivity.this, AppSettings.PREF_IS_USER_LOGIN_COUNT, String.valueOf(userLoginCount + 1));
+                    AppSettings.setValue(SplashActivity.this, AppSettings.PREF_IS_USER_LOGIN_COUNT, String.valueOf(userLoginCount + 1));
 //                    Navigator.toGuideScreens(SplashActivity.this);
 //                } else
                     Navigator.toMainScreen(SplashActivity.this);

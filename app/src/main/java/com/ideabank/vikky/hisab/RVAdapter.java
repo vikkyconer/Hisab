@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -121,7 +122,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
         @Override
         public boolean onLongClick(View v) {
-//            Toast.makeText(context, place.getPlaceName(), Toast.LENGTH_SHORT).show();
+//            Place place = new Place();
+//            place.setPlaceId(v.getId());
+//            Toast.makeText(context, String.valueOf(v.getId()), Toast.LENGTH_SHORT).show();
             return true;
         }
 

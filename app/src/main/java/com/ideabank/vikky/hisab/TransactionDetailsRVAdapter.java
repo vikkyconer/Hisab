@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class TransactionDetailsRVAdapter extends RecyclerView.Adapter<Transactio
     }
 
 
-    public static class TransactionsViewHolder extends RecyclerView.ViewHolder {
+    public static class TransactionsViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
         CardView cv;
         TextView amount;
         TextView whoPaid;
@@ -88,6 +89,14 @@ public class TransactionDetailsRVAdapter extends RecyclerView.Adapter<Transactio
             forWhom = (TextView) itemView.findViewById(R.id.for_whom);
             description = (TextView) itemView.findViewById(R.id.description);
             forWhomPaidContainer = (LinearLayout) itemView.findViewById(R.id.for_whom_paid_container);
+
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+//            Toast.makeText(context, place.getPlaceName(), Toast.LENGTH_SHORT).show();
+            return true;
         }
     }
 

@@ -80,7 +80,7 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
                     @Override
                     public void onItemClick(View view, int position) {
                         // do whatever
-                        Log.i("Notes Position", String.valueOf(position));
+                        Log.i("Notes Position", String.valueOf(position));              //change position to place id
                         Navigator.toAddFriends(getActivity(), position + 1);
                     }
                 })
@@ -161,11 +161,11 @@ public class MainScreenFragment extends Fragment implements MainScreenView, View
         super.onDestroy();
     }
 
-    private void colorSelected(String color) {
-        Log.i("Notes", color);
-//        place.setBackgroundColor(color);
-        placesAdapter.notifyDataSetChanged();
-    }
+//    private void colorSelected(String color) {
+//        Log.i("Notes", color);
+////        place.setBackgroundColor(color);
+//        placesAdapter.notifyDataSetChanged();
+//    }
 
 
     @Override

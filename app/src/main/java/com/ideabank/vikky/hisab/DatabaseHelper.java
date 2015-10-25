@@ -332,6 +332,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
+     * get friend
+     */
+
+    public Friend getFriend(long friend_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_FRIEND + " WHERE "
+                + KEY_ID + " = " + friend_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Friend friend = new Friend();
+        friend.setId(c.getColumnIndex(KEY_FRIEND_ID));
+        friend.setName((c.getString(c.getColumnIndex(KEY_FRIEND_NAME))));
+//        place.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+        return friend;
+    }
+
+    /*
  * Deleting a place
  */
     public void deletePlace(long place_id) {

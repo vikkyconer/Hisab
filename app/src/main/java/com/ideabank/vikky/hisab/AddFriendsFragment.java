@@ -42,9 +42,10 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     private LinearLayoutManager linearLayoutManager;
     private BehaviorSubject<Friend> friendAdded = BehaviorSubject.create();
     private BehaviorSubject<TransactionDetails> expenseAdded = BehaviorSubject.create();
+    private BehaviorSubject<Friend> friendSelected = BehaviorSubject.create();
     private DatabaseHelper db;
     private ArrayList<Long> friendIds;
-    int i = 0;
+    Friend friend;
 
 
     @Nullable
@@ -72,6 +73,11 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
     @Override
     public Observable<TransactionDetails> enterExpense() {
         return expenseAdded.asObservable();
+    }
+
+    @Override
+    public Observable<Friend> friendSelectedWhoPaid() {
+        return friendSelected.asObservable();
     }
 
     private void initializeViews(View view) {
@@ -160,19 +166,18 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
 
     @Override
     public boolean onLongClick(View v) {
-        Toast.makeText(getActivity(), friendsList.get(friendPosition), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Enjoying.. :)", Toast.LENGTH_SHORT).show();
         return true;
     }
 
     private boolean isValid() {
         Validations validations = new Validations(friendsList,getActivity());
+
         Boolean c = validations.nameLength(enterFriendName.getText().toString());
         if (c == true)
             return validations.dublicateName(enterFriendName.getText().toString());
         return false;
     }
-
-
 
     private void divideAmongFriends(int amount, ArrayList<String> friends) {
         Log.i("AddFriendsFragment", "divideAmongFriends()");
@@ -260,14 +265,23 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
         expenseAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void showDialogue(Friend friend) {
+        DialogueBoxForExpenses dialogueBoxForExpenses = DialogueBoxForExpenses.newInstance();
+        dialogueBoxForExpenses.inputPlaceName(friendsList).subscribe(transactionDetails -> setTransactionDetails(transactionDetails));
+
+        dialogueBoxForExpenses.show(getFragmentManager(), "who paid");
+    }
+
     private void showFriendName(ArrayList<String> friends) {
         Log.i("AddFriendsFragment", "showFriendName()");
 //        friendsAdapter.notifyDataSetChanged();
         friendsNameContainer.removeAllViews();
+        String finalName;
         for (int i = 0; i < friends.size(); i++) {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.show_friends_name, null);
-            String finalName;
+
             if (friends.get(i).length() > 10) {
                 finalName = friends.get(i).substring(0, 10);
                 finalName += "...";
@@ -275,14 +289,22 @@ public class AddFriendsFragment extends Fragment implements AddFriendsView, View
                 finalName = friends.get(i).substring(0);
             }
             ((TextView) view.findViewById(R.id.first_name)).setText(finalName);
-            RemoveFriend(view, i);
+            RemoveFriend(view);
             ((TextView) view.findViewById(R.id.names_first_letter)).setText(friends.get(i).substring(0, 1));
             friendsNameContainer.addView(view);
+//            final String finalName1 = finalName;
+//            friendsNameContainer.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(inflater.getContext(), finalName1 + "final wala",Toast.LENGTH_LONG).show();
+//                }
+//            });
         }
     }
 
-    private void RemoveFriend(View view, int i) {
-        friendPosition = i;
+    private void RemoveFriend(View view) {
+//        int id = view.getId();
+//        friend = db.getFriend(id);
         view.setOnClickListener(this);
         view.setOnLongClickListener(this);
 
