@@ -5,6 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.ideabank.vikky.hisab.AddFriend.AddFriendsActivity;
+import com.ideabank.vikky.hisab.Compute.ComputeActivity;
+import com.ideabank.vikky.hisab.Guide.GuideActivity;
+import com.ideabank.vikky.hisab.MainScreen.MainScreenActivity;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,7 +1,6 @@
 package com.ideabank.vikky.hisab;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import com.ideabank.vikky.hisab.Adapters.RVAdapter;
 
 /**
  * Created by vikky on 8/22/15.

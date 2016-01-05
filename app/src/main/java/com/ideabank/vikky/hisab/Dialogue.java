@@ -45,7 +45,7 @@ public class Dialogue extends DialogFragment implements View.OnClickListener {
     TextView inputDate;
     boolean checkDate = false;
 
-    static Dialogue newInstance() {
+    public static Dialogue newInstance() {
         Log.i("Dialogue", "newInstance called");
         Dialogue dialogue = new Dialogue();
         return dialogue;

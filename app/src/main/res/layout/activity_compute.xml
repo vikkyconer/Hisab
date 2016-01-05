@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_red"
-    tools:context="com.ideabank.vikky.hisab.ComputeActivity">
+    tools:context="com.ideabank.vikky.hisab.Compute.ComputeActivity">
 
     <fragment
         android:id="@+id/compute_fragment"
-        android:name="com.ideabank.vikky.hisab.ComputeFragment"
+        android:name="com.ideabank.vikky.hisab.Compute.ComputeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

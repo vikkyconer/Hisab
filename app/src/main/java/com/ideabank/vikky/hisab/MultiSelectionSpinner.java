@@ -19,7 +19,7 @@ import java.util.List;
 public class MultiSelectionSpinner extends Spinner implements
         DialogInterface.OnMultiChoiceClickListener {
     static String[] _items = null;
-    static boolean[] mSelection = null;
+    public static boolean[] mSelection = null;
 
     public Context context;
     ArrayAdapter<String> simple_adapter;

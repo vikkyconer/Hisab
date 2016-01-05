@@ -19,24 +19,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ideabank.vikky.hisab.MainScreenActivity"
+            android:name=".MainScreen.MainScreenActivity"
             android:label="@string/title_activity_main_screen" >
         </activity>
         <activity
-            android:name="com.ideabank.vikky.hisab.LoginScreenActivity"
+            android:name=".Login.LoginScreenActivity"
             android:label="@string/title_activity_login_screen" >
         </activity>
         <activity
-            android:name="com.ideabank.vikky.hisab.AddFriendsActivity"
+            android:name=".AddFriend.AddFriendsActivity"
             android:label="@string/title_activity_add_friends"
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
-            android:name="com.ideabank.vikky.hisab.ComputeActivity"
+            android:name=".Compute.ComputeActivity"
             android:label="@string/title_activity_compute" >
         </activity>
         <activity
-            android:name="com.ideabank.vikky.hisab.GuideActivity"
+            android:name=".Guide.GuideActivity"
             android:label="@string/title_activity_guide" >
         </activity>
     </application>

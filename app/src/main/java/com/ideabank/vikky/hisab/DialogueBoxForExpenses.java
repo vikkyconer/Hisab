@@ -14,6 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.ideabank.vikky.hisab.Adapters.CustomAdapter;
+import com.ideabank.vikky.hisab.Models.Friend;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +43,7 @@ public class DialogueBoxForExpenses extends DialogFragment implements View.OnCli
     CustomAdapter adapter;
     MultiSelectionSpinner inputPaidForWhom;
 
-    static DialogueBoxForExpenses newInstance() {
+    public static DialogueBoxForExpenses newInstance() {
         DialogueBoxForExpenses dialogue = new DialogueBoxForExpenses();
         return dialogue;
     }

@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.ideabank.vikky.hisab.Models.Friend;
+import com.ideabank.vikky.hisab.Models.Place;
+import com.ideabank.vikky.hisab.Models.TransactionDetails;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -367,13 +371,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(place_id)});
     }
 
-   /* //create expenses
-    public long createExpenses(long place_id,long friend_who_paid_id, long for_whom_id, int amount, String desc) {
+    //create expenses
+    public long createExpenses(long place_id,long friend_who_paid_id, String for_whom_ids, int amount, String desc) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_WHO_PAID, friend_who_paid_id);
-        values.put(KEY_FOR_WHOM, for_whom_id);
+        values.put(KEY_FOR_WHOM, for_whom_ids);
         values.put(KEY_AMOUNT, amount);
         values.put(KEY_DESCRIPTION, desc);
 
@@ -385,7 +389,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return expense_id;
     }
-*/
 
     /*  * getting all expenses under place
       **/
@@ -411,6 +414,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 transactionDetails.setAmount((c.getInt(c.getColumnIndex(KEY_AMOUNT))));
                 transactionDetails.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
                 transactionDetails.setWhoPaid(c.getString(c.getColumnIndex(KEY_WHO_PAID)));
+                transactionDetails.setForWhomIdStrore(c.getString(c.getColumnIndex(KEY_FOR_WHOM)));
 
                 // adding to friend list
                 transactionDetail.add(transactionDetails);
